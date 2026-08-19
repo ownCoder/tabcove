@@ -1,0 +1,51 @@
+Tabcove — permission justifications
+===================================
+
+Paste each line into the matching field in the Chrome Web Store's permission
+justification section.
+
+tabs
+  Required to read the title and URL of the user's open tabs so they can be
+  saved, and to close them after they have been saved. Without this permission
+  chrome.tabs.query returns tabs with no url or title, so a saved tab would be
+  an empty entry. Also used to reopen saved tabs.
+
+tabGroups
+  Required to read the name, colour, and collapsed state of Chrome tab groups
+  when saving, and to re-create them when restoring, so a restored collection
+  keeps its original group structure instead of becoming a flat list.
+
+storage
+  Required to store the user's saved tab collections, settings, restore points,
+  and undo bin on their own device.
+
+unlimitedStorage
+  Required because chrome.storage.local is capped at 10 MB without it. A user
+  with a large library reaches that cap at roughly 25,000 saved tabs, after
+  which writes begin to fail. This extension exists to keep saved tabs safe, so
+  silently failing to save is the one outcome that must not happen.
+
+contextMenus
+  Required to add the right-click menu items "Stow all tabs in this window",
+  "Stow just this tab", "Stow every other tab", and "Open Tabcove library".
+
+favicon
+  Required to display site icons next to saved tabs, read from Chrome's LOCAL
+  favicon cache via the _favicon/ endpoint. This permission is specifically what
+  allows the extension to avoid contacting a third-party favicon service, which
+  would otherwise mean transmitting every saved URL to a remote server.
+
+alarms
+  Required for two periodic housekeeping tasks: sweeping items older than 30
+  days out of the undo bin, and checking whether the library has grown enough
+  since the last export to warrant a backup reminder. Manifest V3 terminates the
+  service worker when idle, so setTimeout and setInterval cannot be used.
+
+HOST PERMISSIONS
+  None requested. The extension declares no host permissions and no content
+  scripts, and therefore cannot read or modify any web page.
+
+REMOTE CODE
+  None. Every byte that executes is inside the package. The content security
+  policy pins script-src to 'self', and the source contains no eval, no
+  new Function, and no networking API of any kind.

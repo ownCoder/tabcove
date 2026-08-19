@@ -1,0 +1,92 @@
+Tabcove saves every tab you have open into one searchable list, in a single click — and makes sure you can always get them back.
+
+Most tab savers do the first half well. The complaint you find everywhere about them is the second half: the saved list gets lost, and years of research goes with it. Tabcove is built the other way round, starting from that failure.
+
+
+━━━ WHAT IT DOES ━━━
+
+STOW IN ONE CLICK
+Save all your tabs, just this tab, all the others, a selection, or every window at once. Each button shows you exactly what it will save before you press it — "12 tabs · 2 groups" — so you always know what is about to happen.
+
+FIND ANY TAB IN A SECOND
+Search across every saved title, web address, and collection name. Ranked, instant, and still under 40 milliseconds with 20,000 tabs saved. A saved list you cannot search is a list you will never read again.
+
+YOUR TAB GROUPS SURVIVE
+Chrome tab groups come back with their names and their colours. Pinned tabs come back pinned. If you saved three windows, you get three windows. Most tab savers flatten all of that into a plain list.
+
+RESTORE POINTS
+Before anything destructive happens, Tabcove saves a snapshot of your whole library. Ten are kept. If something goes wrong — or you simply change your mind — roll the whole library back in one click. Rolling back is itself undoable.
+
+A 30-DAY UNDO BIN
+Deleted a collection by accident? It waits in the bin for a month. Nothing in Tabcove is destroyed by a single click, ever.
+
+RESTORING DOESN'T EMPTY YOUR LIST
+Opening a collection leaves it in your library. A library you empty by reading from it is not a library. (If you prefer the other behaviour, there's a setting.)
+
+YOUR DATA, PORTABLE
+Export everything as JSON, HTML, Markdown, CSV, or plain text, in one click. The HTML export is a self-contained page of clickable links that opens in any browser with nothing installed — the format to hand yourself in ten years.
+
+IMPORT WHAT YOU ALREADY HAVE
+Coming from another tab saver? Paste its exported list and Tabcove turns it into a structured library. It reads OneTab's text format, its own JSON backups, and any plain list of web addresses. A restore point is saved first, so an import is never a one-way door.
+
+BACKUP REMINDERS
+Local storage is not forever, and Tabcove says so. When your library grows past your last export, a quiet dot appears on the toolbar icon. No pop-ups, no e-mails, and you can switch it off.
+
+FAST AT ANY SIZE
+Each collection is stored as its own record, and the list only renders what is on screen. Twenty thousand saved tabs feels the same as twenty.
+
+BUILT FOR THE KEYBOARD
+Ctrl/Cmd + K opens a command palette that reaches everything. Alt+Shift+S stows, Alt+Shift+L opens your library. Every action works without a mouse.
+
+DARK MODE THAT IS ACTUALLY DARK
+Light, dark, or follow your system. WCAG AA contrast throughout, visible focus rings, reduced-motion support, and full screen-reader labelling.
+
+
+━━━ PRIVACY ━━━
+
+Tabcove asks for NO access to any website. It has no host permissions and no content scripts, so it cannot read or change a single page you visit.
+
+It also contains no networking code at all — no fetch, no XMLHttpRequest, no analytics, no third-party libraries, no remote fonts. That is not a promise; the build script fails if any of them ever appears in the source.
+
+Site icons come from Chrome's own local cache rather than a remote favicon service, because a remote service would mean sending your saved addresses to somebody else's server.
+
+No account. No sign-in. No server, because there is no backend at all.
+
+The source code is public and is neither minified nor obfuscated. What you read is exactly what runs:
+https://github.com/ownCoder/tabcove
+
+
+━━━ PERMISSIONS, AND WHY ━━━
+
+• tabs — read the title and address of your open tabs so they can be saved, and close them when you ask
+• tabGroups — save and rebuild Chrome tab groups with their names and colours
+• storage — keep your library on your device
+• unlimitedStorage — lift Chrome's 10 MB cap so a large library keeps working instead of silently failing to save
+• contextMenus — the right-click "Stow" actions
+• favicon — show site icons from Chrome's LOCAL cache, so no remote service ever sees your addresses
+• alarms — sweep the undo bin and check whether a backup is due
+
+That is the complete list. There is no eighth permission.
+
+
+━━━ FREE, AND STAYING FREE ━━━
+
+Everything described above is free, with no limit on how many collections or tabs you save.
+
+Paid features are planned for a future version — encrypted cloud sync, automation rules, AI grouping. They will be additions. Nothing you can use today will ever move behind a paywall. That commitment is written into the project's public repository and its licence.
+
+
+━━━ WHO THIS IS FOR ━━━
+
+• Researchers and students juggling several literature reviews at once
+• Developers who live in Chrome tab groups and are tired of losing them
+• Anyone whose laptop is on its knees under a hundred open tabs
+• Anyone who will not install an extension that wants access to every website
+
+
+━━━ SUPPORT ━━━
+
+Bugs, questions, and feature requests: https://github.com/ownCoder/tabcove/issues
+Privacy policy: https://owncoder.github.io/tabcove/privacy.html
+
+Tabcove is an independent project. It is not affiliated with, endorsed by, or derived from Google or any other tab manager.

@@ -18,12 +18,15 @@ import { mkdtemp, rm, writeFile, mkdir } from 'node:fs/promises';
 import { existsSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import path from 'node:path';
-import { fileURLToPath } from 'node:url';
+import { fileURLToPath, pathToFileURL } from 'node:url';
 
 // fileURLToPath, not URL.pathname: the latter leaves %20 in place, and a
 // path with an escaped space is one Chrome cannot resolve.
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
-const EXT = path.join(ROOT, 'extension');
+// Defaults to the working source tree. Pass a path to verify a DIFFERENT
+// directory — used by `verify-zip` to test the extracted release package, so
+// what gets checked is the artefact that will actually be submitted.
+const EXT = process.argv[3] ? path.resolve(process.argv[3]) : path.join(ROOT, 'extension');
 const SHOTS = path.join(ROOT, 'screenshots', 'raw');
 const PORT = 9333;
 
@@ -81,16 +84,18 @@ class CDP {
     return new CDP(ws);
   }
 
-  send(method, params = {}, sessionId = undefined) {
+  send(method, params = {}, sessionId = undefined, timeoutMs = 30000) {
     const id = this.nextId++;
     const payload = { id, method, params };
     if (sessionId) payload.sessionId = sessionId;
     this.ws.send(JSON.stringify(payload));
     return new Promise((resolve, reject) => {
       this.pending.set(id, { resolve, reject });
+      // Long-running evaluations (the perf run builds 20,000 tabs) pass their
+      // own budget; everything else should fail fast rather than hang the tool.
       setTimeout(() => {
-        if (this.pending.delete(id)) reject(new Error(`${method} timed out`));
-      }, 30000);
+        if (this.pending.delete(id)) reject(new Error(`${method} timed out after ${timeoutMs}ms`));
+      }, timeoutMs);
     });
   }
 
@@ -213,11 +218,12 @@ async function openPage(cdp, url) {
   return { targetId, sessionId, problems };
 }
 
-async function evaluate(cdp, sessionId, expression) {
+async function evaluate(cdp, sessionId, expression, timeoutMs = 30000) {
   const result = await cdp.send(
     'Runtime.evaluate',
     { expression, awaitPromise: true, returnByValue: true },
-    sessionId
+    sessionId,
+    timeoutMs
   );
   if (result.exceptionDetails) {
     throw new Error(result.exceptionDetails.exception?.description || result.exceptionDetails.text);
@@ -702,6 +708,13 @@ async function shots() {
 
 /* -------------------------------------------------------------------- main --- */
 
-const command = process.argv[2] || 'verify';
-const exitCode = command === 'shots' ? await shots() : await verify();
-process.exit(exitCode);
+// Exported so tools/functional.mjs can reuse the launcher and the CDP client
+// rather than duplicating them.
+export { launch, installExtension, openPage, evaluate, screenshot, sleep, EXT, ROOT };
+
+// Only run the CLI when this file is the entry point.
+if (import.meta.url === pathToFileURL(process.argv[1]).href) {
+  const command = process.argv[2] || 'verify';
+  const exitCode = command === 'shots' ? await shots() : await verify();
+  process.exit(exitCode);
+}

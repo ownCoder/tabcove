@@ -1,0 +1,33 @@
+Tabcove — keyword placement
+===========================
+
+The Chrome Web Store has no keyword field. Relevance comes from the title, the
+short description, and the detailed description. These are the terms this
+listing is written to rank for.
+
+PRIMARY (in the title and the first 150 characters)
+  tab manager
+  session saver
+  save tabs
+  tab groups
+
+SECONDARY (placed naturally in the detailed description)
+  restore tabs, tab organizer, session manager, save all tabs,
+  reduce tab clutter, chrome memory, tab backup, restore session,
+  tab list, bookmark alternative, close tabs and save, tab search,
+  tab groups backup, local tab manager, no account tab manager,
+  privacy tab manager, export tabs
+
+LONG-TAIL INTENT
+  save all my tabs chrome extension
+  tab manager that doesn't lose tabs
+  save chrome tab groups extension
+  chrome using too much memory tabs
+  tab manager no account
+  export chrome tabs to a file
+
+AVOIDED ON PURPOSE
+  Competitor brand names in the title or as standalone keywords
+  Superlatives ("best", "#1", "the only")
+  Claims the product cannot back ("AI-powered", "cloud sync")
+  Repeated or invisible keyword blocks

@@ -179,11 +179,24 @@ function wireRail() {
 
 function setView(view) {
   state.view = view;
-  for (const button of $$('.rail__item')) {
-    const active = button.dataset.view === view || button.dataset.tag === view.replace('tag:', '');
-    button.classList.toggle('rail__item--active', !!active);
-  }
+  paintRailActive();
   renderView();
+}
+
+/**
+ * Mark the current view in the rail.
+ *
+ * Compared strictly rather than by stripping the `tag:` prefix — otherwise a tag
+ * literally named "all" or "pinned" would light up alongside the built-in filter
+ * of the same name.
+ */
+function paintRailActive() {
+  const activeTag = state.view.startsWith('tag:') ? state.view.slice(4) : null;
+  for (const button of $$('.rail__item')) {
+    const isView = !activeTag && button.dataset.view === state.view;
+    const isTag = activeTag !== null && button.dataset.tag === activeTag;
+    button.classList.toggle('rail__item--active', isView || isTag);
+  }
 }
 
 /* ----------------------------------------------------------------- refresh --- */
@@ -233,6 +246,9 @@ async function paintRailCounts() {
   } else {
     tagsSection.hidden = true;
   }
+
+  // The tag buttons were just rebuilt, so re-apply the active marker.
+  paintRailActive();
 }
 
 /**
@@ -274,21 +290,33 @@ async function paintStorage() {
 
 /* -------------------------------------------------------------- view router --- */
 
+/**
+ * Render generation counter.
+ *
+ * Three of the render paths are async. Without a generation check, typing
+ * quickly can leave two searches in flight and both append their results to the
+ * same container, so the user sees every hit twice.
+ */
+let renderGeneration = 0;
+
 function renderView() {
   const view = $('#view');
   clear(view);
 
+  const generation = ++renderGeneration;
+  const stale = () => generation !== renderGeneration;
+
   if (state.query) {
-    renderSearch(view);
+    renderSearch(view, stale);
     return;
   }
 
   switch (state.view) {
     case 'snapshots':
-      renderSnapshots(view);
+      renderSnapshots(view, stale);
       return;
     case 'trash':
-      renderTrash(view);
+      renderTrash(view, stale);
       return;
     default:
       renderCollections(view);
@@ -994,8 +1022,9 @@ function editTags(entry) {
 
 /* ------------------------------------------------------------------ search --- */
 
-async function renderSearch(root) {
+async function renderSearch(root, stale = () => false) {
   const results = await search.search(state.query);
+  if (stale()) return; // a newer keystroke already started rendering
 
   $('#summary').textContent = results.total
     ? `${plural(results.total, 'match', 'matches')} for "${state.query}"${
@@ -1104,8 +1133,9 @@ async function renderSearch(root) {
 
 /* --------------------------------------------------------- restore points --- */
 
-async function renderSnapshots(root) {
+async function renderSnapshots(root, stale = () => false) {
   const list = await snapshots.list();
+  if (stale()) return;
   $('#summary').textContent = `${plural(list.length, 'restore point')}`;
 
   root.appendChild(
@@ -1215,8 +1245,9 @@ function confirmRollback(snap) {
 
 /* ------------------------------------------------------------------- trash --- */
 
-async function renderTrash(root) {
+async function renderTrash(root, stale = () => false) {
   const items = await trash.list();
+  if (stale()) return;
   $('#summary').textContent = `${plural(items.length, 'item')} in the bin`;
 
   root.appendChild(

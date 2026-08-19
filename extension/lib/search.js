@@ -130,7 +130,7 @@ function recencyBonus(updatedAt, now) {
  * Search the library.
  *
  * @param {string} query
- * @param {Object} options  { limit, collectionId, tag }
+ * @param {Object} options  { limit, collectionId }
  * @returns {Promise<{tabs:Array, collections:Array, total:number, truncated:boolean}>}
  */
 export async function search(query, options = {}) {

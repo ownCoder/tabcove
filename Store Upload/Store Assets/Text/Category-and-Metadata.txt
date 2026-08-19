@@ -1,0 +1,37 @@
+Tabcove — listing metadata
+==========================
+
+Category            Productivity  ->  Workflow & Planning
+Language            English (United Kingdom)
+Pricing             Free
+Contains ads        No
+In-app purchases    No
+Regions             All
+
+Homepage URL        https://owncoder.github.io/tabcove/
+Support URL         https://github.com/ownCoder/tabcove/issues
+Privacy policy URL  https://owncoder.github.io/tabcove/privacy.html
+
+SINGLE PURPOSE (paste into the Privacy tab)
+Tabcove saves the tabs you have open into a local, searchable library, and
+restores them later with their tab groups, pinned state, and window layout
+intact. All data stays on the user's device.
+
+DATA USE DECLARATIONS
+  Personally identifiable information ......... No
+  Health information .......................... No
+  Financial and payment information ........... No
+  Authentication information .................. No
+  Personal communications ..................... No
+  Location .................................... No
+  Web history ................................. No
+  User activity ............................... No
+  Website content ............................. No
+
+CERTIFICATIONS (tick all three)
+  [x] I do not sell or transfer user data to third parties, outside of the
+      approved use cases
+  [x] I do not use or transfer user data for purposes that are unrelated to my
+      item's single purpose
+  [x] I do not use or transfer user data to determine creditworthiness or for
+      lending purposes

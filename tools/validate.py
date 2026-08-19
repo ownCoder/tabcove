@@ -322,6 +322,36 @@ def check_contrast(verbose=False):
 
 # ------------------------------------------------------------------ main ---
 
+def check_listing_sync(manifest):
+    """The manifest and the store listing must say the same thing.
+
+    Chrome shows the manifest's name and description in the browser, and the
+    listing's copy in the store. When they drift, users see two different
+    products — and the drift is invisible until someone compares them by hand.
+    """
+    if not manifest:
+        return
+
+    text_dir = os.path.join(ROOT, "Store Upload", "Store Assets", "Text")
+    pairs = [
+        ("Store-Title.txt", manifest.get("name", ""), "name"),
+        ("Short-Description.txt", manifest.get("description", ""), "description"),
+    ]
+
+    for filename, manifest_value, field in pairs:
+        path = os.path.join(text_dir, filename)
+        if not os.path.exists(path):
+            check(False, f"listing asset missing: Store Assets/Text/{filename}", warn_only=True)
+            continue
+        listing_value = read(path).strip()
+        check(
+            listing_value == manifest_value,
+            f"manifest {field} does not match {filename}\n"
+            f"        manifest: {manifest_value!r}\n"
+            f"        listing : {listing_value!r}",
+        )
+
+
 def main():
     verbose = "--contrast" in sys.argv
 
@@ -329,6 +359,7 @@ def main():
     print("=" * 60)
 
     manifest = check_manifest()
+    check_listing_sync(manifest)
     check_network()
     check_unsafe()
     check_xss()

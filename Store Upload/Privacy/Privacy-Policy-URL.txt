@@ -1,0 +1,34 @@
+Tabcove — Privacy Policy URL
+============================
+
+Paste this into the Chrome Web Store Developer Dashboard:
+
+    Privacy tab  ->  Privacy policy URL
+
+    https://owncoder.github.io/tabcove/privacy.html
+
+Verified live: 19 August 2026 (HTTP 200)
+
+Related URLs for the same submission
+------------------------------------
+
+    Homepage URL   https://owncoder.github.io/tabcove/
+    Support URL    https://github.com/ownCoder/tabcove/issues
+    Terms of use   https://owncoder.github.io/tabcove/terms.html
+
+Hosting
+-------
+
+The policy is published with GitHub Pages from the `gh-pages` branch of
+https://github.com/ownCoder/tabcove — so every revision is public and
+timestamped, which is exactly what a reviewer wants to be able to check.
+
+The page source lives at `site/privacy.html` on the `main` branch. To publish an
+update:
+
+    1. Edit site/privacy.html and change the "Last updated" date.
+    2. Commit to main.
+    3. Copy the contents of site/ onto the gh-pages branch and push.
+
+Do not change the URL. It is recorded in the store listing, in the extension's
+options page, and in the manifest's homepage_url.
