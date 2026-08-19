@@ -4,8 +4,8 @@
     python tools/make-promo.py
 
 Two sizes, both required by the store for a listing that can be featured:
-    440 x 280   small tile  — shown in category grids and search results
-    1400 x 560  marquee     — shown on the store home page if featured
+    440 x 280   small tile  - shown in category grids and search results
+    1400 x 560  marquee     - shown on the store home page if featured
 
 Both are generated from the same brand constants as the icon set, so a brand
 change regenerates everything and the listing cannot drift from the product.
@@ -18,7 +18,7 @@ from PIL import Image, ImageDraw, ImageFont
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 ASSETS = os.path.join(ROOT, "assets")
-PROMO = os.path.join(ROOT, "Store Upload", "Store Assets", "Promo")
+PROMO = os.path.join(ROOT, "Store Upload", "2-Store-listing", "Promo")
 ICON = os.path.join(ROOT, "assets", "icon-master-1024.png")
 
 BRAND_600 = (14, 124, 134)
@@ -45,7 +45,7 @@ def load_font(candidates, size):
 
 
 def diagonal_gradient(size, top_left, bottom_right):
-    """A diagonal wash — richer than a flat fill, still calm."""
+    """A diagonal wash - richer than a flat fill, still calm."""
     w, h = size
     small = Image.new("RGB", (64, 64))
     pixels = small.load()
@@ -68,7 +68,7 @@ def draw_tabs(draw, x, y, width, gap, height, widths, colours):
 
 
 def small_tile():
-    """440 x 280 — dense, legible at thumbnail size. Name plus one claim."""
+    """440 x 280 - dense, legible at thumbnail size. Name plus one claim."""
     w, h = 440, 280
     canvas = diagonal_gradient((w, h), BRAND_600, BRAND_900)
     draw = ImageDraw.Draw(canvas)
@@ -93,7 +93,7 @@ def small_tile():
 
 
 def marquee_tile():
-    """1400 x 560 — the featured banner. One idea, told large."""
+    """1400 x 560 - the featured banner. One idea, told large."""
     w, h = 1400, 560
     canvas = diagonal_gradient((w, h), BRAND_600, BRAND_900)
     draw = ImageDraw.Draw(canvas)
@@ -104,7 +104,7 @@ def marquee_tile():
     draw.text((224, 96), "Tabcove", font=load_font(BOLD, 54), fill=WHITE)
     draw.text((228, 158), "Tab Manager & Session Saver", font=load_font(REGULAR, 22), fill=SOFT)
 
-    draw.text((96, 250), "Save every tab in one click —", font=load_font(BOLD, 56), fill=WHITE)
+    draw.text((96, 250), "Save every tab in one click -", font=load_font(BOLD, 56), fill=WHITE)
     draw.text((96, 318), "and actually get them back.", font=load_font(BOLD, 56), fill=ACCENT)
 
     draw.text(
@@ -128,12 +128,14 @@ def marquee_tile():
 
 def main():
     if not os.path.exists(ICON):
-        print("Run tools/make-icons.py first — the promo tiles reuse the icon master.")
+        print("Run tools/make-icons.py first - the promo tiles reuse the icon master.")
         return 1
 
     os.makedirs(PROMO, exist_ok=True)
     os.makedirs(ASSETS, exist_ok=True)
 
+    # NOTE the middle dots below are drawn into the IMAGE by Pillow, not printed
+    # to the console, so they are safe on a cp1252 terminal.
     for tile, name in ((small_tile(), "promo-small-440x280.png"),
                        (marquee_tile(), "promo-marquee-1400x560.png")):
         for directory in (PROMO, ASSETS):

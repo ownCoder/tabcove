@@ -1,0 +1,20 @@
+{
+  "surface": "Privacy",
+  "dashboard": "Developer Dashboard -> item -> Privacy",
+  "note": "The permission justification boxes only appear AFTER the package is uploaded.",
+  "fields": [
+    { "field": "Single purpose", "required": true, "answer": "Single-Purpose.txt" },
+    { "field": "Permission justification: tabs", "required": true, "answer": "Permissions-Justification.txt" },
+    { "field": "Permission justification: tabGroups", "required": true, "answer": "Permissions-Justification.txt" },
+    { "field": "Permission justification: storage", "required": true, "answer": "Permissions-Justification.txt" },
+    { "field": "Permission justification: unlimitedStorage", "required": true, "answer": "Permissions-Justification.txt" },
+    { "field": "Permission justification: contextMenus", "required": true, "answer": "Permissions-Justification.txt" },
+    { "field": "Permission justification: favicon", "required": true, "answer": "Permissions-Justification.txt" },
+    { "field": "Permission justification: alarms", "required": true, "answer": "Permissions-Justification.txt" },
+    { "field": "Host permission justification", "required": false, "answer": "_Answers.md#2", "value": "No box should appear - none declared" },
+    { "field": "Are you using remote code?", "required": true, "answer": "_Answers.md#3", "value": "No, I am not using remote code" },
+    { "field": "Data usage: 9 categories", "required": true, "answer": "Data-Usage-Declarations.txt", "value": "Tick Web history only" },
+    { "field": "Data usage: 3 certifications", "required": true, "answer": "Data-Usage-Declarations.txt", "value": "Tick all three" },
+    { "field": "Privacy policy URL", "required": true, "answer": "Privacy-Policy-URL.txt", "value": "https://owncoder.github.io/tabcove/privacy.html" }
+  ]
+}

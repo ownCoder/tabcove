@@ -89,7 +89,7 @@
 
 **Privacy tab** — every field the dashboard asks for:
 
-- [x] `Privacy/Privacy-Tab-Answers.md` — the whole tab, in dashboard order
+- [x] `3-Privacy/_Answers.md` — the whole tab, in dashboard order
 - [x] `Privacy/Single-Purpose.txt` — the single purpose statement
 - [x] `Privacy/Permissions-Justification.txt` — one per permission, all 7
 - [x] `Privacy/Data-Usage-Declarations.txt` — 9 categories + 3 certifications
@@ -98,10 +98,11 @@
 
 **Store listing + Distribution tabs:**
 
-- [x] `Store Assets/Text/` — title, summary, description, category/metadata, keywords, promo copy, release notes
-- [x] `Store Assets/Screenshots/` — 8 files, all exactly 1280×800
-- [x] `Store Assets/Promo/` — 440×280 and 1400×560
-- [x] `Store Assets/Icons/` — 16 / 32 / 48 / 128
+- [x] `2-Store-listing/Text/` — title, summary, description, metadata, keywords, promo copy, release notes
+- [x] `2-Store-listing/Screenshots/` — **5** files (the store's maximum), all exactly 1280×800
+- [x] `2-Store-listing/Extras/` — 3 more, composed but deliberately not uploaded
+- [x] `2-Store-listing/Promo/` — 440×280 and 1400×560
+- [x] `2-Store-listing/Icons/` — 16 / 32 / 48 / 128
 
 ---
 
@@ -137,7 +138,15 @@ Recorded because they are the evidence that the verification actually verifies s
 | 5 | `--load-extension` is ignored by Chrome 137+, so the first verification runs were testing an extension that had never loaded | Target inspection | The driver installs via the CDP `Extensions.loadUnpacked` domain and reads back the real id |
 | 6 | Storage meter showed "0%" for a non-empty library | Screenshot review | Shows "under 1%" when usage is above zero but rounds to zero |
 | 7 | `restore.js` used a hoisted `var` for the batch start index across an if/else | Code review | Declared with `let` before the branch |
-| 8 | The **single purpose** statement and the permission justifications lived under `Store Assets/Text/` — both are *Privacy-tab* fields. A submitter working the Privacy tab opened `Privacy/`, did not find them, and reported the single purpose as missing | **User, during submission** | The package is now organised by dashboard tab, not by asset type. `Privacy/` carries every Privacy-tab answer, and `build.py` refuses to package if one is absent or if any declared permission lacks a justification |
+| 8 | The **single purpose** statement and the permission justifications lived under a generic assets folder — both are *Privacy-tab* fields. A submitter working the Privacy tab opened `3-Privacy/`, did not find them, and reported the single purpose as missing | **User, during submission** | The package is organised by dashboard **surface**, and `build.py` walks a per-surface `fields.json` instead of a hand-written file list |
+| 9 | **"Web history" was declared as No.** The reasoning — "local-only storage is not collection" — is specifically foreclosed by Google's User Data FAQ, which requires disclosure "even when data is processed or stored locally". Tabcove stores saved tab URLs, titles, and times, and the listing says so openly, so the declaration contradicted the listing | Multi-agent dashboard audit, verified against Google's docs | Web history is now ticked, the reasoning rewritten from rebuttal to affirmative disclosure, and prominent disclosure added to the listing, the welcome page, the options page, and the policy. `build.py` fails if it is ever unticked again |
+| 10 | **Trader status was filed under the Distribution tab** and justified with the wrong legal test ("nothing is monetised"). It is an Account-page field, and the DSA test is whether you act for purposes relating to a trade, business, craft, or profession | Multi-agent dashboard audit | Moved to a new `0-Account/` surface with the correct test and the triggers that would change the answer |
+| 11 | **The store accepts a maximum of 5 screenshots.** Eight were generated and the guide said "upload all eight" | Multi-agent dashboard audit, confirmed against Chrome's image docs | Five are staged for upload in a deliberate order; three are composed into `Extras/`. `build.py` fails if more than five are staged |
+| 12 | **"Contains ads" and "In-app purchases" had no answer anywhere** in the package — they lived only in the strategy document and never crossed into the submission | Multi-agent dashboard audit | Both answered on the new `4-Distribution/` surface |
+| 13 | `build.py` **crashed instead of reporting a problem** on a Windows console: its error message used `→`, which cp1252 cannot encode | Negative-testing the new completeness gate | All Python tool output is ASCII; a check verifies no non-ASCII remains in a console path |
+| 14 | `lib/flags.js` and `lib/license.js` shipped as **unreachable dead code**, including a flag named `analytics` inside an extension whose listing says "no analytics" | Multi-agent dashboard audit | Both are now imported by the options page to render the licence tier, and the flag is named `tabInsights` with a comment explaining what it is |
+| 15 | `_locales/en/messages.json` shipped but nothing used `chrome.i18n`, so `default_locale` was declared over dead payload | Multi-agent dashboard audit | The manifest resolves its name, short name, and description through `__MSG_` placeholders. `tools/check-i18n.mjs` proves Chrome resolves them |
+| 16 | The site's hero call-to-action linked to the Chrome Web Store **front page** — a dead link on the very page reviewers open | Multi-agent dashboard audit | Points at the repository, and says the listing is in review, until approval |
 
 ---
 

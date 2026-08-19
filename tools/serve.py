@@ -4,7 +4,7 @@
     python tools/serve.py [port]
 
 Serves the project root so tools/shots.html can pull in the real extension
-stylesheets. Development only — nothing here ships.
+stylesheets. Development only - nothing here ships.
 """
 
 import http.server

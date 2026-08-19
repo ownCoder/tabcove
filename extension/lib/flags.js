@@ -36,7 +36,12 @@ export const FLAGS = {
   autoArchiveRules: { tier: 'pro', since: '2.0.0' },
   aiGrouping: { tier: 'pro', since: '2.0.0' },
   semanticSearch: { tier: 'pro', since: '2.0.0' },
-  analytics: { tier: 'pro', since: '2.0.0' },
+  // NOT third-party analytics and NOT telemetry. This is a planned Pro feature
+  // that computes statistics about the user's OWN saved tabs, locally: how often
+  // a collection is reopened, which saved links have gone dead. It was called
+  // `analytics` and that read as a direct contradiction of the store listing's
+  // "no analytics or telemetry", so it carries an accurate name instead.
+  tabInsights: { tier: 'pro', since: '2.0.0' },
   deadLinkCheck: { tier: 'pro', since: '2.0.0' },
   sharedCollections: { tier: 'pro', since: '2.0.0' },
   integrations: { tier: 'pro', since: '2.0.0' },

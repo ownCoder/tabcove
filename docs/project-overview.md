@@ -188,9 +188,17 @@ Tabcove/
 ├─ release/                       Versioned build output
 └─ Store Upload/                  Everything needed to submit, in one folder
    ├─ Extension.zip
-   ├─ Store Assets/
-   ├─ Privacy/
+   ├─ 0-Account/        publisher name, verified e-mail, 2SV, trader status
+   ├─ 1-Package/        the upload, and what to verify when it lands
+   ├─ 2-Store-listing/  title, description, 5 screenshots, promo tiles
+   ├─ 3-Privacy/        single purpose, permissions, data usage, policy URL
+   ├─ 4-Distribution/   visibility, pricing, ads, IAP, regions
    └─ Upload Guide.md
+
+Each surface folder carries a `fields.json` enumerating every field that
+dashboard surface presents. `tools/build.py` walks those manifests and fails if
+any field has no answer — so the build asks "does every field have an answer?"
+rather than "did someone remember this file?"
 ```
 
 ### Why this layout

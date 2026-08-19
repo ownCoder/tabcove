@@ -4,7 +4,7 @@
 
 As with the privacy policy, this file is the map rather than the terms
 themselves. The published page is authoritative; `site/terms.html` is what gets
-edited; `Store Upload/Privacy/Terms-of-Use.md` is a plain-text copy kept with the
+edited; `Store Upload/3-Privacy/Reference/Terms-of-Use.md` is a plain-text copy kept with the
 submission package.
 
 ---
@@ -60,7 +60,7 @@ nothing installed. It is a design constraint expressed as a term.
 1. Edit `site/terms.html`, changing the effective date.
 2. Commit to `main`.
 3. Republish the `gh-pages` branch.
-4. Update `Store Upload/Privacy/Terms-of-Use.md` to match.
+4. Update `Store Upload/3-Privacy/Reference/Terms-of-Use.md` to match.
 5. Verify: `curl -sI https://owncoder.github.io/tabcove/terms.html`
 
 **Never weaken §8 or §3 without a written reason recorded in `CHANGELOG.md`.**

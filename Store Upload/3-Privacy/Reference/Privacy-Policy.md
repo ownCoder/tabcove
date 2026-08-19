@@ -12,10 +12,10 @@
 
 ## The short version
 
-Tabcove does not collect, transmit, sell, or share any personal information.
-There is no account, no sign-in, no analytics, and no networking code anywhere in
-the extension. Everything you save stays in your own browser, on your own device,
-and only you can see it.
+Tabcove stores the web address, page title, and save time of the tabs you choose
+to save - on your own device, and nowhere else. It transmits nothing, sells
+nothing, and shares nothing. There is no account, no sign-in, no analytics, and
+no networking code anywhere in the extension.
 
 ---
 
@@ -25,22 +25,36 @@ Tabcove is an independent Chrome extension published by **ownCoder**. Questions
 can be raised at https://github.com/ownCoder/tabcove/issues, which is the support
 channel for the extension.
 
-## 2. What we collect
+## 2. What Tabcove handles
 
-**Nothing.** Specifically, Tabcove does not collect:
+These are the exact nine categories the Chrome Web Store asks developers to
+declare. The answer is "no" to eight of them, and "yes" to one.
 
-- Personally identifiable information — name, address, e-mail, age, or ID number
-- Health information
-- Financial or payment information
-- Authentication information — passwords, credentials, security questions, PINs
-- Personal communications — e-mails, texts, or chat messages
-- Location — IP-derived, GPS, or otherwise
-- Web history
-- User activity — clicks, mouse position, scroll, or keystroke logging
-- Website content — text, images, sound, video, or hyperlinks from pages you visit
+| Category | Tabcove |
+|---|---|
+| **Web history** | **Yes — and only this one.** The web address, page title, and save time of tabs *you explicitly choose to save*, kept on your device and never transmitted. See section 3. |
+| Personally identifiable information | No — no name, address, e-mail, age, or ID number is ever asked for |
+| Health information | No |
+| Financial or payment information | No |
+| Authentication information | No — no passwords, credentials, or PINs; there is no login |
+| Personal communications | No |
+| Location | No — and with no network requests, no IP-derived location either |
+| User activity | No — no clicks, mouse position, scroll, or keystrokes are recorded |
+| Website content | No — with no content scripts and no website access, page content is unreachable |
 
-These are the exact categories the Chrome Web Store asks developers to declare.
-Tabcove's answer to every one of them is "no".
+### Why "Web history" is declared even though nothing leaves your device
+
+Google's Chrome Web Store
+[User Data FAQ](https://developer.chrome.com/docs/webstore/program-policies/user-data-faq)
+requires extensions to disclose how they handle user data *"even when data is
+processed or stored locally on a user's device and is not transmitted to external
+servers or third parties"*. Saved tabs are a list of pages you visited, with
+titles and times — so they are declared, rather than argued around.
+
+**What Tabcove does not see:** it does not request the `history` permission and
+cannot read your browsing history. With no content scripts, no host permissions,
+and no navigation access, it cannot observe where you go. It knows only about the
+tabs you asked it to save.
 
 ## 3. What Tabcove stores, and where
 

@@ -1,0 +1,12 @@
+{
+  "surface": "Distribution",
+  "dashboard": "Developer Dashboard -> item -> Distribution",
+  "fields": [
+    { "field": "Visibility", "required": true, "answer": "_Answers.md#1", "value": "Public" },
+    { "field": "Pricing", "required": true, "answer": "_Answers.md#2", "value": "Free" },
+    { "field": "Contains ads", "required": true, "answer": "_Answers.md#3", "value": "No" },
+    { "field": "In-app purchases", "required": true, "answer": "_Answers.md#4", "value": "No" },
+    { "field": "Distribution regions", "required": true, "answer": "_Answers.md#5", "value": "All regions" },
+    { "field": "Mature content", "required": true, "answer": "_Answers.md#6", "value": "No" }
+  ]
+}

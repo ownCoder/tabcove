@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Tabcove — pre-submission self-audit.
+"""Tabcove - pre-submission self-audit.
 
 Turns the promises in docs/compliance.md into checks that FAIL THE BUILD. A
 guarantee nobody verifies is a guarantee that quietly stops being true.
@@ -74,9 +74,12 @@ def check_manifest():
         re.fullmatch(r"\d+\.\d+\.\d+", manifest.get("version", "")),
         "version must be MAJOR.MINOR.PATCH",
     )
-    check(len(manifest.get("name", "")) <= 75, "name exceeds the 75-character limit")
     check(
-        len(manifest.get("description", "")) <= 132,
+        len(resolve_i18n(manifest.get("name", ""))) <= 75,
+        "name exceeds the 75-character limit",
+    )
+    check(
+        len(resolve_i18n(manifest.get("description", ""))) <= 132,
         "description exceeds the 132-character store limit",
     )
     check("minimum_chrome_version" in manifest, "minimum_chrome_version should be declared")
@@ -155,7 +158,7 @@ def check_network():
             for match in re.finditer(pattern, text):
                 line = text[: match.start()].count("\n") + 1
                 ERRORS.append(
-                    f"network access found: {label} at {rel(path)}:{line} — "
+                    f"network access found: {label} at {rel(path)}:{line} - "
                     "Tabcove declares that it contains no networking code"
                 )
     global CHECKS
@@ -190,7 +193,7 @@ def check_unsafe():
                 ):
                     continue
 
-                ERRORS.append(f"unsafe pattern: {label} at {rel(path)}:{line} — {snippet}")
+                ERRORS.append(f"unsafe pattern: {label} at {rel(path)}:{line} - {snippet}")
     global CHECKS
     CHECKS += 1
 
@@ -205,7 +208,7 @@ def check_xss():
         for match in re.finditer(pattern, text):
             line = text[: match.start()].count("\n") + 1
             ERRORS.append(
-                f"markup injection risk at {rel(path)}:{line} — "
+                f"markup injection risk at {rel(path)}:{line} - "
                 "use textContent/createElement instead (lib/dom.js)"
             )
     global CHECKS
@@ -246,7 +249,7 @@ def check_assets(manifest):
             resolved = os.path.normpath(os.path.join(base, target))
             check(os.path.exists(resolved), f"{rel(path)} references a missing file: {target}")
 
-    # Every ES-module import must resolve too — a typo here is a blank page.
+    # Every ES-module import must resolve too - a typo here is a blank page.
     for path in source_files((".js",)):
         base = os.path.dirname(path)
         for match in re.finditer(r"""from\s+["'](\.[^"']+)["']""", read(path)):
@@ -322,26 +325,77 @@ def check_contrast(verbose=False):
 
 # ------------------------------------------------------------------ main ---
 
+def resolve_i18n(value):
+    """Resolve a __MSG_key__ placeholder against _locales/<default_locale>.
+
+    The manifest addresses its name and description through chrome.i18n, which is
+    the canonical use of `default_locale` and what makes the bundled _locales file
+    live rather than dead payload. Every check that reads those strings has to
+    resolve them or it compares a placeholder.
+    """
+    if not isinstance(value, str) or not value.startswith("__MSG_"):
+        return value
+
+    key = value[len("__MSG_"):-len("__")]
+    messages_path = os.path.join(EXT, "_locales", "en", "messages.json")
+    if not os.path.exists(messages_path):
+        return value
+    try:
+        messages = json.loads(read(messages_path))
+    except json.JSONDecodeError:
+        return value
+    return messages.get(key, {}).get("message", value)
+
+
+def check_i18n(manifest):
+    """Every __MSG_ placeholder in the manifest must resolve to a real message."""
+    if not manifest:
+        return
+
+    for field in ("name", "short_name", "description"):
+        raw = manifest.get(field, "")
+        if not isinstance(raw, str) or not raw.startswith("__MSG_"):
+            continue
+        resolved = resolve_i18n(raw)
+        check(
+            resolved != raw,
+            f"manifest {field} is {raw} but _locales/en/messages.json has no such message",
+        )
+
+    # default_locale without any placeholder means the bundled _locales file is
+    # dead payload inside a reviewed package.
+    if manifest.get("default_locale"):
+        uses_placeholders = any(
+            str(manifest.get(f, "")).startswith("__MSG_")
+            for f in ("name", "short_name", "description")
+        )
+        check(
+            uses_placeholders,
+            "default_locale is declared but no __MSG_ placeholder uses it - "
+            "either address the manifest through chrome.i18n or drop _locales",
+        )
+
+
 def check_listing_sync(manifest):
     """The manifest and the store listing must say the same thing.
 
     Chrome shows the manifest's name and description in the browser, and the
     listing's copy in the store. When they drift, users see two different
-    products — and the drift is invisible until someone compares them by hand.
+    products - and the drift is invisible until someone compares them by hand.
     """
     if not manifest:
         return
 
-    text_dir = os.path.join(ROOT, "Store Upload", "Store Assets", "Text")
+    text_dir = os.path.join(ROOT, "Store Upload", "2-Store-listing", "Text")
     pairs = [
-        ("Store-Title.txt", manifest.get("name", ""), "name"),
-        ("Short-Description.txt", manifest.get("description", ""), "description"),
+        ("Store-Title.txt", resolve_i18n(manifest.get("name", "")), "name"),
+        ("Short-Description.txt", resolve_i18n(manifest.get("description", "")), "description"),
     ]
 
     for filename, manifest_value, field in pairs:
         path = os.path.join(text_dir, filename)
         if not os.path.exists(path):
-            check(False, f"listing asset missing: Store Assets/Text/{filename}", warn_only=True)
+            check(False, f"listing asset missing: 2-Store-listing/Text/{filename}", warn_only=True)
             continue
         listing_value = read(path).strip()
         check(
@@ -359,6 +413,7 @@ def main():
     print("=" * 60)
 
     manifest = check_manifest()
+    check_i18n(manifest)
     check_listing_sync(manifest)
     check_network()
     check_unsafe()
@@ -385,7 +440,7 @@ def main():
         print("\nFAILED")
         return 1
 
-    print("\nPASSED — ready to package")
+    print("\nPASSED - ready to package")
     return 0
 
 

@@ -42,6 +42,13 @@ DARK MODE THAT IS ACTUALLY DARK
 Light, dark, or follow your system. WCAG AA contrast throughout, visible focus rings, reduced-motion support, and full screen-reader labelling.
 
 
+━━━ WHAT TABCOVE STORES, AND WHERE ━━━
+
+Tabcove saves the web address, the page title, and the save time of the tabs you choose to stow. That is kept in your own browser, on your own device. It is never sent anywhere, because Tabcove has no way to send it.
+
+It does not read your browsing history — it has no history permission. It cannot see the pages you visit — it has no access to any website. It knows only about the tabs you asked it to save.
+
+
 ━━━ PRIVACY ━━━
 
 Tabcove asks for NO access to any website. It has no host permissions and no content scripts, so it cannot read or change a single page you visit.

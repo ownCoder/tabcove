@@ -6,8 +6,8 @@
 
 | Dashboard tab | Folder |
 |---|---|
-| Store listing, Distribution | `Store Upload/Store Assets/Text/` |
-| **Privacy** (single purpose, permission justifications, data usage, policy URL) | **`Store Upload/Privacy/`** |
+| Store listing, Distribution | `Store Upload/2-Store-listing/Text/` |
+| **Privacy** (single purpose, permission justifications, data usage, policy URL) | **`Store Upload/3-Privacy/`** |
 
 `tools/make-store-text.py` regenerates the listing files from the fenced blocks in this document, so the two cannot drift.
 
@@ -92,6 +92,13 @@ DARK MODE THAT IS ACTUALLY DARK
 Light, dark, or follow your system. WCAG AA contrast throughout, visible focus rings, reduced-motion support, and full screen-reader labelling.
 
 
+━━━ WHAT TABCOVE STORES, AND WHERE ━━━
+
+Tabcove saves the web address, the page title, and the save time of the tabs you choose to stow. That is kept in your own browser, on your own device. It is never sent anywhere, because Tabcove has no way to send it.
+
+It does not read your browsing history — it has no history permission. It cannot see the pages you visit — it has no access to any website. It knows only about the tabs you asked it to save.
+
+
 ━━━ PRIVACY ━━━
 
 Tabcove asks for NO access to any website. It has no host permissions and no content scripts, so it cannot read or change a single page you visit.
@@ -149,6 +156,7 @@ Tabcove is an independent project. It is not affiliated with, endorsed by, or de
 3. **Features are headed in caps** — the store strips most formatting, so caps are the only reliable heading device.
 4. **Numbers, not adjectives.** "measured at 7 ms across 20,000 saved tabs" is checkable — `node tools/perf.mjs` prints it — whereas "blazing fast" is not. Every number in the listing comes from that script.
 5. **Privacy gets its own block above the fold-ish.** It is the differentiator most likely to convert the sceptical reader who writes reviews.
+6. **What is stored is stated before what is not.** The listing declares "Web history" on the Privacy tab, and Google requires that disclosure to be visible to users rather than buried in a policy. Saying "no networking code" without first saying "here is what is saved" describes where data goes but never what is kept — which reads as evasive once the reviewer has seen the data-usage declaration.
 6. **Permissions are listed with reasons** in the description itself. Users who read permission dialogues are exactly the users who leave five-star reviews.
 7. **The free-forever commitment is explicit.** Two well-known competitors lost their ratings by breaking it.
 8. **The affiliation disclaimer** at the end covers the nominative reference to OneTab.
@@ -206,14 +214,14 @@ Competitor brand names in the title or as standalone keywords; superlatives ("be
 
 ## 6. Promotional text
 
-**Small tile (440 × 280)** — `Store Upload/Store Assets/Promo/promo-small-440x280.png`
+**Small tile (440 × 280)** — `Store Upload/2-Store-listing/Promo/promo-small-440x280.png`
 
 > **Tabcove** — Tab Manager & Session Saver
 > **Save every tab in one click / and actually get them back.**
 > Restore points · Undo bin · Instant search
 > 100% local · No account · Free
 
-**Marquee tile (1400 × 560)** — `Store Upload/Store Assets/Promo/promo-marquee-1400x560.png`
+**Marquee tile (1400 × 560)** — `Store Upload/2-Store-listing/Promo/promo-marquee-1400x560.png`
 
 > **Tabcove** — Tab Manager & Session Saver
 > **Save every tab in one click — and actually get them back.**

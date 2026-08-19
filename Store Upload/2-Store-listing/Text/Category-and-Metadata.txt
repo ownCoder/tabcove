@@ -1,0 +1,47 @@
+Tabcove - Store listing metadata
+================================
+
+The dropdown and URL answers for the STORE LISTING tab.
+Full walkthrough: 2-Store-listing/_Answers.md
+
+
+STORE LISTING TAB
+-----------------
+
+  Title               2-Store-listing/Text/Store-Title.txt
+  Summary             2-Store-listing/Text/Short-Description.txt
+  Description         2-Store-listing/Text/Long-Description.txt
+  Category            Productivity  ->  Workflow & Planning
+  Language            English (United Kingdom)
+
+  Store icon          taken from the ZIP automatically (128 px)
+                      spare: 2-Store-listing/Icons/icon-128.png
+  Screenshots         2-Store-listing/Screenshots/  -- FIVE files, filename
+                      order, 01-library.png first.
+                      The store accepts a MAXIMUM of 5. Three more are parked
+                      in 2-Store-listing/Extras/ and are not uploaded.
+  Small promo tile    2-Store-listing/Promo/promo-small-440x280.png
+  Marquee promo tile  2-Store-listing/Promo/promo-marquee-1400x560.png
+
+  Official URL        https://owncoder.github.io/tabcove/
+  Homepage URL        https://owncoder.github.io/tabcove/
+  Support URL         https://github.com/ownCoder/tabcove/issues
+  Video               leave blank -- no video for v1.0.0
+  Mature content      No
+
+
+FIELDS THAT ARE **NOT** ON THIS TAB
+-----------------------------------
+
+Filed here in an earlier version of this package, which is how they got missed.
+
+  Trader status (EU DSA)      ->  0-Account/_Answers.md  section 5
+                                  It is an ACCOUNT-page field, and the test is
+                                  not monetisation.
+  Visibility, Pricing,
+  Contains ads, In-app
+  purchases, Regions          ->  4-Distribution/_Answers.md
+  Single purpose,
+  permission justifications,
+  remote code, data usage,
+  privacy policy URL          ->  3-Privacy/_Answers.md

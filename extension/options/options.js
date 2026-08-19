@@ -18,6 +18,8 @@ import { $, $$, el, downloadBlob, readFileAsText, trapFocus } from '../lib/dom.j
 import { relativeTime, plural, formatNumber, bytes } from '../lib/format.js';
 import { success, warn, guard } from '../lib/toast.js';
 import { APP_VERSION, QUOTA, SNAPSHOT_REASON } from '../lib/constants.js';
+import { getLicense } from '../lib/license.js';
+import { all as allFlags } from '../lib/flags.js';
 
 let settings = null;
 let pendingImport = null;
@@ -32,6 +34,7 @@ async function main() {
   $('#version-badge').textContent = `v${APP_VERSION}`;
   $('#about-version').textContent = APP_VERSION;
 
+  await paintTier();
   bindSettings();
   wireBackup();
   wireImport();
@@ -40,6 +43,32 @@ async function main() {
   wireDangerZone();
 
   await paintStats();
+}
+
+/* -------------------------------------------------------------------- tier --- */
+
+/**
+ * Render the licence tier.
+ *
+ * This is the only consumer of lib/license.js and lib/flags.js in v1, and it
+ * exists so that the Pro seam is LIVE rather than dead code sitting unreachable
+ * inside a shipped package. A reviewer reading the source finds a licence module
+ * that something actually calls, and the answer it gives today is "free".
+ */
+async function paintTier() {
+  const [license, flags] = await Promise.all([getLicense(), allFlags()]);
+  const gated = Object.values(flags).filter((open) => !open).length;
+
+  const badge = $('#tier-badge');
+  if (badge) badge.textContent = license.tier === 'pro' ? 'Pro' : 'Free';
+
+  const note = $('#tier-note');
+  if (note) {
+    note.textContent =
+      license.tier === 'pro'
+        ? 'Pro is active on this device.'
+        : `Every one of Tabcove's features is available to you right now. ${gated} capabilities are reserved for a future Pro version that does not exist yet — none of them is something you can use today.`;
+  }
 }
 
 /* ---------------------------------------------------------------- bindings --- */

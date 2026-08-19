@@ -19,7 +19,7 @@
 | 1.1.0 | Listen | Planned | Whatever the first 500 users actually ask for |
 | 1.2.0 | Side panel | Planned | Persistent side-panel library |
 | 1.3.0 | Sessions | Planned | Optional auto-capture of window sessions on close |
-| 1.4.0 | Locale | Planned | 8 languages via the existing `_locales` scaffold |
+| 1.4.0 | Locale | Planned | 8 languages. The manifest already resolves its name and description through `chrome.i18n`, so `_locales` is live rather than dead payload |
 | **2.0.0** | **Pro** | Gated | Cloud sync, AI grouping, automation — see `free-vs-pro-plan.md` |
 
 ---
@@ -63,7 +63,7 @@
 
 | # | Risk | Likelihood | Impact | Mitigation | Owner |
 |---|---|---|---|---|---|
-| R1 | **Store rejection over permissions** | Medium | High | Only 7 permissions, none broad; no host permissions; a written justification per permission ready to paste into the review form (`Store Upload/Store Assets/Text/Permissions-Justification.md`). `unlimitedStorage` and `favicon` are the two a reviewer may query, and both have a one-sentence answer. | Release Mgr |
+| R1 | **Store rejection over permissions** | Medium | High | Only 7 permissions, none broad; no host permissions; a written justification per permission ready to paste into the review form (`Store Upload/3-Privacy/Permissions-Justification.txt`). `unlimitedStorage` and `favicon` are the two a reviewer may query, and both have a one-sentence answer. | Release Mgr |
 | R2 | **Zero discovery — the listing never ranks** | High | High | The store is a search engine: title carries two head keywords, the description front-loads them, and 5 screenshots each carry a legible caption. Reinforced by the growth plan's rescue-content strategy. | Growth |
 | R3 | **A data-loss bug — fatal for a product sold on durability** | Low | Critical | Storage is sharded; restore points precede every destructive op; capture writes before it closes tabs; migrations are snapshot-protected; the round-trip is unit-tested. A data-loss report is a same-day hotfix, no exceptions. | QA |
 | R4 | **OneTab ships search and backup** | Low | Medium | They have shipped roughly one meaningful change per year and a rewrite risks 2M users' data. Even if they do, permissions minimalism, tab-group fidelity, and speed remain ours. | PM |

@@ -102,11 +102,11 @@ First public release. Submitted to the Chrome Web Store.
 
 - `Store Upload/` is organised by the **Chrome Web Store dashboard tab** that
   asks for each field, rather than by asset type.
-  - `Privacy/` carries every Privacy-tab answer: the single purpose statement,
+  - `3-Privacy/` carries every Privacy-tab answer: the single purpose statement,
     the seven permission justifications, the data-usage declarations and
     certifications, and the policy URL — plus
-    `Privacy-Tab-Answers.md`, which walks the whole tab in dashboard order.
-  - `Store Assets/` carries everything the Store listing and Distribution tabs
+    `3-Privacy/_Answers.md`, which walks the whole tab in dashboard order.
+  - `2-Store-listing/` carries everything the Store listing and Distribution tabs
     ask for.
 - `tools/build.py` refuses to produce a ZIP unless every one of those files
   exists, and cross-checks that each permission declared in the manifest appears

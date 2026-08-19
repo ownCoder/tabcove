@@ -6,7 +6,7 @@
     <title>Privacy Policy — Tabcove</title>
     <meta
       name="description"
-      content="Tabcove's privacy policy. Tabcove collects no data, transmits no data, and contains no networking code. Everything stays on your device."
+      content="Tabcove's privacy policy. Tabcove stores the tabs you choose to save on your own device, transmits nothing, and contains no networking code."
     />
     <link rel="icon" href="icon-128.png" />
     <link rel="stylesheet" href="site.css" />
@@ -33,10 +33,10 @@
 
       <div class="callout">
         <strong>The short version</strong>
-        Tabcove does not collect, transmit, sell, or share any personal information.
-        There is no account, no sign-in, no analytics, and no networking code anywhere
-        in the extension. Everything you save stays in your own browser, on your own
-        device, and only you can see it.
+        Tabcove stores the web address, page title, and save time of the tabs you
+        choose to save — on your own device, and nowhere else. It transmits nothing,
+        sells nothing, and shares nothing. There is no account, no sign-in, no
+        analytics, and no networking code anywhere in the extension.
       </div>
 
       <h2>1. Who this policy is from</h2>
@@ -48,22 +48,82 @@
         >, which is the support channel for the extension.
       </p>
 
-      <h2>2. What we collect</h2>
-      <p><strong>Nothing.</strong> Specifically, Tabcove does not collect:</p>
-      <ul>
-        <li>Personally identifiable information — name, address, e-mail, age, or ID number</li>
-        <li>Health information</li>
-        <li>Financial or payment information</li>
-        <li>Authentication information — passwords, credentials, security questions, or PINs</li>
-        <li>Personal communications — e-mails, texts, or chat messages</li>
-        <li>Location — IP-derived, GPS, or otherwise</li>
-        <li>Web history</li>
-        <li>User activity — clicks, mouse position, scroll, or keystroke logging</li>
-        <li>Website content — text, images, sound, video, or hyperlinks from pages you visit</li>
-      </ul>
+      <h2>2. What Tabcove handles</h2>
       <p>
-        These categories are the exact list the Chrome Web Store asks developers to
-        declare. Tabcove's answer to every one of them is "no".
+        These nine categories are the exact list the Chrome Web Store asks developers
+        to declare. Tabcove's answer is "no" to eight of them, and "yes" to one.
+      </p>
+
+      <table>
+        <thead>
+          <tr>
+            <th scope="col">Category</th>
+            <th scope="col">Tabcove</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row"><strong>Web history</strong></th>
+            <td>
+              <strong>Yes — and only this one.</strong> Tabcove stores the web address,
+              page title, and save time of tabs <em>you explicitly choose to save</em>.
+              It is kept on your device and is never transmitted. See section 3.
+            </td>
+          </tr>
+          <tr>
+            <th scope="row">Personally identifiable information</th>
+            <td>No — no name, address, e-mail, age, or ID number is ever asked for</td>
+          </tr>
+          <tr>
+            <th scope="row">Health information</th>
+            <td>No</td>
+          </tr>
+          <tr>
+            <th scope="row">Financial and payment information</th>
+            <td>No</td>
+          </tr>
+          <tr>
+            <th scope="row">Authentication information</th>
+            <td>No — no passwords, credentials, or PINs; there is no login</td>
+          </tr>
+          <tr>
+            <th scope="row">Personal communications</th>
+            <td>No</td>
+          </tr>
+          <tr>
+            <th scope="row">Location</th>
+            <td>No — and with no network requests, no IP-derived location either</td>
+          </tr>
+          <tr>
+            <th scope="row">User activity</th>
+            <td>No — no clicks, mouse position, scroll, or keystrokes are recorded</td>
+          </tr>
+          <tr>
+            <th scope="row">Website content</th>
+            <td>
+              No — Tabcove has no content scripts and no access to any website, so the
+              text, images, and media inside a page are unreachable to it
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="callout">
+        <strong>Why "Web history" is declared even though nothing leaves your device</strong>
+        Google's Chrome Web Store
+        <a href="https://developer.chrome.com/docs/webstore/program-policies/user-data-faq" rel="noreferrer noopener">User Data FAQ</a>
+        requires extensions to disclose how they handle user data "even when data is
+        processed or stored locally on a user's device and is not transmitted to
+        external servers or third parties". Saved tabs are a list of pages you visited,
+        with their titles and times — so they are declared, honestly, rather than
+        argued around.
+      </div>
+
+      <p>
+        <strong>What Tabcove does <em>not</em> see:</strong> it does not request the
+        <code>history</code> permission and cannot read your browsing history. It has no
+        content scripts, no host permissions, and no navigation access, so it cannot
+        observe where you go. It knows only about the tabs you asked it to save.
       </p>
 
       <h2>3. What Tabcove stores, and where</h2>

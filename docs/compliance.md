@@ -66,19 +66,64 @@ Seven permissions. No host permissions. This table is written to be pasted direc
 
 ### 3.1 Data collection declaration
 
-Tabcove collects **none** of the categories the Web Store asks about:
+Tabcove declares **one** of the nine categories the Web Store asks about.
 
-| Category | Collected? |
+| Category | Declared? |
 |---|---|
-| Personally identifiable information | **No** |
-| Health information | **No** |
-| Financial and payment information | **No** |
-| Authentication information | **No** |
-| Personal communications | **No** |
-| Location | **No** |
-| Web history | **No** |
-| User activity | **No** |
-| Website content | **No** |
+| **Web history** | **YES** |
+| Personally identifiable information | No |
+| Health information | No |
+| Financial and payment information | No |
+| Authentication information | No |
+| Personal communications | No |
+| Location | No |
+| User activity | No |
+| Website content | No |
+
+#### Why Web history is declared
+
+Tabcove stores the URL, page title, and save time of every tab the user chooses
+to save. That matches the Web history category, which covers the list of pages a
+user has visited together with associated data such as page title and time of
+visit.
+
+It is declared **even though nothing is ever transmitted**, because Google's User
+Data FAQ forecloses the local-only argument directly:
+
+> **Does an extension need to disclose user data handling if the data is only
+> processed or stored locally on a user's device?**
+>
+> **Yes.** Extensions are required to disclose how they handle user data, even
+> when data is processed or stored locally on a user's device and is not
+> transmitted to external servers or third parties.
+>
+> - [Chrome Web Store User Data FAQ](https://developer.chrome.com/docs/webstore/program-policies/user-data-faq)
+
+The same FAQ defines *handle* as "collecting, transmitting, using, or sharing
+user data". Storing saved tab URLs locally is handling.
+
+> **An earlier draft of this document had this wrong.** It argued that local-only
+> storage is not collection and left the box unticked. That argument is
+> specifically foreclosed by the FAQ above - and the store listing itself openly
+> describes storing tab URLs, so under-declaring would have been an inconsistency
+> a reviewer could spot from the listing text alone. `tools/build.py` now fails
+> the build if the data-usage answer does not tick Web history.
+
+#### The bound that keeps the other eight at No
+
+Only tabs the user **explicitly chooses to save**. Tabcove does not request the
+`history` permission and cannot read `chrome.history`. With no content scripts,
+no host permissions, and no `webNavigation`, it cannot observe navigation or read
+any page - so *Website content* and *User activity* are genuinely No, not
+narrowly No.
+
+#### Prominent disclosure
+
+Declaring a category means the disclosure has to be visible to users, not only in
+a policy document. It appears in four places: a dedicated "WHAT TABCOVE STORES,
+AND WHERE" section in the store listing description, the first-run welcome page,
+the in-product privacy card on the options page, and section 3 of the published
+privacy policy.
 
 **Note on "web history":** Tabcove stores the URLs of tabs the user *explicitly chooses to save*. This is user-initiated local storage, not collection of browsing history: the extension never reads `chrome.history`, never observes navigation, and never transmits anything. Nothing is *collected* in the policy's sense — no data ever leaves the device.
 
@@ -172,8 +217,8 @@ PASSED - ready to package
 Every answer below is also a file in `Store Upload/`, **filed by the dashboard
 tab that asks for it**. That organisation is deliberate: an earlier layout put
 the single purpose statement and the permission justifications under
-`Store Assets/Text/`, and a submitter working the Privacy tab looked in
-`Store Upload/Privacy/`, did not find them, and correctly reported the single
+`2-Store-listing/Text/`, and a submitter working the Privacy tab looked in
+`Store Upload/3-Privacy/`, did not find them, and correctly reported the single
 purpose as missing. The dashboard is organised by tab, so the package is too.
 
 ### Package
@@ -186,36 +231,36 @@ purpose as missing. The dashboard is organised by tab, so the package is too.
 
 | Field | Value | File |
 |---|---|---|
-| Title | `Tabcove — Tab Manager & Session Saver` | `Store Assets/Text/Store-Title.txt` |
-| Summary | see file (129/132 chars) | `Store Assets/Text/Short-Description.txt` |
-| Description | see file | `Store Assets/Text/Long-Description.txt` |
-| Category | Productivity → Workflow & Planning | `Store Assets/Text/Category-and-Metadata.txt` |
+| Title | `Tabcove — Tab Manager & Session Saver` | `2-Store-listing/Text/Store-Title.txt` |
+| Summary | see file (129/132 chars) | `2-Store-listing/Text/Short-Description.txt` |
+| Description | see file | `2-Store-listing/Text/Long-Description.txt` |
+| Category | Productivity → Workflow & Planning | `2-Store-listing/Text/Category-and-Metadata.txt` |
 | Language | English (United Kingdom) | same |
-| Screenshots | 8 × 1280×800 | `Store Assets/Screenshots/` |
-| Promo tiles | 440×280 and 1400×560 | `Store Assets/Promo/` |
-| Homepage URL | `https://owncoder.github.io/tabcove/` | `Store Assets/Text/Category-and-Metadata.txt` |
+| Screenshots | 8 × 1280×800 | `2-Store-listing/Screenshots/` |
+| Promo tiles | 440×280 and 1400×560 | `2-Store-listing/Promo/` |
+| Homepage URL | `https://owncoder.github.io/tabcove/` | `2-Store-listing/Text/Category-and-Metadata.txt` |
 | Support URL | `https://github.com/ownCoder/tabcove/issues` | same |
 
 ### Privacy tab
 
 **Walkthrough covering every field in dashboard order:
-`Store Upload/Privacy/Privacy-Tab-Answers.md`.**
+`Store Upload/3-Privacy/_Answers.md`.**
 
 | Field | Value | File |
 |---|---|---|
-| **Single purpose** | Tabcove saves the tabs you have open into a local, searchable library, and restores them later with their tab groups, pinned state, and window layout intact. All data stays on the user's device. | **`Privacy/Single-Purpose.txt`** |
-| Permission justifications | One per permission — seven in total, none blank | `Privacy/Permissions-Justification.txt` |
+| **Single purpose** | Tabcove saves the tabs you have open into a local, searchable library, and restores them later with their tab groups, pinned state, and window layout intact. All data stays on the user's device. | **`3-Privacy/Single-Purpose.txt`** |
+| Permission justifications | One per permission — seven in total, none blank | `3-Privacy/Permissions-Justification.txt` |
 | Host permission justification | *No field should appear — none are declared* | — |
-| Are you using remote code? | **No, I am not using remote code** | `Privacy/Privacy-Tab-Answers.md` §3 |
-| Data usage — collected | None of the nine categories | `Privacy/Data-Usage-Declarations.txt` |
+| Are you using remote code? | **No, I am not using remote code** | `3-Privacy/_Answers.md` §3 |
+| Data usage — collected | **Web history only** | `3-3-Privacy/Data-Usage-Declarations.txt` |
 | Data usage — certifications | All three certified | same |
-| Privacy policy URL | `https://owncoder.github.io/tabcove/privacy.html` | `Privacy/Privacy-Policy-URL.txt` |
+| Privacy policy URL | `https://owncoder.github.io/tabcove/privacy.html` | `3-Privacy/Privacy-Policy-URL.txt` |
 
 ### Distribution tab
 
 | Field | Value | File |
 |---|---|---|
-| Visibility | Public | `Store Assets/Text/Category-and-Metadata.txt` |
+| Visibility | Public | `2-Store-listing/Text/Category-and-Metadata.txt` |
 | Pricing | Free | same |
 | Regions | All | same |
 | Trader status | Non-trader — nothing is monetised in v1 | same |

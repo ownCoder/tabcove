@@ -120,18 +120,26 @@ site/          GitHub Pages source: privacy policy, terms, landing page
 tools/         asset generation, validation, tests, packaging (never shipped)
 screenshots/   generated 1280×800 store screenshots
 release/       versioned build output
-Store Upload/  everything needed to submit, filed by dashboard tab
+Store Upload/  everything needed to submit, filed by dashboard surface
   Extension.zip
-  Privacy/       every Privacy-tab answer, incl. the single purpose statement
-  Store Assets/  everything the Store listing and Distribution tabs ask for
+  0-Account/       publisher name, verified e-mail, 2SV, trader status
+  1-Package/       the upload, and what to verify when it lands
+  2-Store-listing/ title, description, 5 screenshots, promo tiles
+  3-Privacy/       single purpose, permissions, data usage, policy URL
+  4-Distribution/  visibility, pricing, ads, IAP, regions
   Upload Guide.md
 ```
 
-`Store Upload/` is organised by the **dashboard tab that asks for each field**,
-not by asset type. That distinction is not cosmetic: an earlier layout filed the
-single purpose statement under `Store Assets/Text/`, and a submitter working the
-Privacy tab could not find it. `tools/build.py` now refuses to package unless
-every Privacy-tab answer exists at its tab-matching path.
+`Store Upload/` is organised by the **dashboard surface that asks for each
+field**, not by asset type. That distinction is not cosmetic: an earlier layout
+filed the single purpose statement under a generic assets folder, and a submitter
+working the Privacy tab could not find it.
+
+Each surface carries a `fields.json` listing every field it presents.
+`tools/build.py` walks those manifests, so the build asks **"does every field
+have an answer?"** rather than "did someone remember this file?" — which is what
+caught the missing Account surface, the absent "Contains ads" and "In-app
+purchases" answers, and the fact that the store caps screenshots at five.
 
 ---
 

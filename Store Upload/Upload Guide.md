@@ -2,172 +2,123 @@
 
 **Package version:** 1.0.0
 **Prepared:** 19 August 2026
-**Time needed:** about 15 minutes
-
-Everything you need is in this folder, **filed by the dashboard tab that asks for
-it**. Work top to bottom and do not open anything else.
-
-> **The three tabs, and the one folder each needs:**
->
-> | Dashboard tab | Open this folder |
-> |---|---|
-> | Store listing | `Store Assets/` |
-> | **Privacy** | **`Privacy/` — start with `Privacy-Tab-Answers.md`** |
-> | Distribution | `Store Assets/Text/Category-and-Metadata.txt` |
+**Time needed:** about 20 minutes, assuming the account gates in surface 0 are already cleared
 
 ---
 
-## What is in here
+## How this folder is organised
+
+**One folder per dashboard surface, numbered in the order you work them.** Open
+the folder, open its `_Answers.md`, and work down the page. Nothing sends you
+hunting in another folder.
 
 ```
 Store Upload/
-├─ Extension.zip                     ← the package you upload
-├─ Upload Guide.md                   ← this file
+├─ Upload Guide.md          ← you are here
+├─ Extension.zip            ← the upload
 │
-├─ Privacy/                          ── EVERYTHING THE PRIVACY TAB ASKS FOR ──
-│   Privacy-Tab-Answers.md           ← START HERE for the Privacy tab.
-│                                      Every field, in dashboard order.
-│   Single-Purpose.txt                 field: Single purpose
-│   Permissions-Justification.txt      field: one box per permission
-│   Data-Usage-Declarations.txt        fields: 9 data categories + 3 certifications
-│   Privacy-Policy-URL.txt             field: Privacy policy URL
-│   Privacy-Policy.md                  offline copy of the published policy
-│   Terms-of-Use.md                    offline copy of the published terms
-│
-└─ Store Assets/                     ── STORE LISTING + DISTRIBUTION TABS ──
-   ├─ Text/
-   │   Store-Title.txt                 field: Title
-   │   Short-Description.txt            field: Summary
-   │   Long-Description.txt             field: Description
-   │   Category-and-Metadata.txt        every dropdown on Listing + Distribution
-   │   Keywords.txt                     reference only — no field for it
-   │   Promotional-Text.txt             reference for the tiles
-   │   Release-Notes.txt                for the GitHub release, not the store
-   ├─ Screenshots/                      field: Screenshots — 8 files, 1280×800
-   │   01-library.png                   ← must be FIRST
-   │   02-search.png  03-restore-points.png  04-undo-bin.png
-   │   05-popup.png   06-privacy.png    07-dark.png  08-welcome.png
-   ├─ Promo/
-   │   promo-small-440x280.png          field: Small promo tile
-   │   promo-marquee-1400x560.png       field: Marquee promo tile
-   ├─ Icons/
-   │   icon-16.png  icon-32.png  icon-48.png  icon-128.png
-   └─ manifest-reference.json           a copy of what is inside the ZIP
+├─ 0-Account/               Account page — gates everything else
+│   _Answers.md               publisher name, verified email, 2SV, TRADER STATUS
+│   fields.json
+├─ 1-Package/               Items → Add new item
+│   _Answers.md               what to verify the moment the upload lands
+│   manifest-reference.json
+│   fields.json
+├─ 2-Store-listing/         Store listing tab
+│   _Answers.md               every field, in dashboard order
+│   Text/                     title, summary, description, metadata, keywords
+│   Screenshots/              THE FIVE that get uploaded
+│   Extras/                   three more, deliberately not uploaded
+│   Promo/  Icons/
+│   fields.json
+├─ 3-Privacy/               Privacy tab
+│   _Answers.md               every field, in dashboard order
+│   Single-Purpose.txt
+│   Permissions-Justification.txt
+│   Data-Usage-Declarations.txt      ← tick Web history. Read the reason.
+│   Privacy-Policy-URL.txt
+│   Reference/                offline copies of the published policy and terms
+│   fields.json
+└─ 4-Distribution/          Distribution tab
+    _Answers.md               visibility, pricing, ads, IAP, regions
+    fields.json
 ```
 
----
-
-## Field-to-asset map
-
-### Package
-
-| Dashboard field | Asset |
-|---|---|
-| **Upload new package** | `Extension.zip` |
-
-### Store listing tab
-
-| Dashboard field | Asset |
-|---|---|
-| Title | `Store Assets/Text/Store-Title.txt` |
-| Summary | `Store Assets/Text/Short-Description.txt` |
-| Description | `Store Assets/Text/Long-Description.txt` |
-| Category | Productivity → Workflow & Planning |
-| Language | English (United Kingdom) |
-| Store icon | Taken from the ZIP automatically (128 px). Spare: `Store Assets/Icons/icon-128.png` |
-| Screenshots | All 8 from `Store Assets/Screenshots/`, in filename order |
-| Small promo tile | `Store Assets/Promo/promo-small-440x280.png` |
-| Marquee promo tile | `Store Assets/Promo/promo-marquee-1400x560.png` |
-| Official URL / Homepage | `https://owncoder.github.io/tabcove/` |
-| Support URL | `https://github.com/ownCoder/tabcove/issues` |
-| Mature content | No |
-
-### Privacy tab
-
-**Every field on this tab is answered in [`Privacy/Privacy-Tab-Answers.md`](Privacy/Privacy-Tab-Answers.md), in dashboard order.** Individual files if you prefer them separately:
-
-| Dashboard field | Asset |
-|---|---|
-| **Single purpose** | **`Privacy/Single-Purpose.txt`** |
-| Permission justification — one box per permission | `Privacy/Permissions-Justification.txt` |
-| Host permission justification | *No box should appear — Tabcove declares none* |
-| Are you using remote code? | **No** — see `Privacy/Privacy-Tab-Answers.md` §3 |
-| Data usage — 9 category checkboxes | `Privacy/Data-Usage-Declarations.txt` — tick **none** |
-| Data usage — 3 certification checkboxes | `Privacy/Data-Usage-Declarations.txt` — tick **all three** |
-| Privacy policy URL | `Privacy/Privacy-Policy-URL.txt` |
-
-### Distribution tab
-
-| Dashboard field | Asset |
-|---|---|
-| Visibility | Public |
-| Pricing | Free |
-| Regions | All |
-| Trader status | Non-trader — see `Store Assets/Text/Category-and-Metadata.txt` |
+Each `fields.json` enumerates every field that surface presents and names the
+file answering it. `python tools/build.py` walks those manifests and **fails if
+any field has no answer** — so a field the package has never heard of breaks the
+build instead of being discovered at the dashboard.
 
 ---
 
-## Upload order
+## Order of work
 
-Do it in this order. The dashboard will not let you submit until the Privacy tab
-is complete, and **the permission justification boxes only appear after the
-package is uploaded** — so the package goes first.
+| # | Surface | Open |
+|---|---|---|
+| 0 | **Account** | [`0-Account/_Answers.md`](0-Account/_Answers.md) |
+| 1 | **Package** | [`1-Package/_Answers.md`](1-Package/_Answers.md) |
+| 2 | **Store listing** | [`2-Store-listing/_Answers.md`](2-Store-listing/_Answers.md) |
+| 3 | **Privacy** | [`3-Privacy/_Answers.md`](3-Privacy/_Answers.md) |
+| 4 | **Distribution** | [`4-Distribution/_Answers.md`](4-Distribution/_Answers.md) |
+| 5 | **Submit** | this file, below |
 
-### 1 — Upload the package
+The order is not arbitrary. The account gates block the upload button; the
+**permission-justification boxes on the Privacy tab do not exist until the
+package is uploaded**; and the dashboard refuses to submit until Privacy is
+complete.
 
-Developer Dashboard → **Items** → **Add new item** → drag in `Extension.zip`.
+---
 
-Wait for the upload to finish. The dashboard will show
-`Tabcove — Tab Manager & Session Saver`, version `1.0.0`, and will list the seven
-permissions it found.
+## Three things that are easy to get wrong
 
-> **Check now:** the permission list should read exactly
-> `tabs`, `tabGroups`, `storage`, `unlimitedStorage`, `contextMenus`, `favicon`, `alarms`
-> and there must be **no host permissions**. If anything else appears, stop and
-> re-run `python tools/build.py`.
+### 1 · Tick **Web history** on the Privacy tab
 
-### 2 — Store listing tab
+The instinct is to tick nothing, because Tabcove transmits nothing. That is the
+wrong answer, and Google says so directly:
 
-1. **Title** — paste `Store Assets/Text/Store-Title.txt`.
-2. **Summary** — paste `Store Assets/Text/Short-Description.txt`.
-3. **Description** — paste `Store Assets/Text/Long-Description.txt`. Paste as plain text; the store strips formatting and the copy is already written for that.
-4. **Category** — Productivity, then Workflow & Planning.
-5. **Language** — English (United Kingdom).
-6. **Screenshots** — upload all eight, in filename order. `01-library.png` must be first: it is the one shown largest.
-7. **Small promo tile** — `promo-small-440x280.png`.
-8. **Marquee promo tile** — `promo-marquee-1400x560.png`.
-9. **Official URL** — `https://owncoder.github.io/tabcove/`
-10. **Support URL** — `https://github.com/ownCoder/tabcove/issues`
+> **Does an extension need to disclose user data handling if the data is only
+> processed or stored locally on a user's device?**
+>
+> **Yes.** Extensions are required to disclose how they handle user data, even
+> when data is processed or stored locally on a user's device and is not
+> transmitted to external servers or third parties.
+>
+> — [Chrome Web Store User Data FAQ](https://developer.chrome.com/docs/webstore/program-policies/user-data-faq)
 
-Save the draft.
+Tabcove stores the URL, page title, and save time of saved tabs. That is the Web
+history category. Tick it, leave the other eight, and tick all three
+certifications. Full reasoning: [`3-Privacy/Data-Usage-Declarations.txt`](3-Privacy/Data-Usage-Declarations.txt)
 
-### 3 — Privacy tab
+### 2 · The store accepts a **maximum of five screenshots**
 
-**Open [`Privacy/Privacy-Tab-Answers.md`](Privacy/Privacy-Tab-Answers.md) and work
-straight down it.** It covers all six things this tab asks for, in the order the
-dashboard presents them:
+`2-Store-listing/Screenshots/` holds exactly five, already chosen and ordered.
+Three more sit in `Extras/` and are **not** uploaded. Do not try to add them.
 
-1. **Single purpose** — the paste-ready sentence is §1.
-2. **Permission justifications** — §2 has one block per permission. **Do not leave any box blank**; a missing justification is the single most common cause of rejection here.
-3. **Remote code** — §3. Select *No, I am not using remote code*.
-4. **Data usage** — §4. Tick **nothing**; every category is No.
-5. **Certifications** — §5. Tick **all three**.
-6. **Privacy policy URL** — §6. `https://owncoder.github.io/tabcove/privacy.html`
+### 3 · **Trader status is on the Account page**, not Distribution
 
-Save the draft.
+It is easy to finish the Account page early, never go back, and miss it. It is
+also easy to justify "non-trader" with "nothing is monetised", which is the wrong
+test. See [`0-Account/_Answers.md`](0-Account/_Answers.md) §5.
 
-### 4 — Distribution tab
+---
 
-- Visibility: **Public**
-- Pricing: **Free**
-- Regions: **All**
-- Trader status: **Non-trader** (nothing is monetised in this version)
+## Submit
 
-Save the draft.
+Work surfaces 0 → 4, then:
 
-### 5 — Submit
+1. **Preview** the listing and read it as a user would.
+2. Decide how it publishes:
 
-**Preview** first, read the listing as a user would, then **Submit for review**.
+   | Option | Choose it when |
+   |---|---|
+   | **Publish immediately after review** ← recommended for v1.0.0 | You want it live the moment it clears |
+   | Keep as draft after review | You are coordinating a launch date |
+
+   > If you pick "keep as draft", **write down that you did.** An approved item
+   > sitting unpublished looks identical to an item still in review, and there is
+   > no notification that tells you the difference.
+
+3. **Submit for review.**
 
 Typical review time for a first submission with seven low-risk permissions and no
 host permissions is 1–5 business days.
@@ -176,95 +127,104 @@ host permissions is 1–5 business days.
 
 ## Version verification
 
-Before you press submit, confirm all four agree on `1.0.0`:
+Before you press submit, confirm these agree on `1.0.0`:
 
 | Where | How to check |
 |---|---|
-| Inside the ZIP | `Store Assets/manifest-reference.json` → `"version": "1.0.0"` |
+| Inside the ZIP | [`1-Package/manifest-reference.json`](1-Package/manifest-reference.json) → `"version": "1.0.0"` |
 | Dashboard header | Shown after the package upload |
 | `CHANGELOG.md` | Top entry is `## [1.0.0] — 2026-08-19` |
-| Git tag | `git tag -l v1.0.0` in the repository |
 
-If any disagree, fix the source and re-run `python tools/build.py`. Do not edit
-the ZIP.
+The git tag `v1.0.0` is created **after** approval, not before — see step 2 of
+"After it is approved". Do not look for it now; it does not exist yet.
+
+If the first three disagree, fix the source and re-run `python tools/build.py`.
+Never edit the ZIP.
 
 ---
 
-## Permission review — what to expect
+## Reviewer questions, and the prepared answers
 
-Two of the seven may draw a question. Both answers are already written in
-`Privacy/Permissions-Justification.txt`; this is the short version if a reviewer
-asks directly.
+Everything below is answerable without leaving this folder.
 
-| Permission | If asked |
+| Question | Answer lives in |
 |---|---|
-| `unlimitedStorage` | `chrome.storage.local` caps at 10 MB, which a heavy user reaches at roughly 25,000 saved tabs, after which writes silently fail. An extension whose purpose is keeping saved tabs safe cannot fail to save. |
-| `favicon` | It renders site icons from Chrome's **local** cache. The alternative is a third-party favicon service, which would mean transmitting every saved URL off-device. This permission exists specifically to avoid that. |
-
-A third question sometimes comes up on the data-usage answers:
-
-| Question | If asked |
-|---|---|
-| "You store URLs — isn't that web history?" | Tabcove stores URLs the user *explicitly chose to save*, in local storage on their own device. It never reads `chrome.history`, never observes navigation, and never transmits anything. Full wording in `Privacy/Data-Usage-Declarations.txt` §3. |
-
-There are no host permissions, no content scripts, and no remote code, so the
-usual sources of delay do not apply.
+| Why `unlimitedStorage`? | [`3-Privacy/Permissions-Justification.txt`](3-Privacy/Permissions-Justification.txt) |
+| Why `favicon`? | same |
+| **Why `tabs` and not `activeTab`?** | same — `activeTab` grants transient access to one tab only, so "save every tab in this window" cannot work |
+| "You store URLs — isn't that web history?" | Yes, and it is declared. [`3-Privacy/Data-Usage-Declarations.txt`](3-Privacy/Data-Usage-Declarations.txt) §2 |
+| "Your listing names OneTab." | Factual import compatibility only — nominative fair use. The description ends with an explicit non-affiliation notice. |
+| "There is a licence-activation function in a free extension." | [`1-Package/_Answers.md`](1-Package/_Answers.md) §3 |
+| "There is a flag called analytics." | It is named `tabInsights`, and [`1-Package/_Answers.md`](1-Package/_Answers.md) §3 explains what it is |
+| Is any code remote? | No. [`1-Package/_Answers.md`](1-Package/_Answers.md) §4 |
 
 ---
 
 ## Final publish checklist
 
-Tick every line before submitting.
+**0 · Account**
+- [ ] Publisher display name is `ownCoder`
+- [ ] Contact email shows **Verified**
+- [ ] Two-Step Verification enabled
+- [ ] Trader status: **Non-trader**
 
-**Package**
+**1 · Package**
 - [ ] `Extension.zip` uploaded and accepted
-- [ ] Version reads `1.0.0`
-- [ ] Exactly seven permissions listed, and no host permissions
+- [ ] Name, version `1.0.0`, and **seven** permissions reported correctly
+- [ ] **No** host permissions
 - [ ] `python tools/build.py` last run with **PASSED**
 
-**Store listing tab**
-- [ ] Title, Summary, and Description pasted
-- [ ] Category set to Productivity → Workflow & Planning
-- [ ] All 8 screenshots uploaded, `01-library.png` first
+**2 · Store listing**
+- [ ] Title, Summary, Description pasted
+- [ ] Category: Productivity → Workflow & Planning
+- [ ] Language: English (United Kingdom)
+- [ ] **Five** screenshots uploaded, `01-library.png` first
 - [ ] Both promo tiles uploaded
-- [ ] Homepage and Support URLs set
+- [ ] Official URL loads, and its call-to-action is not a dead link
+- [ ] Support URL reachable, issues enabled
+- [ ] Video left blank
 
-**Privacy tab**
-- [ ] **Single purpose written** (`Privacy/Single-Purpose.txt`)
-- [ ] A justification pasted into **every** permission box — none blank
+**3 · Privacy**
+- [ ] Single purpose written
+- [ ] A justification in **every** permission box — none blank
 - [ ] No host-permission box appeared
 - [ ] "No, I am not using remote code" selected
-- [ ] All nine data categories left unticked
+- [ ] **Web history ticked** — and only Web history
 - [ ] All three certification boxes ticked
-- [ ] Privacy policy URL pasted, and it opens in a fresh private window
+- [ ] Privacy policy URL pasted, and it opens in a private window
 
-**Distribution tab**
-- [ ] Public, Free, All regions, Non-trader
+**4 · Distribution**
+- [ ] Public · Free · Contains ads: No · In-app purchases: No · All regions · Mature content: No
 
-**Sanity**
-- [ ] `https://owncoder.github.io/tabcove/privacy.html` returns the policy in a private window
-- [ ] `https://github.com/ownCoder/tabcove/issues` is reachable and issues are enabled
-- [ ] The ZIP has been loaded once as an unpacked extension without console errors
+**Submit**
+- [ ] Publishing choice made, and recorded if it is "keep as draft"
 
 ---
 
 ## After it is approved
 
-1. **Add the store URL** to `site/index.html` (replace the placeholder Chrome Web Store link on the hero button), commit, and republish the `gh-pages` branch.
-2. **Tag the release**: `git tag -a v1.0.0 -m "Tabcove 1.0.0"` and `git push --tags`.
-3. **Create the GitHub release**, using `Store Assets/Text/Release-Notes.txt` as the body and attaching `Extension.zip`.
-4. **Start the growth plan** at `docs/growth-plan.md` — week 0 is the first 25 honest reviews, not a Product Hunt launch.
-5. **Watch reviews daily for two weeks.** Reply to every one. Any report of lost data is a same-day hotfix, no exceptions.
+1. **Update the site's call to action.** `site/index.html` currently links to the
+   GitHub repository, because linking to a store item that does not exist yet is
+   a dead link on the page reviewers open. Replace it with the store URL, commit,
+   and republish `gh-pages`.
+2. **Tag the release:** `git tag -a v1.0.0 -m "Tabcove 1.0.0"` and `git push --tags`.
+3. **Create the GitHub release** using
+   [`2-Store-listing/Text/Release-Notes.txt`](2-Store-listing/Text/Release-Notes.txt)
+   as the body, attaching `Extension.zip`.
+4. **Start `docs/growth-plan.md`** at the seeding stage — week 0 is the first 25
+   honest reviews, not a Product Hunt launch.
+5. **Watch reviews daily for two weeks.** Reply to every one. Any report of lost
+   data is a same-day hotfix, no exceptions.
 
 ---
 
 ## If something is rejected
 
-| Rejection reason | What to do |
+| Reason given | What to do |
 |---|---|
-| Permission not justified | The justification exists in `Privacy/Permissions-Justification.txt`. Paste it into the specific field the reviewer names and resubmit. |
-| Single purpose unclear | Use the paragraph in `Privacy/Single-Purpose.txt` verbatim; it is written to match the policy's wording. The same file carries an expanded form if the reviewer wants more. |
-| Data usage disputed | `Privacy/Data-Usage-Declarations.txt` §3 and §4 carry the prepared answers for the "web history" and "user activity" questions. |
-| Privacy policy inaccessible | Confirm the URL loads in a private window. If GitHub Pages is rebuilding, wait and resubmit. |
-| Metadata / keyword spam | Not expected — the title carries a brand plus two accurate category terms. If challenged, remove `& Session Saver` from the title and resubmit. |
-| Anything else | Read the exact policy clause quoted, fix the cause rather than the symptom, then re-run `python tools/build.py` and resubmit. |
+| Permission not justified | The text is in `3-Privacy/Permissions-Justification.txt`. Paste it into the exact field named and resubmit. |
+| Single purpose unclear | Use `3-Privacy/Single-Purpose.txt` verbatim; it carries an expanded form if more is wanted. |
+| Data usage disputed | `3-Privacy/Data-Usage-Declarations.txt` §2 and §3 carry the prepared answers. |
+| Privacy policy inaccessible | Load the URL in a private window. If GitHub Pages is rebuilding, wait and resubmit. |
+| Metadata / keyword spam | Not expected — the title is a brand plus two accurate category terms. If challenged, drop `& Session Saver` and resubmit. |
+| Anything else | Read the exact policy clause quoted, fix the cause rather than the symptom, re-run `python tools/build.py`, resubmit. |

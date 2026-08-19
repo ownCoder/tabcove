@@ -1,0 +1,140 @@
+Tabcove - Data usage declarations
+=================================
+
+Chrome Web Store Developer Dashboard
+  Privacy tab  ->  "Data usage"
+
+
+1. WHAT USER DATA DO YOU PLAN TO COLLECT?
+-----------------------------------------
+
+Tick ONE box: Web history. Leave the other eight unticked.
+
+  [x] Web history ............................... YES  <-- tick this one
+  [ ] Personally identifiable information ....... No
+  [ ] Health information ........................ No
+  [ ] Financial and payment information ......... No
+  [ ] Authentication information ................ No
+  [ ] Personal communications ................... No
+  [ ] Location .................................. No
+  [ ] User activity ............................. No
+  [ ] Website content ........................... No
+
+
+2. WHY WEB HISTORY IS TICKED
+----------------------------
+
+Tabcove stores the web address, the page title, and the save time of every tab
+the user explicitly chooses to save, in chrome.storage.local on the user's own
+device.
+
+The "Web history" category is defined as the list of web pages a user has
+visited together with associated data such as page title and time of visit.
+Saved tabs match that definition, so the box is ticked.
+
+It is ticked even though nothing is ever transmitted. Google's Chrome Web Store
+User Data FAQ is explicit on this point:
+
+    "Does an extension need to disclose user data handling if the data is only
+     processed or stored locally on a user's device?
+
+     Yes. Extensions are required to disclose how they handle user data, even
+     when data is processed or stored locally on a user's device and is not
+     transmitted to external servers or third parties."
+
+    -- https://developer.chrome.com/docs/webstore/program-policies/user-data-faq
+
+The same FAQ defines "handle" as "collecting, transmitting, using, or sharing
+user data". Storing saved tab URLs locally is handling, so it is disclosed.
+
+  >> DO NOT be tempted to argue that local-only storage is not collection.
+  >> That argument is specifically foreclosed by the FAQ above, and the listing
+  >> itself openly describes storing tab URLs, so under-declaring here is an
+  >> inconsistency a reviewer can see without opening the code.
+
+
+3. WHAT IS *NOT* HANDLED, AND WHY THE OTHER EIGHT ARE NO
+--------------------------------------------------------
+
+  Web history is the only category, and it is bounded:
+
+    Only tabs the user explicitly chooses to save. Tabcove does not request the
+    "history" permission and cannot read chrome.history. It has no content
+    scripts, no host permissions, and no webNavigation permission, so it cannot
+    observe navigation or read any page. It records nothing about pages the user
+    did not ask it to save.
+
+  Personally identifiable information
+    No name, address, e-mail, age, or ID number is ever asked for or stored.
+    There is no account and no sign-in.
+
+  Authentication information
+    No passwords, credentials, security questions, or PINs. No login of any kind.
+
+  User activity
+    No clicks, mouse position, scroll position, or keystrokes are recorded. There
+    is no analytics library and no telemetry.
+
+  Website content
+    Tabcove cannot read page content. It has no content scripts and no host
+    permissions, so text, images, sound, video, and hyperlinks inside a page are
+    unreachable to it. It sees only the tab's title and URL, which the "Web
+    history" category already covers.
+
+  Location, Health, Financial, Personal communications
+    Not collected, not derived, not inferred. No network requests are made, so no
+    IP-derived location is available either.
+
+
+4. CERTIFICATIONS
+-----------------
+
+Tick ALL THREE. Every one is true, and the reason is the same in each case:
+there is no transmission path out of the device.
+
+  [x] I do not sell or transfer user data to third parties, outside of the
+      approved use cases
+
+  [x] I do not use or transfer user data for purposes that are unrelated to my
+      item's single purpose
+
+  [x] I do not use or transfer user data to determine creditworthiness or for
+      lending purposes
+
+
+5. WHERE THIS IS DISCLOSED TO USERS
+-----------------------------------
+
+Ticking Web history means the disclosure has to be visible to users, not only in
+a policy document. It appears in four places:
+
+  Store listing    2-Store-listing/Text/Long-Description.txt, PRIVACY section:
+                   "Tabcove stores the web address, page title, and save time of
+                   the tabs you choose to save..."
+
+  First run        extension/welcome/welcome.html -- the "Nothing leaves this
+                   device" card states what is stored, not only where it goes.
+
+  In product       extension/options/options.html -- "Privacy & permissions"
+                   opens with what is stored before listing the permissions.
+
+  Privacy policy   https://owncoder.github.io/tabcove/privacy.html section 3
+
+
+6. SUPPORTING EVIDENCE, IF A REVIEWER ASKS
+------------------------------------------
+
+  What is stored  extension/lib/capture.js -- per saved tab: url, title, pinned,
+                  groupId, windowIx, savedAt. Nothing else.
+  Where           chrome.storage.local. There is no server and no backend.
+  Manifest        no host_permissions, no content_scripts,
+                  no web_accessible_resources
+  Permissions     tabs, tabGroups, storage, unlimitedStorage, contextMenus,
+                  favicon, alarms -- and nothing else
+  CSP             script-src 'self'; object-src 'self'; base-uri 'none'
+  Source          public, not minified, not obfuscated:
+                  https://github.com/ownCoder/tabcove
+  Audit           python tools/validate.py -- fails the build on any networking
+                  API, remote script, or remote asset
+
+Privacy policy:   https://owncoder.github.io/tabcove/privacy.html

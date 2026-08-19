@@ -2,8 +2,8 @@
 """Generate the complete Tabcove icon set from code.
 
 The mark is a COVE: a thick, rounded harbour arm sweeping around three stacked
-tab bars at rest inside it. The shape is the promise — something protective
-wrapped around your tabs — and it is deliberately unlike anything else in the
+tab bars at rest inside it. The shape is the promise - something protective
+wrapped around your tabs - and it is deliberately unlike anything else in the
 category, where every competitor draws stacks of rectangles, grids, or letters.
 
 Everything is generated rather than hand-drawn, so a brand change regenerates
@@ -16,7 +16,7 @@ Outputs:
     assets/icon-master-1024.png
     assets/icon.svg
     site/icon-128.png
-    Store Upload/Store Assets/Icons/icon-{16,32,48,128}.png
+    Store Upload/2-Store-listing/Icons/icon-{16,32,48,128}.png
 """
 
 import os
@@ -28,12 +28,12 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 EXT_ICONS = os.path.join(ROOT, "extension", "icons")
 ASSETS = os.path.join(ROOT, "assets")
 SITE = os.path.join(ROOT, "site")
-STORE_ICONS = os.path.join(ROOT, "Store Upload", "Store Assets", "Icons")
+STORE_ICONS = os.path.join(ROOT, "Store Upload", "2-Store-listing", "Icons")
 
 MASTER = 1024
 SIZES = [16, 32, 48, 128]
 
-# docs/branding.md §5 — deep harbour teal, unclaimed in this category.
+# docs/branding.md section 5 - deep harbour teal, unclaimed in this category.
 BRAND_600 = (14, 124, 134)
 BRAND_900 = (6, 47, 53)
 BAR = (255, 255, 255)

@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """Compose the Chrome Web Store screenshots.
 
-Takes the raw captures produced by `node tools/drive.mjs shots` — which are
-photographs of the real extension running in real Chrome — and composes each one
+Takes the raw captures produced by `node tools/drive.mjs shots` - which are
+photographs of the real extension running in real Chrome - and composes each one
 into the exact 1280x800 tile the store requires, with a caption.
 
 Captions matter more than most people assume: the store shows screenshots in a
@@ -21,7 +21,14 @@ from PIL import Image, ImageDraw, ImageFilter, ImageFont
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 RAW = os.path.join(ROOT, "screenshots", "raw")
 OUT = os.path.join(ROOT, "screenshots")
-STORE = os.path.join(ROOT, "Store Upload", "Store Assets", "Screenshots")
+STORE = os.path.join(ROOT, "Store Upload", "2-Store-listing", "Screenshots")
+EXTRAS = os.path.join(ROOT, "Store Upload", "2-Store-listing", "Extras")
+
+# The Chrome Web Store accepts a MAXIMUM OF FIVE screenshots. Eight are composed
+# because they are all useful -- for the site, for Product Hunt, and as swaps if
+# the listing underperforms -- but only these five are staged for upload, in this
+# order. The rest go to Extras/ so the store folder can never exceed the cap.
+SHIPPED = 5
 
 W, H = 1280, 800
 
@@ -60,6 +67,8 @@ def load_font(candidates, size):
 
 # Caption per shot: a headline that claims one thing, and a line of proof.
 SHOTS = [
+    # ---- The five that are uploaded. Order is the carousel order, and the -----
+    # ---- first is shown largest, so it carries the whole argument alone. ------
     (
         "01-library.png",
         "Every tab you saved, still findable",
@@ -79,12 +88,6 @@ SHOTS = [
         "light",
     ),
     (
-        "04-undo-bin.png",
-        "A 30-day undo bin for deleted collections",
-        "Delete something by accident and simply put it back.",
-        "light",
-    ),
-    (
         "07-popup.png",
         "One click. Every tab, safely stowed.",
         "The button tells you exactly what it will save before you press it.",
@@ -93,7 +96,16 @@ SHOTS = [
     (
         "05-privacy.png",
         "Seven permissions. No access to any website.",
-        "No account, no sign-in, no analytics, and no networking code at all.",
+        "Everything you save stays on your device. No account, no sign-in, no network.",
+        "light",
+    ),
+
+    # ---- Beyond the store's cap of five. Composed anyway, staged to Extras/, --
+    # ---- and used for the site, Product Hunt, and any future Edge listing. ----
+    (
+        "04-undo-bin.png",
+        "A 30-day undo bin for deleted collections",
+        "Delete something by accident and simply put it back.",
         "light",
     ),
     (
@@ -191,7 +203,7 @@ def compose(raw_name, headline, subline, scheme, index):
     margin = 64
     y = 46
 
-    # Step number chip — orients the viewer inside the carousel.
+    # Step number chip - orients the viewer inside the carousel.
     chip_w, chip_h = 30, 22
     draw.rounded_rectangle(
         [margin, y, margin + chip_w, y + chip_h],
@@ -238,6 +250,14 @@ def compose(raw_name, headline, subline, scheme, index):
 def main():
     os.makedirs(OUT, exist_ok=True)
     os.makedirs(STORE, exist_ok=True)
+    os.makedirs(EXTRAS, exist_ok=True)
+
+    # Clear both, so a rename or a reorder cannot leave a stale sixth file in the
+    # upload folder and silently break the cap.
+    for directory in (STORE, EXTRAS):
+        for stale in os.listdir(directory):
+            if stale.endswith(".png"):
+                os.remove(os.path.join(directory, stale))
 
     if not os.path.isdir(RAW):
         print("No raw captures found. Run: node tools/drive.mjs shots")
@@ -250,9 +270,13 @@ def main():
             continue
 
         out_name = f"{index:02d}-{raw_name.split('-', 1)[1]}"
-        for directory in (OUT, STORE):
-            canvas.save(os.path.join(directory, out_name))
-        print(f"  {out_name}  1280x800")
+        destination = STORE if index <= SHIPPED else EXTRAS
+
+        canvas.save(os.path.join(OUT, out_name))
+        canvas.save(os.path.join(destination, out_name))
+
+        where = "-> upload" if index <= SHIPPED else "-> Extras (over the 5 cap)"
+        print(f"  {out_name}  1280x800  {where}")
         made += 1
 
     print(f"\n{made} store screenshots written to {OUT} and {STORE}")

@@ -74,7 +74,7 @@
   },
 
   "privacyNoNetwork": {
-    "message": "Tabcove collects nothing, sends nothing, and contains no network code at all."
+    "message": "Tabcove saves the tabs you choose to stow and keeps them on this device. It sends nothing and contains no network code at all."
   },
   "freeForever": {
     "message": "Tabcove is free, and everything in it today stays free."

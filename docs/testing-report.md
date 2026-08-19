@@ -3,7 +3,7 @@
 **Version under test:** 1.0.0
 **Date:** 19 August 2026
 **Browser:** Chrome 151.0.7922.138 (Windows 11 Pro, 64-bit)
-**Result:** **PASS** — 245 automated checks, 0 failures, 0 open defects
+**Result:** **PASS** — 260 automated checks, 0 failures, 0 open defects
 
 Everything in this report is reproducible. Each section names the command that
 produced it.
@@ -17,16 +17,17 @@ produced it.
 | Unit tests | `node tools/test.mjs` | 54 | **PASS** |
 | Functional, real Chrome APIs | `node tools/functional.mjs` | 30 | **PASS** |
 | Functional, against the release ZIP | `node tools/functional.mjs <extracted>` | 30 | **PASS** |
-| Policy & security audit | `python tools/validate.py` | 159 | **PASS** |
-| Submission package completeness | `python tools/build.py` (step 3) | 19 assets + 7 permission cross-checks | **PASS** |
+| Policy & security audit | `python tools/validate.py` | 165 | **PASS** |
+| Submission completeness | `python tools/build.py` (step 3) | 43 dashboard fields across 5 surfaces | **PASS** |
 | WCAG contrast | `python tools/validate.py --contrast` | 12 pairs | **PASS** |
 | Surface render, source tree | `node tools/drive.mjs verify` | 4 surfaces | **PASS** |
 | Surface render, release ZIP | `node tools/drive.mjs verify <extracted>` | 4 surfaces | **PASS** |
 | Performance | `node tools/perf.mjs` | 13 metrics | **PASS** |
 | Manual matrix | by hand | 61 cases | **PASS** |
-| Dashboard-field audit | multi-agent, verified | every field on 3 tabs | **PASS** |
+| i18n + Pro-seam, real browser | `node tools/check-i18n.mjs` | 9 | **PASS** |
+| Dashboard-field audit | multi-agent, adversarially verified | 60 fields mapped, 22 candidates, 2 confirmed | **PASS** |
 
-**Defects found: 8. Defects fixed: 8. Open: 0.** They are
+**Defects found: 16. Defects fixed: 16. Open: 0.** They are
 listed in §9, because a test report with no failures found is a report that did
 not test anything.
 
@@ -121,7 +122,7 @@ group with the same name and the same colour.
 
 ---
 
-## 4. Policy and security audit — 159 checks
+## 4. Policy and security audit — 165 checks
 
 `python tools/validate.py`. Every guarantee in `compliance.md` expressed as a
 check that fails the build.
@@ -130,8 +131,8 @@ check that fails the build.
 version           1.0.0
 permissions       7
 host permissions  0
-unpacked size     300 KB
-checks run        159
+unpacked size     302 KB
+checks run        165
 PASSED - ready to package
 ```
 
@@ -373,19 +374,41 @@ or a check that would catch a regression.
 | 5 | `--load-extension` is ignored by Chrome 137+, so early verification runs were testing an extension that had never loaded | High — false-green tooling | Target inspection | The driver installs via CDP `Extensions.loadUnpacked` and reads the real id | The install call throws if Chrome refuses |
 | 6 | Storage meter read "0%" for a non-empty library | Low — looked broken | Screenshot review | Shows "under 1%" when usage rounds to zero | Manual case 57 |
 | 7 | `restore.js` used a hoisted `var` for the batch start index across an if/else | Low — worked, but fragile | Code review | Declared with `let` before the branch | `node --check` in CI |
-| 8 | The single purpose statement and permission justifications were filed under `Store Assets/Text/`, but both are **Privacy-tab** fields — a submitter looked in `Privacy/` and reported the single purpose missing | High — would have stalled the submission | **User, during submission** | Package reorganised by dashboard tab; `Privacy/` now holds every Privacy-tab answer plus a dashboard-order walkthrough | `build.py` requires all six Privacy files and cross-checks every declared permission against the justification text |
+| 8 | The single purpose statement and permission justifications were filed under a generic assets folder, but both are **Privacy-tab** fields — a submitter looked in the Privacy folder and reported the single purpose missing | High — would have stalled the submission | **User, during submission** | Package reorganised by dashboard surface; each surface carries a `fields.json` and `build.py` walks those | `build.py` fails on any field with no answer |
+| 9 | **"Web history" declared as No**, on the reasoning that local-only storage is not collection — an argument Google's User Data FAQ explicitly forecloses | **Critical** — a false data declaration, checkable against the listing's own text, and grounds for removal even after approval | Multi-agent dashboard audit, then verified against Google's published FAQ | Ticked, reasoning rewritten as affirmative disclosure, prominent disclosure added in four places | `build.py` fails if `[x] Web history` is absent from the declaration file |
+| 10 | Trader status filed under Distribution and justified with the wrong legal test | Medium — mis-declaring risks EU unavailability | Multi-agent dashboard audit | Moved to `0-Account/`, restated against the actual DSA test | `0-Account/fields.json` lists it; the build requires an answer |
+| 11 | Eight screenshots staged against a store cap of **five** | High — the submitter would improvise the cut at the dashboard | Multi-agent dashboard audit, confirmed against Chrome's image requirements | Five staged in a deliberate order, three moved to `Extras/` | `build.py` fails above five; the generator routes the surplus automatically |
+| 12 | "Contains ads" and "In-app purchases" had no answer in the package | Medium | Multi-agent dashboard audit | Answered on `4-Distribution/` | Both listed in `4-Distribution/fields.json` |
+| 13 | `build.py` crashed rather than reporting the problem, because its error text used a character cp1252 cannot encode | High — the tool failed at the exact moment it was diagnosing a failure | Negative-testing the new gate | All console output is ASCII | A check asserts no non-ASCII in any Python tool |
+| 14 | `flags.js` and `license.js` shipped unreachable, with a flag named `analytics` contradicting the listing | Medium — a reviewer reading the source sees a contradiction | Multi-agent dashboard audit | Wired into the options page; flag renamed `tabInsights` | `tools/check-i18n.mjs` asserts the tier renders |
+| 15 | `_locales` shipped unused under a declared `default_locale` | Low — dead payload in a reviewed package | Multi-agent dashboard audit | Manifest resolves through `__MSG_` | `validate.py` fails if `default_locale` is declared with no placeholder using it; `check-i18n.mjs` proves Chrome resolves them |
+| 16 | The site's hero CTA linked to the Web Store front page — dead during the entire review window | Medium — reviewers open the official URL | Multi-agent dashboard audit | Points at the repository until approval | Listed as step 1 of "After it is approved" |
 
 Defects 3, 4, and 5 are the argument for driving a real browser rather than
 trusting a mock: all three are invisible to a `chrome.storage` mock and to unit
 tests, and two of them would have shipped.
 
-Defect 8 is a different lesson, and a sharper one. Every file it involved
-*existed* and every automated check passed — the audit verified the package
-against a checklist of its own making rather than against the dashboard a human
-actually sits in front of. It was found by a person opening the folder and not
-finding what they needed. Completeness checks now assert **findability**: the
-build requires each Privacy-tab answer at its tab-matching path, so a correct
-answer filed in the wrong place fails the build.
+Defects 8–16 are a different lesson, and a sharper one.
+
+Defect 8 was found by a person opening the folder and not finding what they
+needed. Every file involved *existed*, and every automated check passed — because
+the check verified the package against a list of its own making rather than
+against the dashboard a human actually sits in front of.
+
+That single report was then used as the seed for a multi-agent audit that mapped
+every field on every dashboard surface and checked the package against **those**,
+with an adversarial verification pass to kill plausible-but-wrong findings (20 of
+22 candidate gaps were refuted). It surfaced eight more defects, one of them
+worse than the original: **Tabcove was declaring "Web history: No" while its own
+listing described storing tab URLs.** That is a false data declaration, and the
+reasoning behind it — "local-only storage is not collection" — is a sentence
+Google's User Data FAQ answers directly with "Yes, you must still disclose".
+
+The structural fix is the one that matters: `check_submission_surfaces()` now
+walks a per-surface `fields.json` instead of a path list, so the build asks
+*"does every field have an answer?"* rather than *"did someone remember this
+file?"*. The first question catches a field the package has never heard of. The
+second cannot.
 
 ---
 

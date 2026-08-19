@@ -1,0 +1,19 @@
+{
+  "surface": "Store listing",
+  "dashboard": "Developer Dashboard -> item -> Store listing",
+  "fields": [
+    { "field": "Title", "required": true, "answer": "Text/Store-Title.txt", "limit": 75 },
+    { "field": "Summary", "required": true, "answer": "Text/Short-Description.txt", "limit": 132 },
+    { "field": "Description", "required": true, "answer": "Text/Long-Description.txt", "limit": 16000 },
+    { "field": "Category", "required": true, "answer": "Text/Category-and-Metadata.txt", "value": "Productivity -> Workflow & Planning" },
+    { "field": "Language", "required": true, "answer": "Text/Category-and-Metadata.txt", "value": "English (United Kingdom)" },
+    { "field": "Store icon", "required": true, "answer": "Icons/icon-128.png" },
+    { "field": "Screenshots", "required": true, "answer": "Screenshots/", "value": "5 files, 1280x800, 01-library.png first", "maxCount": 5, "exactSize": [1280, 800] },
+    { "field": "Small promo tile", "required": false, "answer": "Promo/promo-small-440x280.png", "exactSize": [440, 280] },
+    { "field": "Marquee promo tile", "required": false, "answer": "Promo/promo-marquee-1400x560.png", "exactSize": [1400, 560] },
+    { "field": "Official / Homepage URL", "required": false, "answer": "Text/Category-and-Metadata.txt", "value": "https://owncoder.github.io/tabcove/" },
+    { "field": "Support URL", "required": false, "answer": "Text/Category-and-Metadata.txt", "value": "https://github.com/ownCoder/tabcove/issues" },
+    { "field": "Video", "required": false, "answer": "_Answers.md#12", "value": "Leave blank - no video for v1.0.0" },
+    { "field": "Mature content", "required": true, "answer": "Text/Category-and-Metadata.txt", "value": "No" }
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "surface": "Package",
+  "dashboard": "Developer Dashboard -> Items -> Add new item",
+  "fields": [
+    { "field": "Package ZIP", "required": true, "answer": "../Extension.zip" },
+    { "field": "Reported name", "required": true, "answer": "_Answers.md#2", "value": "Tabcove - Tab Manager & Session Saver" },
+    { "field": "Reported version", "required": true, "answer": "_Answers.md#2", "value": "1.0.0" },
+    { "field": "Reported permissions", "required": true, "answer": "_Answers.md#2", "value": "tabs, tabGroups, storage, unlimitedStorage, contextMenus, favicon, alarms" },
+    { "field": "Host permissions", "required": true, "answer": "_Answers.md#2", "value": "None - no box should appear" },
+    { "field": "Manifest reference copy", "required": false, "answer": "manifest-reference.json" }
+  ]
+}

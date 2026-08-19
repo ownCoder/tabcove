@@ -79,7 +79,7 @@ Nothing below exists in v1.0.0, and nothing below is advertised in the v1.0.0 UI
 | 4 | **Scheduled auto-archive rules** | "Stow anything untouched for 7 days." Automation, not capability. |
 | 5 | **AI auto-grouping and titling** | Inference cost per call. Names a collection and clusters its tabs by topic. |
 | 6 | **AI semantic search** | "That article about tax residency" without the exact words. Embedding cost. |
-| 7 | **Usage analytics** | Tab habits, reopen rates, dead-link detection. |
+| 7 | **Tab insights** | Your own habits, computed locally: reopen rates, dead-link detection, which collections you never return to. Named `tabInsights` in `lib/flags.js` rather than `analytics`, because it is statistics about the user's own tabs and not telemetry about the user. |
 | 8 | **Dead-link checker** | Requires network requests — deliberately outside Free's zero-network guarantee. |
 | 9 | **Shared collections** | Read-only public links. Hosting cost. |
 | 10 | **Advanced export targets** | Notion, Obsidian, Raindrop, Readwise. Integration maintenance. |
@@ -110,6 +110,7 @@ export const FLAGS = {
   unlimitedSnaps:  { tier: 'pro',  since: '2.0.0' },
   autoArchive:     { tier: 'pro',  since: '2.0.0' },
   aiGrouping:      { tier: 'pro',  since: '2.0.0' },
+  tabInsights:     { tier: 'pro',  since: '2.0.0' },
   // ...every free capability is declared too, so the gate is exhaustive
   restorePoints:   { tier: 'free', since: '1.0.0' },
 };

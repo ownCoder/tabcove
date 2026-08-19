@@ -11,16 +11,18 @@ Two rules govern this script, both learned the hard way.
 
 2. FILED BY TAB, NOT BY ASSET TYPE.
    The original layout grouped everything under "Store Assets/Text/", including
-   the single purpose statement and the permission justifications — which are
+   the single purpose statement and the permission justifications - which are
    Privacy-tab fields. A submitter working the Privacy tab opened Privacy/,
    found only the policy documents, and correctly reported the single purpose as
    missing. Files now live in the folder matching the dashboard tab that asks
    for them:
 
-       Store Assets/Text/   ->  Store listing tab, and Distribution tab
-       Privacy/             ->  Privacy tab
+       0-Account/  1-Package/  2-Store-listing/  3-Privacy/  4-Distribution/
 
-   Privacy-tab content is authored in Store Upload/Privacy/ directly, because it
+   Each surface carries a fields.json enumerating every field it presents, and
+   tools/build.py walks THOSE rather than a hand-written file list.
+
+   Privacy-tab content is authored in Store Upload/3-Privacy/ directly, because it
    is long-form and reviewer-facing. This script VERIFIES those files exist and
    that their key strings match the manifest, rather than overwriting them.
 
@@ -36,8 +38,8 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SOURCE = os.path.join(ROOT, "docs", "store-listing.md")
 MANIFEST = os.path.join(ROOT, "extension", "manifest.json")
 UPLOAD = os.path.join(ROOT, "Store Upload")
-TEXT = os.path.join(UPLOAD, "Store Assets", "Text")
-PRIVACY = os.path.join(UPLOAD, "Privacy")
+TEXT = os.path.join(UPLOAD, "2-Store-listing", "Text")
+PRIVACY = os.path.join(UPLOAD, "3-Privacy")
 
 LIMITS = {
     "Store-Title.txt": 75,
@@ -45,10 +47,10 @@ LIMITS = {
     "Long-Description.txt": 16000,
 }
 
-# Privacy-tab files are authored by hand, not generated — but they must exist,
+# Privacy-tab files are authored by hand, not generated - but they must exist,
 # and they must carry the strings below or a submitter will paste the wrong text.
 PRIVACY_REQUIRED = {
-    "Privacy-Tab-Answers.md": [
+    "_Answers.md": [
         "Single purpose",
         "Permission justifications",
         "Are you using remote code?",
@@ -59,11 +61,29 @@ PRIVACY_REQUIRED = {
         "tabs", "tabGroups", "storage", "unlimitedStorage",
         "contextMenus", "favicon", "alarms",
     ],
-    "Data-Usage-Declarations.txt": ["Tick NONE", "Tick ALL THREE"],
+    "Data-Usage-Declarations.txt": ["Tick ONE box: Web history", "Tick ALL THREE"],
     "Privacy-Policy-URL.txt": ["https://owncoder.github.io/tabcove/privacy.html"],
-    "Privacy-Policy.md": ["Effective date"],
-    "Terms-of-Use.md": ["Effective date"],
+    os.path.join("Reference", "Privacy-Policy.md"): ["Effective date"],
+    os.path.join("Reference", "Terms-of-Use.md"): ["Effective date"],
 }
+
+
+def resolve_i18n(value, manifest_dir):
+    """Resolve a __MSG_key__ placeholder against _locales/en/messages.json.
+
+    The manifest addresses its name and description through chrome.i18n, so a
+    raw comparison against manifest["name"] compares a placeholder and always
+    fails. Resolve first, then compare.
+    """
+    if not isinstance(value, str) or not value.startswith("__MSG_"):
+        return value
+    key = value[len("__MSG_"):-len("__")]
+    path = os.path.join(manifest_dir, "_locales", "en", "messages.json")
+    if not os.path.exists(path):
+        return value
+    with open(path, encoding="utf-8") as f:
+        messages = json.load(f)
+    return messages.get(key, {}).get("message", value)
 
 
 def fenced_blocks(markdown):
@@ -142,73 +162,69 @@ AVOIDED ON PURPOSE
   Repeated or invisible keyword blocks
 """
 
-    # NOTE: single purpose and data-usage answers are NOT in this file. They are
-    # Privacy-tab fields and live in Store Upload/Privacy/. Keeping a second copy
-    # here is what caused them to drift out of sight in the first place.
-    listing["Category-and-Metadata.txt"] = """Tabcove - Store listing and Distribution metadata
-=================================================
+    # This file answers STORE LISTING fields only. Privacy-tab answers live in
+    # 3-Privacy/ and Account-page answers in 0-Account/, because a second copy
+    # filed under the wrong surface is exactly what went wrong before.
+    listing["Category-and-Metadata.txt"] = """Tabcove - Store listing metadata
+================================
 
-Everything the STORE LISTING tab and the DISTRIBUTION tab ask for.
-
-  >> Privacy tab fields are NOT here. They are in Store Upload/Privacy/,
-  >> starting with Privacy/Privacy-Tab-Answers.md.
+The dropdown and URL answers for the STORE LISTING tab.
+Full walkthrough: 2-Store-listing/_Answers.md
 
 
 STORE LISTING TAB
 -----------------
 
-  Title               Store Assets/Text/Store-Title.txt
-  Summary             Store Assets/Text/Short-Description.txt
-  Description         Store Assets/Text/Long-Description.txt
+  Title               2-Store-listing/Text/Store-Title.txt
+  Summary             2-Store-listing/Text/Short-Description.txt
+  Description         2-Store-listing/Text/Long-Description.txt
   Category            Productivity  ->  Workflow & Planning
   Language            English (United Kingdom)
 
   Store icon          taken from the ZIP automatically (128 px)
-                      spare: Store Assets/Icons/icon-128.png
-  Screenshots         Store Assets/Screenshots/  -- all 8, filename order,
-                      01-library.png first
-  Small promo tile    Store Assets/Promo/promo-small-440x280.png
-  Marquee promo tile  Store Assets/Promo/promo-marquee-1400x560.png
+                      spare: 2-Store-listing/Icons/icon-128.png
+  Screenshots         2-Store-listing/Screenshots/  -- FIVE files, filename
+                      order, 01-library.png first.
+                      The store accepts a MAXIMUM of 5. Three more are parked
+                      in 2-Store-listing/Extras/ and are not uploaded.
+  Small promo tile    2-Store-listing/Promo/promo-small-440x280.png
+  Marquee promo tile  2-Store-listing/Promo/promo-marquee-1400x560.png
 
   Official URL        https://owncoder.github.io/tabcove/
   Homepage URL        https://owncoder.github.io/tabcove/
   Support URL         https://github.com/ownCoder/tabcove/issues
+  Video               leave blank -- no video for v1.0.0
   Mature content      No
 
 
-DISTRIBUTION TAB
-----------------
+FIELDS THAT ARE **NOT** ON THIS TAB
+-----------------------------------
 
-  Visibility          Public
-  Pricing             Free
-  Regions             All
-  Trader status       Non-trader
-                      Nothing is monetised in this version: no payments, no
-                      subscriptions, no in-app purchases, no ads, no affiliate
-                      links. Revisit this when Pro ships in 2.0.0.
+Filed here in an earlier version of this package, which is how they got missed.
 
-
-PRIVACY TAB  ->  see Store Upload/Privacy/Privacy-Tab-Answers.md
----------------------------------------------------------------
-
-  Single purpose             Privacy/Single-Purpose.txt
-  Permission justifications  Privacy/Permissions-Justification.txt
-  Remote code                Privacy/Privacy-Tab-Answers.md   (answer: No)
-  Data usage + certifications Privacy/Data-Usage-Declarations.txt
-  Privacy policy URL         Privacy/Privacy-Policy-URL.txt
+  Trader status (EU DSA)      ->  0-Account/_Answers.md  section 5
+                                  It is an ACCOUNT-page field, and the test is
+                                  not monetisation.
+  Visibility, Pricing,
+  Contains ads, In-app
+  purchases, Regions          ->  4-Distribution/_Answers.md
+  Single purpose,
+  permission justifications,
+  remote code, data usage,
+  privacy policy URL          ->  3-Privacy/_Answers.md
 """
 
     listing["Promotional-Text.txt"] = """Tabcove - promotional copy
 ==========================
 
-SMALL TILE  440 x 280   (Store Assets/Promo/promo-small-440x280.png)
+SMALL TILE  440 x 280   (2-Store-listing/Promo/promo-small-440x280.png)
   Tabcove - Tab Manager & Session Saver
   Save every tab in one click
   and actually get them back.
   Restore points - Undo bin - Instant search
   100% local - No account - Free
 
-MARQUEE  1400 x 560     (Store Assets/Promo/promo-marquee-1400x560.png)
+MARQUEE  1400 x 560     (2-Store-listing/Promo/promo-marquee-1400x560.png)
   Tabcove - Tab Manager & Session Saver
   Save every tab in one click - and actually get them back.
   Restore points - 30-day undo bin - Instant search - Tab groups kept
@@ -241,7 +257,7 @@ them back.
 No account. No sign-in. No host permissions. No networking code at all.
 """
 
-    print("Store listing tab  ->  Store Assets/Text/")
+    print("Store listing tab  ->  2-Store-listing/Text/")
     for name, content in listing.items():
         write(TEXT, name, content)
         limit = LIMITS.get(name)
@@ -253,10 +269,20 @@ No account. No sign-in. No host permissions. No networking code at all.
 
     # ------------------------------------------------ manifest / listing sync ---
 
-    if listing["Store-Title.txt"] != manifest.get("name"):
-        failures.append("Store-Title.txt does not match manifest name")
-    if listing["Short-Description.txt"] != manifest.get("description"):
-        failures.append("Short-Description.txt does not match manifest description")
+    ext_dir = os.path.join(ROOT, "extension")
+    manifest_name = resolve_i18n(manifest.get("name"), ext_dir)
+    manifest_desc = resolve_i18n(manifest.get("description"), ext_dir)
+
+    if listing["Store-Title.txt"] != manifest_name:
+        failures.append(
+            "Store-Title.txt does not match the manifest name: "
+            f"listing={listing['Store-Title.txt']!r} manifest={manifest_name!r}"
+        )
+    if listing["Short-Description.txt"] != manifest_desc:
+        failures.append(
+            "Short-Description.txt does not match the manifest description: "
+            f"listing={listing['Short-Description.txt']!r} manifest={manifest_desc!r}"
+        )
 
     # -------------------------------------------------------- Privacy tab ---
 

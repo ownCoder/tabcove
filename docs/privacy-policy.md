@@ -15,16 +15,23 @@ is the only one that matters.
 |---|---|---|
 | **Published page** | `https://owncoder.github.io/tabcove/privacy.html` | **Authoritative.** This is the URL in the Chrome Web Store listing, in `manifest.json`'s `homepage_url` chain, and on the extension's options page. |
 | Page source | `site/privacy.html` on `main` | What is edited. Deployed to the `gh-pages` branch. |
-| Submission copy | `Store Upload/Privacy/Privacy-Policy.md` | A plain-text copy kept with the package so a reviewer, or future-you, can read it without a network. Marked in its own header as non-authoritative. |
+| Submission copy | `Store Upload/3-Privacy/Reference/Privacy-Policy.md` | A plain-text copy kept with the package so a reviewer, or future-you, can read it without a network. Marked in its own header as non-authoritative. |
 
 ---
 
 ## What the policy says, in one paragraph
 
-Tabcove collects nothing, transmits nothing, and contains no networking code.
-Saved tab titles and URLs, tab-group metadata, settings, restore points, and the
-undo bin all live in `chrome.storage.local` on the user's own device. There is no
-account, no server, and no third-party service at runtime. The extension declares
+Tabcove stores the web address, page title, and save time of the tabs the user
+chooses to save, together with tab-group metadata, settings, restore points, and
+the undo bin - all in `chrome.storage.local` on the user's own device. It
+transmits nothing and contains no networking code.
+
+That storage **is** declared on the Chrome Web Store's Privacy tab, under **Web
+history**. Google's User Data FAQ requires disclosure "even when data is
+processed or stored locally on a user's device and is not transmitted", so the
+local-only argument does not exempt it. See `compliance.md` section 3.1.
+
+Beyond that there is no account, no server, and no third-party service at runtime. The extension declares
 no host permissions and no content scripts, so it cannot read or modify any web
 page. Site icons come from Chrome's local favicon cache rather than a remote
 service, specifically so that saved URLs are never transmitted.
@@ -59,7 +66,7 @@ promise in a document.
    Or, if the branch has diverged, copy `site/` onto a fresh `gh-pages` branch
    and force-push it.
 5. Confirm the change is live: `curl -sI https://owncoder.github.io/tabcove/privacy.html`
-6. Update `Store Upload/Privacy/Privacy-Policy.md` to match.
+6. Update `Store Upload/3-Privacy/Privacy-Policy.md` to match.
 
 **Do not change the URL.** It is recorded in the Chrome Web Store listing, on the
 extension's options page, and in this repository's README. A dead privacy policy
@@ -72,6 +79,7 @@ URL is grounds for removal from the store.
 | Change | Required update |
 |---|---|
 | Any new permission | Add it to the permissions table with a plain-English reason |
+| Anything new being stored | Re-check the nine data-usage categories. Local-only storage still counts. |
 | Any network request, ever | Rewrite §4 *before* the version ships. This is the one that gets extensions removed. |
 | Any third-party service or library at runtime | Add it to §6 |
 | Cloud sync (planned for 2.0.0) | Full rewrite of §3, §4, §6, and §11 before release |

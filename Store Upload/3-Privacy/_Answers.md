@@ -108,25 +108,53 @@ those appear, and the published source at
 **Field:** "What user data do you plan to collect from users now or in the
 future?" — nine checkboxes.
 
-**Tick none of them.** Every answer is No.
+**Tick exactly one: Web history.** Leave the other eight unticked.
 
 | Category | Answer |
 |---|---|
-| Personally identifiable information | **No** |
-| Health information | **No** |
-| Financial and payment information | **No** |
-| Authentication information | **No** |
-| Personal communications | **No** |
-| Location | **No** |
-| Web history | **No** |
-| User activity | **No** |
-| Website content | **No** |
+| **Web history** | **YES — tick this one** |
+| Personally identifiable information | No |
+| Health information | No |
+| Financial and payment information | No |
+| Authentication information | No |
+| Personal communications | No |
+| Location | No |
+| User activity | No |
+| Website content | No |
 
-**If a reviewer queries "Web history":** Tabcove stores the URLs of tabs the
-user *explicitly chooses to save*. That is user-initiated local storage, not
-collection of browsing history. The extension never reads `chrome.history`,
-never observes navigation, and never transmits anything — no data leaves the
-device, so nothing is *collected* in the policy's sense.
+### Why Web history is ticked even though nothing is transmitted
+
+Tabcove stores the web address, page title, and save time of every tab the user
+chooses to save. That matches the Web history category, which is defined as the
+list of pages a user has visited plus associated data such as page title and
+time of visit.
+
+Local-only storage does **not** exempt you. From Google's Chrome Web Store
+[User Data FAQ](https://developer.chrome.com/docs/webstore/program-policies/user-data-faq):
+
+> **Does an extension need to disclose user data handling if the data is only
+> processed or stored locally on a user's device?**
+>
+> **Yes.** Extensions are required to disclose how they handle user data, even
+> when data is processed or stored locally on a user's device and is not
+> transmitted to external servers or third parties.
+
+The same FAQ defines *handle* as "collecting, transmitting, using, or sharing
+user data".
+
+> **Do not argue that local storage is not collection.** That argument is
+> specifically foreclosed by the FAQ above — and the store listing itself openly
+> describes storing tab URLs, so under-declaring is an inconsistency a reviewer
+> can spot from the listing text alone.
+
+### The bound that matters, if a reviewer asks
+
+Only tabs the user **explicitly chooses to save**. Tabcove does not request the
+`history` permission and cannot read `chrome.history`. With no content scripts,
+no host permissions, and no `webNavigation`, it cannot observe navigation or
+read any page. It records nothing about pages the user did not ask it to save.
+
+Full wording, and why the other eight are No: [`Data-Usage-Declarations.txt`](Data-Usage-Declarations.txt)
 
 ---
 
@@ -166,7 +194,7 @@ Detail, and how to update it: [`Privacy-Policy-URL.txt`](Privacy-Policy-URL.txt)
 - [ ] A justification pasted into **every** permission box — none blank
 - [ ] Host-permission box did **not** appear
 - [ ] "No, I am not using remote code" selected
-- [ ] All nine data categories left unticked
+- [ ] **Web history ticked** — and only Web history; the other eight left unticked
 - [ ] All three certification boxes ticked
 - [ ] Privacy policy URL pasted, and it opens in a private window
 
@@ -178,10 +206,10 @@ Detail, and how to update it: [`Privacy-Policy-URL.txt`](Privacy-Policy-URL.txt)
 |---|---|
 | [`Single-Purpose.txt`](Single-Purpose.txt) | The single purpose statement, plus the expanded form for a reviewer |
 | [`Permissions-Justification.txt`](Permissions-Justification.txt) | The seven justifications as plain text |
-| [`Data-Usage-Declarations.txt`](Data-Usage-Declarations.txt) | The nine categories and three certifications as plain text |
+| [`Data-Usage-Declarations.txt`](Data-Usage-Declarations.txt) | The nine categories and three certifications, with the reasoning for each |
 | [`Privacy-Policy-URL.txt`](Privacy-Policy-URL.txt) | The URL, plus how to republish the policy |
-| [`Privacy-Policy.md`](Privacy-Policy.md) | Offline copy of the published policy |
-| [`Terms-of-Use.md`](Terms-of-Use.md) | Offline copy of the published terms |
+| [`Reference/Privacy-Policy.md`](Reference/Privacy-Policy.md) | Offline copy of the published policy — answers no field, kept for reading without a network |
+| [`Reference/Terms-of-Use.md`](Reference/Terms-of-Use.md) | Offline copy of the published terms — no dashboard field asks for terms |
 
 Full policy reasoning, including what a reviewer is likely to ask and the
 prepared answers: [`../../docs/compliance.md`](../../docs/compliance.md)
