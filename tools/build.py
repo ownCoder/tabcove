@@ -59,18 +59,37 @@ def read_manifest():
 
 
 def check_required_assets(version):
-    """Everything the submission needs, verified to exist before packaging."""
+    """Everything the submission needs, verified to exist before packaging.
+
+    Organised BY DASHBOARD TAB, because that is how a submitter experiences it.
+    An earlier layout filed the single purpose statement and the permission
+    justifications under "Store Assets/Text/" — both are Privacy-tab fields — and
+    a submitter working the Privacy tab reported the single purpose as missing.
+    Every Privacy-tab answer is now a hard requirement of the build.
+    """
     required = [
+        # ---- Package ----
         (os.path.join(EXT, "icons", "icon16.png"), "extension icon 16"),
         (os.path.join(EXT, "icons", "icon32.png"), "extension icon 32"),
         (os.path.join(EXT, "icons", "icon48.png"), "extension icon 48"),
         (os.path.join(EXT, "icons", "icon128.png"), "extension icon 128"),
+        # ---- Store listing tab ----
         (os.path.join(ASSETS, "Icons", "icon-128.png"), "store icon 128"),
         (os.path.join(ASSETS, "Promo", "promo-small-440x280.png"), "small promo tile"),
         (os.path.join(ASSETS, "Promo", "promo-marquee-1400x560.png"), "marquee promo tile"),
+        (os.path.join(ASSETS, "Text", "Store-Title.txt"), "listing: title"),
+        (os.path.join(ASSETS, "Text", "Short-Description.txt"), "listing: summary"),
+        (os.path.join(ASSETS, "Text", "Long-Description.txt"), "listing: description"),
+        (os.path.join(ASSETS, "Text", "Category-and-Metadata.txt"), "listing: category and metadata"),
+        # ---- Privacy tab: every field the dashboard asks for ----
+        (os.path.join(UPLOAD, "Privacy", "Privacy-Tab-Answers.md"), "privacy tab: walkthrough"),
+        (os.path.join(UPLOAD, "Privacy", "Single-Purpose.txt"), "privacy tab: SINGLE PURPOSE"),
+        (os.path.join(UPLOAD, "Privacy", "Permissions-Justification.txt"), "privacy tab: permission justifications"),
+        (os.path.join(UPLOAD, "Privacy", "Data-Usage-Declarations.txt"), "privacy tab: data usage and certifications"),
+        (os.path.join(UPLOAD, "Privacy", "Privacy-Policy-URL.txt"), "privacy tab: policy URL"),
         (os.path.join(UPLOAD, "Privacy", "Privacy-Policy.md"), "privacy policy copy"),
         (os.path.join(UPLOAD, "Privacy", "Terms-of-Use.md"), "terms copy"),
-        (os.path.join(UPLOAD, "Privacy", "Privacy-Policy-URL.txt"), "published policy URL"),
+        # ---- The guide that ties them together ----
         (os.path.join(UPLOAD, "Upload Guide.md"), "upload guide"),
     ]
 
@@ -92,11 +111,28 @@ def check_required_assets(version):
     except ImportError:
         print("    ! Pillow not available — screenshot dimensions unverified")
 
+    # Every permission the manifest declares must have a justification written,
+    # because the dashboard renders one mandatory field per permission and a
+    # blank one is the most common cause of rejection in this category.
+    try:
+        with open(os.path.join(EXT, "manifest.json"), encoding="utf-8") as f:
+            declared = json.load(f).get("permissions", [])
+        just_path = os.path.join(UPLOAD, "Privacy", "Permissions-Justification.txt")
+        if os.path.exists(just_path):
+            with open(just_path, encoding="utf-8") as f:
+                justifications = f.read()
+            for permission in declared:
+                if permission not in justifications:
+                    missing.append(f"a justification for the '{permission}' permission")
+    except (OSError, ValueError) as e:
+        missing.append(f"could not cross-check permission justifications ({e})")
+
     for label in missing:
         print(f"    x missing: {label}")
 
     if not missing:
-        print(f"    all assets present ({len(shots)} screenshots at 1280x800)")
+        print(f"    all assets present ({len(shots)} screenshots at 1280x800, "
+              f"{len(declared)} permissions justified)")
     return not missing
 
 

@@ -60,14 +60,14 @@
 - [x] `icons/` — 16 / 32 / 48 / 128, generated from code
 - [x] `_locales/en/messages.json` — i18n scaffold
 
-### Tooling — 10 scripts
+### Tooling — 12 scripts
 
 - [x] `make-icons.py` — the icon set and SVG master, from constants
 - [x] `make-promo.py` — both store promo tiles
 - [x] `make-screenshots.py` — composes 1280×800 store tiles with captions
-- [x] `make-store-text.py` — extracts listing text from `store-listing.md`
+- [x] `make-store-text.py` — generates the listing text from `store-listing.md`, and verifies every Privacy-tab answer exists
 - [x] `validate.py` — 159-check policy and security self-audit
-- [x] `build.py` — validates, tests, packages, and verifies the ZIP
+- [x] `build.py` — validates, tests, checks submission completeness, packages, verifies the ZIP
 - [x] `test.mjs` — 54 unit tests against a `chrome.storage` mock
 - [x] `drive.mjs` — loads the real extension in Chrome; verify and screenshot
 - [x] `functional.mjs` — 30 end-to-end tests against the real Chrome APIs
@@ -82,15 +82,26 @@
 - [x] Terms of use — https://owncoder.github.io/tabcove/terms.html
 - [x] `LICENSE` — MIT with an explicit brand carve-out
 
-### Store Upload package
+### Store Upload package — organised by dashboard tab
 
 - [x] `Extension.zip` — 106 KB, verified by loading the extraction in Chrome
+- [x] `Upload Guide.md` — field map per tab, upload order, publish checklist
+
+**Privacy tab** — every field the dashboard asks for:
+
+- [x] `Privacy/Privacy-Tab-Answers.md` — the whole tab, in dashboard order
+- [x] `Privacy/Single-Purpose.txt` — the single purpose statement
+- [x] `Privacy/Permissions-Justification.txt` — one per permission, all 7
+- [x] `Privacy/Data-Usage-Declarations.txt` — 9 categories + 3 certifications
+- [x] `Privacy/Privacy-Policy-URL.txt` — the published URL
+- [x] `Privacy/Privacy-Policy.md`, `Privacy/Terms-of-Use.md` — offline copies
+
+**Store listing + Distribution tabs:**
+
+- [x] `Store Assets/Text/` — title, summary, description, category/metadata, keywords, promo copy, release notes
 - [x] `Store Assets/Screenshots/` — 8 files, all exactly 1280×800
 - [x] `Store Assets/Promo/` — 440×280 and 1400×560
 - [x] `Store Assets/Icons/` — 16 / 32 / 48 / 128
-- [x] `Store Assets/Text/` — 8 paste-ready text files
-- [x] `Privacy/` — policy, terms, and the published URL
-- [x] `Upload Guide.md` — field map, upload order, and the publish checklist
 
 ---
 
@@ -126,6 +137,7 @@ Recorded because they are the evidence that the verification actually verifies s
 | 5 | `--load-extension` is ignored by Chrome 137+, so the first verification runs were testing an extension that had never loaded | Target inspection | The driver installs via the CDP `Extensions.loadUnpacked` domain and reads back the real id |
 | 6 | Storage meter showed "0%" for a non-empty library | Screenshot review | Shows "under 1%" when usage is above zero but rounds to zero |
 | 7 | `restore.js` used a hoisted `var` for the batch start index across an if/else | Code review | Declared with `let` before the branch |
+| 8 | The **single purpose** statement and the permission justifications lived under `Store Assets/Text/` — both are *Privacy-tab* fields. A submitter working the Privacy tab opened `Privacy/`, did not find them, and reported the single purpose as missing | **User, during submission** | The package is now organised by dashboard tab, not by asset type. `Privacy/` carries every Privacy-tab answer, and `build.py` refuses to package if one is absent or if any declared permission lacks a justification |
 
 ---
 

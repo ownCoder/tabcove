@@ -98,6 +98,23 @@ First public release. Submitted to the Chrome Web Store.
   reach a live object.
 - CSV export neutralises formula injection; HTML and Markdown exports escape.
 
+### Submission package
+
+- `Store Upload/` is organised by the **Chrome Web Store dashboard tab** that
+  asks for each field, rather than by asset type.
+  - `Privacy/` carries every Privacy-tab answer: the single purpose statement,
+    the seven permission justifications, the data-usage declarations and
+    certifications, and the policy URL — plus
+    `Privacy-Tab-Answers.md`, which walks the whole tab in dashboard order.
+  - `Store Assets/` carries everything the Store listing and Distribution tabs
+    ask for.
+- `tools/build.py` refuses to produce a ZIP unless every one of those files
+  exists, and cross-checks that each permission declared in the manifest appears
+  in the justification text — because the dashboard renders one mandatory box
+  per permission and a blank one is the most common cause of rejection.
+- `tools/make-store-text.py` regenerates the listing copy from
+  `docs/store-listing.md`, so the document and the submission cannot drift.
+
 ---
 
 ## Pre-release milestones

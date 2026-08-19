@@ -34,7 +34,7 @@ outwards.
 | | |
 |---|---|
 | **Stow in one click** | All tabs, this tab, the others, a selection, or every window. Each button shows exactly what it will save before you press it. |
-| **Instant search** | Ranked search over titles, addresses, and collection names. ~35 ms across 20,000 saved tabs. |
+| **Instant search** | Ranked search over titles, addresses, and collection names. 7.4 ms median across 20,000 saved tabs. |
 | **Tab groups survive** | Chrome tab groups come back with their names and colours. Pinned tabs come back pinned. Multi-window layouts are rebuilt. |
 | **Restore points** | A snapshot of the whole library is taken automatically before anything destructive. Roll back in one click. |
 | **30-day undo bin** | Deleted collections stay recoverable for a month. Nothing is destroyed by a single click. |
@@ -120,8 +120,18 @@ site/          GitHub Pages source: privacy policy, terms, landing page
 tools/         asset generation, validation, tests, packaging (never shipped)
 screenshots/   generated 1280×800 store screenshots
 release/       versioned build output
-Store Upload/  everything needed to submit, in one folder
+Store Upload/  everything needed to submit, filed by dashboard tab
+  Extension.zip
+  Privacy/       every Privacy-tab answer, incl. the single purpose statement
+  Store Assets/  everything the Store listing and Distribution tabs ask for
+  Upload Guide.md
 ```
+
+`Store Upload/` is organised by the **dashboard tab that asks for each field**,
+not by asset type. That distinction is not cosmetic: an earlier layout filed the
+single purpose statement under `Store Assets/Text/`, and a submitter working the
+Privacy tab could not find it. `tools/build.py` now refuses to package unless
+every Privacy-tab answer exists at its tab-matching path.
 
 ---
 
@@ -134,7 +144,10 @@ node tools/drive.mjs verify   # load in real Chrome, check every surface renders
 node tools/drive.mjs shots    # capture screenshots from the running extension
 python tools/make-icons.py    # regenerate the icon set from code
 python tools/make-promo.py    # regenerate the store promo tiles
-python tools/build.py         # validate, test, and produce the release ZIP
+python tools/make-store-text.py # regenerate the listing copy from docs/store-listing.md
+node tools/functional.mjs     # 30 end-to-end tests against the real Chrome APIs
+node tools/perf.mjs           # measure the numbers quoted in the docs
+python tools/build.py         # validate, test, check completeness, produce the ZIP
 ```
 
 `tools/` needs Python with Pillow, and Node 22+. Neither ships in the extension.

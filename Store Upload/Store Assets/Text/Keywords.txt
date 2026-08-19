@@ -1,9 +1,9 @@
-Tabcove — keyword placement
+Tabcove - keyword placement
 ===========================
 
-The Chrome Web Store has no keyword field. Relevance comes from the title, the
-short description, and the detailed description. These are the terms this
-listing is written to rank for.
+Reference only. The Chrome Web Store has no keyword field; relevance comes from
+the title, the short description, and the detailed description. These are the
+terms this listing is written to rank for.
 
 PRIMARY (in the title and the first 150 characters)
   tab manager

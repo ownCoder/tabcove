@@ -9,7 +9,7 @@ STOW IN ONE CLICK
 Save all your tabs, just this tab, all the others, a selection, or every window at once. Each button shows you exactly what it will save before you press it — "12 tabs · 2 groups" — so you always know what is about to happen.
 
 FIND ANY TAB IN A SECOND
-Search across every saved title, web address, and collection name. Ranked, instant, and still under 40 milliseconds with 20,000 tabs saved. A saved list you cannot search is a list you will never read again.
+Search across every saved title, web address, and collection name. Ranked and instant — measured at 7 ms across 20,000 saved tabs. A saved list you cannot search is a list you will never read again.
 
 YOUR TAB GROUPS SURVIVE
 Chrome tab groups come back with their names and their colours. Pinned tabs come back pinned. If you saved three windows, you get three windows. Most tab savers flatten all of that into a plain list.

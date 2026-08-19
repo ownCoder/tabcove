@@ -2,7 +2,14 @@
 
 **Version:** 1.0.0
 **Date:** 19 August 2026
-**Status:** Final. Each field below is also saved as a plain-text file in `Store Upload/Store Assets/Text/` so it can be pasted without reformatting.
+**Status:** Final. Each field below is also saved as a plain-text file in `Store Upload/`, filed by the dashboard tab that asks for it:
+
+| Dashboard tab | Folder |
+|---|---|
+| Store listing, Distribution | `Store Upload/Store Assets/Text/` |
+| **Privacy** (single purpose, permission justifications, data usage, policy URL) | **`Store Upload/Privacy/`** |
+
+`tools/make-store-text.py` regenerates the listing files from the fenced blocks in this document, so the two cannot drift.
 
 ---
 
@@ -32,7 +39,7 @@ Rejected alternatives:
 Save all your tabs in one click and get them back. Search, tab groups, restore points, undo bin, backups. 100% local, no account.
 ```
 
-128 of 132 characters.
+129 of 132 characters.
 
 Front-loads the action, then the differentiator, then the trust signal. This string also appears in `manifest.json` as `description`, so the two can never disagree.
 
@@ -52,7 +59,7 @@ STOW IN ONE CLICK
 Save all your tabs, just this tab, all the others, a selection, or every window at once. Each button shows you exactly what it will save before you press it — "12 tabs · 2 groups" — so you always know what is about to happen.
 
 FIND ANY TAB IN A SECOND
-Search across every saved title, web address, and collection name. Ranked, instant, and still under 40 milliseconds with 20,000 tabs saved. A saved list you cannot search is a list you will never read again.
+Search across every saved title, web address, and collection name. Ranked and instant — measured at 7 ms across 20,000 saved tabs. A saved list you cannot search is a list you will never read again.
 
 YOUR TAB GROUPS SURVIVE
 Chrome tab groups come back with their names and their colours. Pinned tabs come back pinned. If you saved three windows, you get three windows. Most tab savers flatten all of that into a plain list.
@@ -140,7 +147,7 @@ Tabcove is an independent project. It is not affiliated with, endorsed by, or de
 1. **Line one is the whole pitch.** Most readers stop after one line; that line has to contain the action and the promise.
 2. **Paragraph two names the problem** the reader already has. Naming the incumbent's failure without naming the incumbent is both more persuasive and safer under the impersonation policy.
 3. **Features are headed in caps** — the store strips most formatting, so caps are the only reliable heading device.
-4. **Numbers, not adjectives.** "under 40 milliseconds with 20,000 tabs saved" is checkable; "blazing fast" is not.
+4. **Numbers, not adjectives.** "measured at 7 ms across 20,000 saved tabs" is checkable — `node tools/perf.mjs` prints it — whereas "blazing fast" is not. Every number in the listing comes from that script.
 5. **Privacy gets its own block above the fold-ish.** It is the differentiator most likely to convert the sceptical reader who writes reviews.
 6. **Permissions are listed with reasons** in the description itself. Users who read permission dialogues are exactly the users who leave five-star reviews.
 7. **The free-forever commitment is explicit.** Two well-known competitors lost their ratings by breaking it.

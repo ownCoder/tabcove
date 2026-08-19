@@ -2,7 +2,7 @@
 
 **Version:** 1.0.0
 **Date:** 19 August 2026
-**Audit result:** PASS — `python tools/validate.py` reports 0 errors across 157 checks
+**Audit result:** PASS — `python tools/validate.py` reports 0 errors across 159 checks
 **Reviewed against:** Chrome Web Store Program Policies, Developer Program Policies, the User Data Policy (including Limited Use), Manifest V3 requirements, and the Chrome Web Store Branding Guidelines.
 
 ---
@@ -161,7 +161,7 @@ version           1.0.0
 permissions       7
 host permissions  0
 unpacked size     298 KB
-checks run        157
+checks run        159
 PASSED - ready to package
 ```
 
@@ -169,21 +169,66 @@ PASSED - ready to package
 
 ## 8. Submission answers, ready to paste
 
-| Field | Value |
-|---|---|
-| **Category** | Productivity → Workflow & Planning |
-| **Language** | English (United Kingdom) |
-| **Single purpose** | Tabcove saves the tabs you have open into a local, searchable library, and restores them later with their tab groups, pinned state, and window layout intact. All data stays on the user's device. |
-| **Privacy policy URL** | `https://owncoder.github.io/tabcove/privacy.html` |
-| **Homepage URL** | `https://owncoder.github.io/tabcove/` |
-| **Support URL** | `https://github.com/ownCoder/tabcove/issues` |
-| **Data usage — collected** | None of the listed categories |
-| **Data usage — certifications** | All three certified |
-| **Contains ads** | No |
-| **In-app purchases** | No |
-| **Trader status** | Non-trader (free extension, no monetisation in v1) |
+Every answer below is also a file in `Store Upload/`, **filed by the dashboard
+tab that asks for it**. That organisation is deliberate: an earlier layout put
+the single purpose statement and the permission justifications under
+`Store Assets/Text/`, and a submitter working the Privacy tab looked in
+`Store Upload/Privacy/`, did not find them, and correctly reported the single
+purpose as missing. The dashboard is organised by tab, so the package is too.
 
----
+### Package
+
+| Field | Value | File |
+|---|---|---|
+| Package | `Extension.zip` | `Store Upload/Extension.zip` |
+
+### Store listing tab
+
+| Field | Value | File |
+|---|---|---|
+| Title | `Tabcove — Tab Manager & Session Saver` | `Store Assets/Text/Store-Title.txt` |
+| Summary | see file (129/132 chars) | `Store Assets/Text/Short-Description.txt` |
+| Description | see file | `Store Assets/Text/Long-Description.txt` |
+| Category | Productivity → Workflow & Planning | `Store Assets/Text/Category-and-Metadata.txt` |
+| Language | English (United Kingdom) | same |
+| Screenshots | 8 × 1280×800 | `Store Assets/Screenshots/` |
+| Promo tiles | 440×280 and 1400×560 | `Store Assets/Promo/` |
+| Homepage URL | `https://owncoder.github.io/tabcove/` | `Store Assets/Text/Category-and-Metadata.txt` |
+| Support URL | `https://github.com/ownCoder/tabcove/issues` | same |
+
+### Privacy tab
+
+**Walkthrough covering every field in dashboard order:
+`Store Upload/Privacy/Privacy-Tab-Answers.md`.**
+
+| Field | Value | File |
+|---|---|---|
+| **Single purpose** | Tabcove saves the tabs you have open into a local, searchable library, and restores them later with their tab groups, pinned state, and window layout intact. All data stays on the user's device. | **`Privacy/Single-Purpose.txt`** |
+| Permission justifications | One per permission — seven in total, none blank | `Privacy/Permissions-Justification.txt` |
+| Host permission justification | *No field should appear — none are declared* | — |
+| Are you using remote code? | **No, I am not using remote code** | `Privacy/Privacy-Tab-Answers.md` §3 |
+| Data usage — collected | None of the nine categories | `Privacy/Data-Usage-Declarations.txt` |
+| Data usage — certifications | All three certified | same |
+| Privacy policy URL | `https://owncoder.github.io/tabcove/privacy.html` | `Privacy/Privacy-Policy-URL.txt` |
+
+### Distribution tab
+
+| Field | Value | File |
+|---|---|---|
+| Visibility | Public | `Store Assets/Text/Category-and-Metadata.txt` |
+| Pricing | Free | same |
+| Regions | All | same |
+| Trader status | Non-trader — nothing is monetised in v1 | same |
+
+### Enforced, not just documented
+
+`tools/build.py` refuses to produce a ZIP unless every file above exists, and
+cross-checks that **each permission declared in the manifest appears in the
+justification text** — because the dashboard renders one mandatory box per
+permission, and a blank one is the most common rejection cause in this category.
+`tools/make-store-text.py` regenerates the listing files from
+`docs/store-listing.md` and verifies the Privacy files carry the strings a
+submitter needs.
 
 ## 9. Ongoing compliance
 

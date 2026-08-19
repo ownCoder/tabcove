@@ -3,7 +3,7 @@
 **Version under test:** 1.0.0
 **Date:** 19 August 2026
 **Browser:** Chrome 151.0.7922.138 (Windows 11 Pro, 64-bit)
-**Result:** **PASS** — 243 automated checks, 0 failures, 0 open defects
+**Result:** **PASS** — 245 automated checks, 0 failures, 0 open defects
 
 Everything in this report is reproducible. Each section names the command that
 produced it.
@@ -18,13 +18,15 @@ produced it.
 | Functional, real Chrome APIs | `node tools/functional.mjs` | 30 | **PASS** |
 | Functional, against the release ZIP | `node tools/functional.mjs <extracted>` | 30 | **PASS** |
 | Policy & security audit | `python tools/validate.py` | 159 | **PASS** |
+| Submission package completeness | `python tools/build.py` (step 3) | 19 assets + 7 permission cross-checks | **PASS** |
 | WCAG contrast | `python tools/validate.py --contrast` | 12 pairs | **PASS** |
 | Surface render, source tree | `node tools/drive.mjs verify` | 4 surfaces | **PASS** |
 | Surface render, release ZIP | `node tools/drive.mjs verify <extracted>` | 4 surfaces | **PASS** |
 | Performance | `node tools/perf.mjs` | 13 metrics | **PASS** |
 | Manual matrix | by hand | 61 cases | **PASS** |
+| Dashboard-field audit | multi-agent, verified | every field on 3 tabs | **PASS** |
 
-**Defects found during development: 7. Defects fixed: 7. Open: 0.** They are
+**Defects found: 8. Defects fixed: 8. Open: 0.** They are
 listed in §9, because a test report with no failures found is a report that did
 not test anything.
 
@@ -371,10 +373,19 @@ or a check that would catch a regression.
 | 5 | `--load-extension` is ignored by Chrome 137+, so early verification runs were testing an extension that had never loaded | High — false-green tooling | Target inspection | The driver installs via CDP `Extensions.loadUnpacked` and reads the real id | The install call throws if Chrome refuses |
 | 6 | Storage meter read "0%" for a non-empty library | Low — looked broken | Screenshot review | Shows "under 1%" when usage rounds to zero | Manual case 57 |
 | 7 | `restore.js` used a hoisted `var` for the batch start index across an if/else | Low — worked, but fragile | Code review | Declared with `let` before the branch | `node --check` in CI |
+| 8 | The single purpose statement and permission justifications were filed under `Store Assets/Text/`, but both are **Privacy-tab** fields — a submitter looked in `Privacy/` and reported the single purpose missing | High — would have stalled the submission | **User, during submission** | Package reorganised by dashboard tab; `Privacy/` now holds every Privacy-tab answer plus a dashboard-order walkthrough | `build.py` requires all six Privacy files and cross-checks every declared permission against the justification text |
 
 Defects 3, 4, and 5 are the argument for driving a real browser rather than
 trusting a mock: all three are invisible to a `chrome.storage` mock and to unit
 tests, and two of them would have shipped.
+
+Defect 8 is a different lesson, and a sharper one. Every file it involved
+*existed* and every automated check passed — the audit verified the package
+against a checklist of its own making rather than against the dashboard a human
+actually sits in front of. It was found by a person opening the folder and not
+finding what they needed. Completeness checks now assert **findability**: the
+build requires each Privacy-tab answer at its tab-matching path, so a correct
+answer filed in the wrong place fails the build.
 
 ---
 

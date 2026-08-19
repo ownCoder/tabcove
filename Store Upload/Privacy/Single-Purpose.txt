@@ -1,0 +1,68 @@
+Tabcove — Single purpose
+========================
+
+Chrome Web Store Developer Dashboard
+  Privacy tab  ->  "Single purpose"  ->  description field
+
+PASTE THIS
+----------
+
+Tabcove saves the tabs you have open into a local, searchable library, and
+restores them later with their tab groups, pinned state, and window layout
+intact. All data stays on the user's device.
+
+
+WHY THIS WORDING
+----------------
+
+The policy asks for "a single purpose that is narrow and easy to understand".
+The sentence above is one purpose stated in one sentence: save tabs, find them,
+restore them. Every permission the extension requests maps to it, and every
+feature it ships serves it.
+
+If a reviewer asks for elaboration, this is the expanded form:
+
+  Tabcove has one purpose: managing the user's browser tabs by saving them and
+  restoring them.
+
+  Saving        the user chooses tabs (all, one, the others, a selection, or
+                every window) and Tabcove stores their titles, URLs, tab-group
+                names and colours, pinned state, and window arrangement in
+                chrome.storage.local on the user's own device.
+
+  Finding       the library provides search, tags, sorting, and duplicate
+                detection over those saved tabs, so a saved tab can be found
+                again.
+
+  Restoring     saved tabs are reopened with their tab groups, pinned state, and
+                window layout rebuilt.
+
+  Protecting    restore points, a 30-day undo bin, and export/import exist so
+                that saved tabs remain restorable. These serve the same single
+                purpose: a tab archive that cannot be restored is not a tab
+                archive.
+
+
+WHAT IS DELIBERATELY NOT BUNDLED
+--------------------------------
+
+Named here because "single purpose" rejections are usually about what an
+extension ALSO does. Tabcove contains none of the following:
+
+  no new-tab page override        no search-provider change
+  no bookmark syncing             no reading mode
+  no ad blocking or filtering     no coupons or shopping features
+  no affiliate links              no analytics or telemetry
+  no content scripts              no access to any website
+
+
+RELATED FIELDS ON THE SAME TAB
+------------------------------
+
+  Permission justifications  ->  Privacy/Permissions-Justification.txt
+  Remote code question       ->  Privacy/Privacy-Tab-Answers.md  (answer: No)
+  Data usage + certifications->  Privacy/Data-Usage-Declarations.txt
+  Privacy policy URL         ->  Privacy/Privacy-Policy-URL.txt
+
+Or work straight through Privacy/Privacy-Tab-Answers.md, which covers the whole
+tab in dashboard order.

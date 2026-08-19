@@ -1,24 +1,43 @@
 #!/usr/bin/env python3
-"""Extract the Store Upload text assets from docs/store-listing.md.
+"""Generate the Store Upload text assets, organised BY DASHBOARD TAB.
 
     python tools/make-store-text.py
 
-The listing copy has exactly one source of truth: docs/store-listing.md. This
-script pulls the fenced blocks out of it and writes them as plain-text files
-ready to paste into the Chrome Web Store form. Keeping them generated means the
-document and the submission can never drift apart — a real risk when the same
-paragraph is maintained in two places.
+Two rules govern this script, both learned the hard way.
 
-It also verifies the store's hard limits and fails if the copy exceeds them.
+1. ONE SOURCE OF TRUTH.
+   The listing copy lives in docs/store-listing.md and nowhere else. The fenced
+   blocks are extracted from it, so the document and the submission cannot drift.
+
+2. FILED BY TAB, NOT BY ASSET TYPE.
+   The original layout grouped everything under "Store Assets/Text/", including
+   the single purpose statement and the permission justifications — which are
+   Privacy-tab fields. A submitter working the Privacy tab opened Privacy/,
+   found only the policy documents, and correctly reported the single purpose as
+   missing. Files now live in the folder matching the dashboard tab that asks
+   for them:
+
+       Store Assets/Text/   ->  Store listing tab, and Distribution tab
+       Privacy/             ->  Privacy tab
+
+   Privacy-tab content is authored in Store Upload/Privacy/ directly, because it
+   is long-form and reviewer-facing. This script VERIFIES those files exist and
+   that their key strings match the manifest, rather than overwriting them.
+
+The script also enforces the store's hard character limits and fails on breach.
 """
 
+import json
 import os
 import re
 import sys
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SOURCE = os.path.join(ROOT, "docs", "store-listing.md")
-OUT = os.path.join(ROOT, "Store Upload", "Store Assets", "Text")
+MANIFEST = os.path.join(ROOT, "extension", "manifest.json")
+UPLOAD = os.path.join(ROOT, "Store Upload")
+TEXT = os.path.join(UPLOAD, "Store Assets", "Text")
+PRIVACY = os.path.join(UPLOAD, "Privacy")
 
 LIMITS = {
     "Store-Title.txt": 75,
@@ -26,10 +45,37 @@ LIMITS = {
     "Long-Description.txt": 16000,
 }
 
+# Privacy-tab files are authored by hand, not generated — but they must exist,
+# and they must carry the strings below or a submitter will paste the wrong text.
+PRIVACY_REQUIRED = {
+    "Privacy-Tab-Answers.md": [
+        "Single purpose",
+        "Permission justifications",
+        "Are you using remote code?",
+        "Privacy policy URL",
+    ],
+    "Single-Purpose.txt": ["Tabcove saves the tabs you have open"],
+    "Permissions-Justification.txt": [
+        "tabs", "tabGroups", "storage", "unlimitedStorage",
+        "contextMenus", "favicon", "alarms",
+    ],
+    "Data-Usage-Declarations.txt": ["Tick NONE", "Tick ALL THREE"],
+    "Privacy-Policy-URL.txt": ["https://owncoder.github.io/tabcove/privacy.html"],
+    "Privacy-Policy.md": ["Effective date"],
+    "Terms-of-Use.md": ["Effective date"],
+}
+
 
 def fenced_blocks(markdown):
     """Every ``` fenced block, in document order."""
     return re.findall(r"```[a-z]*\n(.*?)```", markdown, re.DOTALL)
+
+
+def write(directory, name, content):
+    path = os.path.join(directory, name)
+    with open(path, "w", encoding="utf-8", newline="\n") as f:
+        f.write(content.rstrip() + "\n")
+    return path
 
 
 def main():
@@ -39,28 +85,34 @@ def main():
 
     with open(SOURCE, encoding="utf-8") as f:
         markdown = f.read()
+    with open(MANIFEST, encoding="utf-8") as f:
+        manifest = json.load(f)
 
     blocks = fenced_blocks(markdown)
     if len(blocks) < 3:
-        print("Expected at least 3 fenced blocks (title, short description, long description).")
+        print("Expected at least 3 fenced blocks in docs/store-listing.md "
+              "(title, short description, long description).")
         return 1
 
-    os.makedirs(OUT, exist_ok=True)
+    os.makedirs(TEXT, exist_ok=True)
+    os.makedirs(PRIVACY, exist_ok=True)
 
-    files = {
+    failures = []
+
+    # ---------------------------------------------------- Store listing tab ---
+
+    listing = {
         "Store-Title.txt": blocks[0].strip(),
         "Short-Description.txt": blocks[1].strip(),
         "Long-Description.txt": blocks[2].strip("\n"),
     }
 
-    # Keywords, category, and support answers are short enough to state here
-    # rather than parsing them back out of prose.
-    files["Keywords.txt"] = """Tabcove — keyword placement
+    listing["Keywords.txt"] = """Tabcove - keyword placement
 ===========================
 
-The Chrome Web Store has no keyword field. Relevance comes from the title, the
-short description, and the detailed description. These are the terms this
-listing is written to rank for.
+Reference only. The Chrome Web Store has no keyword field; relevance comes from
+the title, the short description, and the detailed description. These are the
+terms this listing is written to rank for.
 
 PRIMARY (in the title and the first 150 characters)
   tab manager
@@ -90,59 +142,76 @@ AVOIDED ON PURPOSE
   Repeated or invisible keyword blocks
 """
 
-    files["Category-and-Metadata.txt"] = """Tabcove — listing metadata
-==========================
+    # NOTE: single purpose and data-usage answers are NOT in this file. They are
+    # Privacy-tab fields and live in Store Upload/Privacy/. Keeping a second copy
+    # here is what caused them to drift out of sight in the first place.
+    listing["Category-and-Metadata.txt"] = """Tabcove - Store listing and Distribution metadata
+=================================================
 
-Category            Productivity  ->  Workflow & Planning
-Language            English (United Kingdom)
-Pricing             Free
-Contains ads        No
-In-app purchases    No
-Regions             All
+Everything the STORE LISTING tab and the DISTRIBUTION tab ask for.
 
-Homepage URL        https://owncoder.github.io/tabcove/
-Support URL         https://github.com/ownCoder/tabcove/issues
-Privacy policy URL  https://owncoder.github.io/tabcove/privacy.html
+  >> Privacy tab fields are NOT here. They are in Store Upload/Privacy/,
+  >> starting with Privacy/Privacy-Tab-Answers.md.
 
-SINGLE PURPOSE (paste into the Privacy tab)
-Tabcove saves the tabs you have open into a local, searchable library, and
-restores them later with their tab groups, pinned state, and window layout
-intact. All data stays on the user's device.
 
-DATA USE DECLARATIONS
-  Personally identifiable information ......... No
-  Health information .......................... No
-  Financial and payment information ........... No
-  Authentication information .................. No
-  Personal communications ..................... No
-  Location .................................... No
-  Web history ................................. No
-  User activity ............................... No
-  Website content ............................. No
+STORE LISTING TAB
+-----------------
 
-CERTIFICATIONS (tick all three)
-  [x] I do not sell or transfer user data to third parties, outside of the
-      approved use cases
-  [x] I do not use or transfer user data for purposes that are unrelated to my
-      item's single purpose
-  [x] I do not use or transfer user data to determine creditworthiness or for
-      lending purposes
+  Title               Store Assets/Text/Store-Title.txt
+  Summary             Store Assets/Text/Short-Description.txt
+  Description         Store Assets/Text/Long-Description.txt
+  Category            Productivity  ->  Workflow & Planning
+  Language            English (United Kingdom)
+
+  Store icon          taken from the ZIP automatically (128 px)
+                      spare: Store Assets/Icons/icon-128.png
+  Screenshots         Store Assets/Screenshots/  -- all 8, filename order,
+                      01-library.png first
+  Small promo tile    Store Assets/Promo/promo-small-440x280.png
+  Marquee promo tile  Store Assets/Promo/promo-marquee-1400x560.png
+
+  Official URL        https://owncoder.github.io/tabcove/
+  Homepage URL        https://owncoder.github.io/tabcove/
+  Support URL         https://github.com/ownCoder/tabcove/issues
+  Mature content      No
+
+
+DISTRIBUTION TAB
+----------------
+
+  Visibility          Public
+  Pricing             Free
+  Regions             All
+  Trader status       Non-trader
+                      Nothing is monetised in this version: no payments, no
+                      subscriptions, no in-app purchases, no ads, no affiliate
+                      links. Revisit this when Pro ships in 2.0.0.
+
+
+PRIVACY TAB  ->  see Store Upload/Privacy/Privacy-Tab-Answers.md
+---------------------------------------------------------------
+
+  Single purpose             Privacy/Single-Purpose.txt
+  Permission justifications  Privacy/Permissions-Justification.txt
+  Remote code                Privacy/Privacy-Tab-Answers.md   (answer: No)
+  Data usage + certifications Privacy/Data-Usage-Declarations.txt
+  Privacy policy URL         Privacy/Privacy-Policy-URL.txt
 """
 
-    files["Promotional-Text.txt"] = """Tabcove — promotional copy
+    listing["Promotional-Text.txt"] = """Tabcove - promotional copy
 ==========================
 
 SMALL TILE  440 x 280   (Store Assets/Promo/promo-small-440x280.png)
-  Tabcove — Tab Manager & Session Saver
+  Tabcove - Tab Manager & Session Saver
   Save every tab in one click
   and actually get them back.
-  Restore points · Undo bin · Instant search
-  100% local · No account · Free
+  Restore points - Undo bin - Instant search
+  100% local - No account - Free
 
 MARQUEE  1400 x 560     (Store Assets/Promo/promo-marquee-1400x560.png)
-  Tabcove — Tab Manager & Session Saver
-  Save every tab in one click — and actually get them back.
-  Restore points · 30-day undo bin · Instant search · Tab groups kept
+  Tabcove - Tab Manager & Session Saver
+  Save every tab in one click - and actually get them back.
+  Restore points - 30-day undo bin - Instant search - Tab groups kept
   Everything stays on your device. No account, no sign-in, no network access.
 
 ONE-LINER (Product Hunt, Reddit, social)
@@ -151,86 +220,30 @@ ONE-LINER (Product Hunt, Reddit, social)
   you always get them back. 100% local, no account, free.
 """
 
-    files["Permissions-Justification.txt"] = """Tabcove — permission justifications
-===================================
-
-Paste each line into the matching field in the Chrome Web Store's permission
-justification section.
-
-tabs
-  Required to read the title and URL of the user's open tabs so they can be
-  saved, and to close them after they have been saved. Without this permission
-  chrome.tabs.query returns tabs with no url or title, so a saved tab would be
-  an empty entry. Also used to reopen saved tabs.
-
-tabGroups
-  Required to read the name, colour, and collapsed state of Chrome tab groups
-  when saving, and to re-create them when restoring, so a restored collection
-  keeps its original group structure instead of becoming a flat list.
-
-storage
-  Required to store the user's saved tab collections, settings, restore points,
-  and undo bin on their own device.
-
-unlimitedStorage
-  Required because chrome.storage.local is capped at 10 MB without it. A user
-  with a large library reaches that cap at roughly 25,000 saved tabs, after
-  which writes begin to fail. This extension exists to keep saved tabs safe, so
-  silently failing to save is the one outcome that must not happen.
-
-contextMenus
-  Required to add the right-click menu items "Stow all tabs in this window",
-  "Stow just this tab", "Stow every other tab", and "Open Tabcove library".
-
-favicon
-  Required to display site icons next to saved tabs, read from Chrome's LOCAL
-  favicon cache via the _favicon/ endpoint. This permission is specifically what
-  allows the extension to avoid contacting a third-party favicon service, which
-  would otherwise mean transmitting every saved URL to a remote server.
-
-alarms
-  Required for two periodic housekeeping tasks: sweeping items older than 30
-  days out of the undo bin, and checking whether the library has grown enough
-  since the last export to warrant a backup reminder. Manifest V3 terminates the
-  service worker when idle, so setTimeout and setInterval cannot be used.
-
-HOST PERMISSIONS
-  None requested. The extension declares no host permissions and no content
-  scripts, and therefore cannot read or modify any web page.
-
-REMOTE CODE
-  None. Every byte that executes is inside the package. The content security
-  policy pins script-src to 'self', and the source contains no eval, no
-  new Function, and no networking API of any kind.
-"""
-
-    files["Release-Notes.txt"] = """Tabcove 1.0.0 — first release
+    listing["Release-Notes.txt"] = """Tabcove 1.0.0 - first release
 =============================
 
 Save every tab in one click, find any of them in one second, and always get
 them back.
 
-  • Stow all tabs, this tab, other tabs, a selection, or every window
-  • Instant ranked search across titles, addresses, and collection names
-  • Chrome tab groups keep their names and colours through a full round trip
-  • Restore points: an automatic snapshot before anything destructive
-  • A 30-day undo bin, plus an undo toast on every destructive action
-  • Restoring never empties your library
-  • Export as JSON, HTML, Markdown, CSV, or plain text
-  • Import from OneTab text, Tabcove JSON, or any list of addresses
-  • Duplicate finder, backup reminders, and a live storage meter
-  • Command palette on Ctrl/Cmd+K, and full keyboard operation
-  • Light, dark, and system themes, with WCAG AA contrast
+  - Stow all tabs, this tab, other tabs, a selection, or every window
+  - Instant ranked search across titles, addresses, and collection names
+  - Chrome tab groups keep their names and colours through a full round trip
+  - Restore points: an automatic snapshot before anything destructive
+  - A 30-day undo bin, plus an undo toast on every destructive action
+  - Restoring never empties your library
+  - Export as JSON, HTML, Markdown, CSV, or plain text
+  - Import from OneTab text, Tabcove JSON, or any list of addresses
+  - Duplicate finder, backup reminders, and a live storage meter
+  - Command palette on Ctrl/Cmd+K, and full keyboard operation
+  - Light, dark, and system themes, with WCAG AA contrast
 
 No account. No sign-in. No host permissions. No networking code at all.
 """
 
-    failures = []
-    for name, content in files.items():
-        path = os.path.join(OUT, name)
-        with open(path, "w", encoding="utf-8", newline="\n") as f:
-            f.write(content.rstrip() + "\n")
-
+    print("Store listing tab  ->  Store Assets/Text/")
+    for name, content in listing.items():
+        write(TEXT, name, content)
         limit = LIMITS.get(name)
         length = len(content.strip())
         if limit and length > limit:
@@ -238,13 +251,59 @@ No account. No sign-in. No host permissions. No networking code at all.
         suffix = f"  ({length}/{limit} chars)" if limit else ""
         print(f"  {name}{suffix}")
 
+    # ------------------------------------------------ manifest / listing sync ---
+
+    if listing["Store-Title.txt"] != manifest.get("name"):
+        failures.append("Store-Title.txt does not match manifest name")
+    if listing["Short-Description.txt"] != manifest.get("description"):
+        failures.append("Short-Description.txt does not match manifest description")
+
+    # -------------------------------------------------------- Privacy tab ---
+
+    print("\nPrivacy tab  ->  Privacy/  (authored, verified here)")
+    declared = set(manifest.get("permissions", []))
+
+    for name, needles in PRIVACY_REQUIRED.items():
+        path = os.path.join(PRIVACY, name)
+        if not os.path.exists(path):
+            failures.append(f"Privacy/{name} is missing")
+            print(f"  x {name}  MISSING")
+            continue
+
+        with open(path, encoding="utf-8") as f:
+            body = f.read()
+
+        absent = [n for n in needles if n not in body]
+        if absent:
+            failures.append(f"Privacy/{name} does not mention: {', '.join(absent)}")
+            print(f"  x {name}  missing: {', '.join(absent)}")
+        else:
+            print(f"  {name}")
+
+    # Every declared permission must be justified somewhere in Privacy/.
+    just_path = os.path.join(PRIVACY, "Permissions-Justification.txt")
+    if os.path.exists(just_path):
+        with open(just_path, encoding="utf-8") as f:
+            justifications = f.read()
+        unjustified = [p for p in declared if p not in justifications]
+        if unjustified:
+            failures.append(
+                f"permissions with no justification text: {', '.join(sorted(unjustified))}"
+            )
+        else:
+            print(f"  all {len(declared)} declared permissions have a justification")
+
+    # ------------------------------------------------------------- result ---
+
     if failures:
         print()
         for failure in failures:
             print(f"  x {failure}")
+        print("\nFAILED")
         return 1
 
-    print(f"\n{len(files)} text assets written to {OUT}")
+    print(f"\n{len(listing)} listing assets written, "
+          f"{len(PRIVACY_REQUIRED)} privacy assets verified")
     return 0
 
 

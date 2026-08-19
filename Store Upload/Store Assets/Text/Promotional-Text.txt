@@ -1,17 +1,17 @@
-Tabcove — promotional copy
+Tabcove - promotional copy
 ==========================
 
 SMALL TILE  440 x 280   (Store Assets/Promo/promo-small-440x280.png)
-  Tabcove — Tab Manager & Session Saver
+  Tabcove - Tab Manager & Session Saver
   Save every tab in one click
   and actually get them back.
-  Restore points · Undo bin · Instant search
-  100% local · No account · Free
+  Restore points - Undo bin - Instant search
+  100% local - No account - Free
 
 MARQUEE  1400 x 560     (Store Assets/Promo/promo-marquee-1400x560.png)
-  Tabcove — Tab Manager & Session Saver
-  Save every tab in one click — and actually get them back.
-  Restore points · 30-day undo bin · Instant search · Tab groups kept
+  Tabcove - Tab Manager & Session Saver
+  Save every tab in one click - and actually get them back.
+  Restore points - 30-day undo bin - Instant search - Tab groups kept
   Everything stays on your device. No account, no sign-in, no network access.
 
 ONE-LINER (Product Hunt, Reddit, social)

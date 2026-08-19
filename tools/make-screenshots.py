@@ -69,7 +69,7 @@ SHOTS = [
     (
         "02-search.png",
         "Search thousands of saved tabs instantly",
-        "Titles, addresses, and collection names — 35ms across 20,000 saved tabs.",
+        "Titles, addresses, and collection names — measured at 7 ms across 20,000 tabs.",
         "light",
     ),
     (

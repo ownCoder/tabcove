@@ -1,37 +1,51 @@
-Tabcove — listing metadata
-==========================
+Tabcove - Store listing and Distribution metadata
+=================================================
 
-Category            Productivity  ->  Workflow & Planning
-Language            English (United Kingdom)
-Pricing             Free
-Contains ads        No
-In-app purchases    No
-Regions             All
+Everything the STORE LISTING tab and the DISTRIBUTION tab ask for.
 
-Homepage URL        https://owncoder.github.io/tabcove/
-Support URL         https://github.com/ownCoder/tabcove/issues
-Privacy policy URL  https://owncoder.github.io/tabcove/privacy.html
+  >> Privacy tab fields are NOT here. They are in Store Upload/Privacy/,
+  >> starting with Privacy/Privacy-Tab-Answers.md.
 
-SINGLE PURPOSE (paste into the Privacy tab)
-Tabcove saves the tabs you have open into a local, searchable library, and
-restores them later with their tab groups, pinned state, and window layout
-intact. All data stays on the user's device.
 
-DATA USE DECLARATIONS
-  Personally identifiable information ......... No
-  Health information .......................... No
-  Financial and payment information ........... No
-  Authentication information .................. No
-  Personal communications ..................... No
-  Location .................................... No
-  Web history ................................. No
-  User activity ............................... No
-  Website content ............................. No
+STORE LISTING TAB
+-----------------
 
-CERTIFICATIONS (tick all three)
-  [x] I do not sell or transfer user data to third parties, outside of the
-      approved use cases
-  [x] I do not use or transfer user data for purposes that are unrelated to my
-      item's single purpose
-  [x] I do not use or transfer user data to determine creditworthiness or for
-      lending purposes
+  Title               Store Assets/Text/Store-Title.txt
+  Summary             Store Assets/Text/Short-Description.txt
+  Description         Store Assets/Text/Long-Description.txt
+  Category            Productivity  ->  Workflow & Planning
+  Language            English (United Kingdom)
+
+  Store icon          taken from the ZIP automatically (128 px)
+                      spare: Store Assets/Icons/icon-128.png
+  Screenshots         Store Assets/Screenshots/  -- all 8, filename order,
+                      01-library.png first
+  Small promo tile    Store Assets/Promo/promo-small-440x280.png
+  Marquee promo tile  Store Assets/Promo/promo-marquee-1400x560.png
+
+  Official URL        https://owncoder.github.io/tabcove/
+  Homepage URL        https://owncoder.github.io/tabcove/
+  Support URL         https://github.com/ownCoder/tabcove/issues
+  Mature content      No
+
+
+DISTRIBUTION TAB
+----------------
+
+  Visibility          Public
+  Pricing             Free
+  Regions             All
+  Trader status       Non-trader
+                      Nothing is monetised in this version: no payments, no
+                      subscriptions, no in-app purchases, no ads, no affiliate
+                      links. Revisit this when Pro ships in 2.0.0.
+
+
+PRIVACY TAB  ->  see Store Upload/Privacy/Privacy-Tab-Answers.md
+---------------------------------------------------------------
+
+  Single purpose             Privacy/Single-Purpose.txt
+  Permission justifications  Privacy/Permissions-Justification.txt
+  Remote code                Privacy/Privacy-Tab-Answers.md   (answer: No)
+  Data usage + certifications Privacy/Data-Usage-Declarations.txt
+  Privacy policy URL         Privacy/Privacy-Policy-URL.txt

@@ -1,19 +1,19 @@
-Tabcove 1.0.0 — first release
+Tabcove 1.0.0 - first release
 =============================
 
 Save every tab in one click, find any of them in one second, and always get
 them back.
 
-  • Stow all tabs, this tab, other tabs, a selection, or every window
-  • Instant ranked search across titles, addresses, and collection names
-  • Chrome tab groups keep their names and colours through a full round trip
-  • Restore points: an automatic snapshot before anything destructive
-  • A 30-day undo bin, plus an undo toast on every destructive action
-  • Restoring never empties your library
-  • Export as JSON, HTML, Markdown, CSV, or plain text
-  • Import from OneTab text, Tabcove JSON, or any list of addresses
-  • Duplicate finder, backup reminders, and a live storage meter
-  • Command palette on Ctrl/Cmd+K, and full keyboard operation
-  • Light, dark, and system themes, with WCAG AA contrast
+  - Stow all tabs, this tab, other tabs, a selection, or every window
+  - Instant ranked search across titles, addresses, and collection names
+  - Chrome tab groups keep their names and colours through a full round trip
+  - Restore points: an automatic snapshot before anything destructive
+  - A 30-day undo bin, plus an undo toast on every destructive action
+  - Restoring never empties your library
+  - Export as JSON, HTML, Markdown, CSV, or plain text
+  - Import from OneTab text, Tabcove JSON, or any list of addresses
+  - Duplicate finder, backup reminders, and a live storage meter
+  - Command palette on Ctrl/Cmd+K, and full keyboard operation
+  - Light, dark, and system themes, with WCAG AA contrast
 
 No account. No sign-in. No host permissions. No networking code at all.
