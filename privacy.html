@@ -1,0 +1,415 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Privacy Policy — Tabcove</title>
+    <meta
+      name="description"
+      content="Tabcove's privacy policy. Tabcove stores the tabs you choose to save on your own device, transmits nothing, and contains no networking code."
+    />
+    <link rel="icon" href="icon-128.png" />
+    <link rel="stylesheet" href="site.css" />
+  </head>
+  <body>
+    <header class="site">
+      <div class="wrap">
+        <a class="brand" href="./"><img src="icon-128.png" alt="" /> Tabcove</a>
+        <nav class="site">
+          <a href="./">Home</a>
+          <a href="privacy.html">Privacy</a>
+          <a href="terms.html">Terms</a>
+        </nav>
+      </div>
+    </header>
+
+    <main class="wrap">
+      <h1 style="font-size: 32px; margin-top: 32px">Privacy Policy</h1>
+      <p class="meta">
+        <strong>Effective date:</strong> 19 August 2026 &middot;
+        <strong>Last updated:</strong> 19 August 2026 &middot;
+        <strong>Applies to:</strong> Tabcove — Tab Manager &amp; Session Saver, all versions
+      </p>
+
+      <div class="callout">
+        <strong>The short version</strong>
+        Tabcove stores the web address, page title, and save time of the tabs you
+        choose to save — on your own device, and nowhere else. It transmits nothing,
+        sells nothing, and shares nothing. There is no account, no sign-in, no
+        analytics, and no networking code anywhere in the extension.
+      </div>
+
+      <h2>1. Who this policy is from</h2>
+      <p>
+        Tabcove is an independent Chrome extension published by <strong>ownCoder</strong>
+        ("we", "us"). Questions about this policy can be raised on the
+        <a href="https://github.com/ownCoder/tabcove/issues" rel="noreferrer noopener"
+          >project's issue tracker</a
+        >, which is the support channel for the extension.
+      </p>
+
+      <h2>2. What Tabcove handles</h2>
+      <p>
+        These nine categories are the exact list the Chrome Web Store asks developers
+        to declare. Tabcove's answer is "no" to eight of them, and "yes" to one.
+      </p>
+
+      <table>
+        <thead>
+          <tr>
+            <th scope="col">Category</th>
+            <th scope="col">Tabcove</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row"><strong>Web history</strong></th>
+            <td>
+              <strong>Yes — and only this one.</strong> Tabcove stores the web address,
+              page title, and save time of tabs <em>you explicitly choose to save</em>.
+              It is kept on your device and is never transmitted. See section 3.
+            </td>
+          </tr>
+          <tr>
+            <th scope="row">Personally identifiable information</th>
+            <td>No — no name, address, e-mail, age, or ID number is ever asked for</td>
+          </tr>
+          <tr>
+            <th scope="row">Health information</th>
+            <td>No</td>
+          </tr>
+          <tr>
+            <th scope="row">Financial and payment information</th>
+            <td>No</td>
+          </tr>
+          <tr>
+            <th scope="row">Authentication information</th>
+            <td>No — no passwords, credentials, or PINs; there is no login</td>
+          </tr>
+          <tr>
+            <th scope="row">Personal communications</th>
+            <td>No</td>
+          </tr>
+          <tr>
+            <th scope="row">Location</th>
+            <td>No — and with no network requests, no IP-derived location either</td>
+          </tr>
+          <tr>
+            <th scope="row">User activity</th>
+            <td>No — no clicks, mouse position, scroll, or keystrokes are recorded</td>
+          </tr>
+          <tr>
+            <th scope="row">Website content</th>
+            <td>
+              No — Tabcove has no content scripts and no access to any website, so the
+              text, images, and media inside a page are unreachable to it
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="callout">
+        <strong>Why "Web history" is declared even though nothing leaves your device</strong>
+        Google's Chrome Web Store
+        <a href="https://developer.chrome.com/docs/webstore/program-policies/user-data-faq" rel="noreferrer noopener">User Data FAQ</a>
+        requires extensions to disclose how they handle user data "even when data is
+        processed or stored locally on a user's device and is not transmitted to
+        external servers or third parties". Saved tabs are a list of pages you visited,
+        with their titles and times — so they are declared, honestly, rather than
+        argued around.
+      </div>
+
+      <p>
+        <strong>What Tabcove does <em>not</em> see:</strong> it does not request the
+        <code>history</code> permission and cannot read your browsing history. It has no
+        content scripts, no host permissions, and no navigation access, so it cannot
+        observe where you go. It knows only about the tabs you asked it to save.
+      </p>
+
+      <h2>3. What Tabcove stores, and where</h2>
+      <p>
+        Tabcove's entire purpose is to save your tabs, so it necessarily stores
+        information about them. That information never leaves your computer.
+      </p>
+
+      <table>
+        <thead>
+          <tr>
+            <th scope="col">What is stored</th>
+            <th scope="col">Where it is stored</th>
+            <th scope="col">Who can read it</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">Page titles and web addresses of tabs you choose to save</th>
+            <td><code>chrome.storage.local</code> — your browser profile on your device</td>
+            <td>Only you</td>
+          </tr>
+          <tr>
+            <th scope="row">
+              Tab group names and colours, pinned state, and window arrangement of saved tabs
+            </th>
+            <td><code>chrome.storage.local</code></td>
+            <td>Only you</td>
+          </tr>
+          <tr>
+            <th scope="row">
+              Collection names, tags, notes, and timestamps that you create
+            </th>
+            <td><code>chrome.storage.local</code></td>
+            <td>Only you</td>
+          </tr>
+          <tr>
+            <th scope="row">
+              Restore points — automatic snapshots of your library, and deleted items in
+              the undo bin
+            </th>
+            <td><code>chrome.storage.local</code></td>
+            <td>Only you</td>
+          </tr>
+          <tr>
+            <th scope="row">Your settings, and the date of your last export</th>
+            <td><code>chrome.storage.local</code></td>
+            <td>Only you</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <p>
+        <strong>Nothing is stored on any server, because there is no server.</strong>
+        Tabcove has no backend, no database, no hosting, and no company infrastructure
+        of any kind. If you uninstall the extension, Chrome deletes this data with it —
+        which is why Tabcove asks you to keep a backup, and gives you a one-click export
+        in five formats to make that easy.
+      </p>
+
+      <h2>4. What Tabcove transmits</h2>
+      <p>
+        <strong>Nothing.</strong> This is not a policy statement about our intentions; it
+        is a property of the code, and one that anyone can verify:
+      </p>
+      <ul>
+        <li>
+          The extension declares <strong>no host permissions</strong> and
+          <strong>no content scripts</strong>, so it is technically incapable of reading
+          or modifying any web page.
+        </li>
+        <li>
+          The source contains no <code>fetch</code>, no <code>XMLHttpRequest</code>, no
+          <code>WebSocket</code>, no <code>EventSource</code>, and no
+          <code>navigator.sendBeacon</code>. The build script fails if any of them ever
+          appears.
+        </li>
+        <li>
+          There are no third-party scripts, no advertising SDKs, no analytics libraries,
+          no crash reporters, no remote fonts, and no remotely-hosted images.
+        </li>
+        <li>
+          Site icons are read from Chrome's own local favicon cache. Tabcove deliberately
+          does <em>not</em> use a remote favicon service, because that would mean sending
+          your saved addresses to somebody else's server.
+        </li>
+      </ul>
+      <p>
+        You can confirm all of this yourself. The
+        <a href="https://github.com/ownCoder/tabcove" rel="noreferrer noopener">source code</a>
+        is public and is not minified or obfuscated — what you read is exactly what runs.
+      </p>
+
+      <h2>5. Permissions, and why each one exists</h2>
+      <table>
+        <thead>
+          <tr>
+            <th scope="col">Permission</th>
+            <th scope="col">Why Tabcove needs it</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row"><code>tabs</code></th>
+            <td>
+              To read the title and address of your open tabs so they can be saved, and to
+              close them when you ask. Without this, a saved tab would be a blank entry.
+            </td>
+          </tr>
+          <tr>
+            <th scope="row"><code>tabGroups</code></th>
+            <td>
+              To read and re-create Chrome tab groups, so a restored collection keeps each
+              group's name and colour.
+            </td>
+          </tr>
+          <tr>
+            <th scope="row"><code>storage</code></th>
+            <td>To keep your library on your device.</td>
+          </tr>
+          <tr>
+            <th scope="row"><code>unlimitedStorage</code></th>
+            <td>
+              To lift Chrome's 10&nbsp;MB extension storage cap, so a large library keeps
+              working rather than silently failing to save.
+            </td>
+          </tr>
+          <tr>
+            <th scope="row"><code>contextMenus</code></th>
+            <td>To add the right-click "Stow" actions.</td>
+          </tr>
+          <tr>
+            <th scope="row"><code>favicon</code></th>
+            <td>
+              To show site icons from Chrome's <strong>local</strong> cache. This
+              permission exists specifically so that Tabcove never has to contact a remote
+              favicon service.
+            </td>
+          </tr>
+          <tr>
+            <th scope="row"><code>alarms</code></th>
+            <td>
+              To sweep expired items out of the undo bin and to check whether a backup is
+              due. Chrome shuts extensions down when idle, so an ordinary timer would not
+              survive.
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h2>6. Third-party services</h2>
+      <p>
+        <strong>None.</strong> Tabcove uses no third-party services, libraries, SDKs,
+        APIs, CDNs, or fonts at runtime. It has no runtime dependencies at all.
+      </p>
+      <p>
+        Two third parties are involved in distribution rather than in the running
+        software, and their own policies apply to what they do:
+      </p>
+      <ul>
+        <li>
+          <strong>Google</strong> distributes the extension through the Chrome Web Store
+          and provides its install counts, ratings, and reviews. Any data Google collects
+          when you visit the store is covered by
+          <a href="https://policies.google.com/privacy" rel="noreferrer noopener"
+            >Google's privacy policy</a
+          >.
+        </li>
+        <li>
+          <strong>GitHub</strong> hosts the source code, the issue tracker, and this page.
+          Visiting them is covered by
+          <a
+            href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement"
+            rel="noreferrer noopener"
+            >GitHub's privacy statement</a
+          >.
+        </li>
+      </ul>
+
+      <h2>7. Data you export</h2>
+      <p>
+        Tabcove can export your library as JSON, HTML, Markdown, CSV, or plain text. The
+        file is generated in your browser and saved through Chrome's normal download
+        flow. It is not uploaded anywhere. Once it is on your disk, what happens to it is
+        entirely up to you — please be aware that an export contains the titles and
+        addresses of everything you have saved, so treat it as you would any personal
+        document.
+      </p>
+
+      <h2>8. Children</h2>
+      <p>
+        Tabcove is a general-purpose productivity tool and is not directed at children
+        under 13. Because it collects no data whatsoever, it collects no data from
+        children either.
+      </p>
+
+      <h2>9. Your rights</h2>
+      <p>
+        Regulations such as the GDPR and the CCPA grant rights to access, correct, port,
+        and delete personal data held about you. We hold none, so there is nothing for us
+        to disclose, correct, or erase. In practical terms:
+      </p>
+      <ul>
+        <li><strong>Access and portability:</strong> export your library at any time, in five formats.</li>
+        <li><strong>Correction:</strong> edit or rename anything in the library at any time.</li>
+        <li>
+          <strong>Erasure:</strong> delete individual collections, empty the undo bin, use
+          "Delete everything" in Settings, or uninstall the extension — which removes all
+          of its data from your device.
+        </li>
+      </ul>
+      <p>
+        No request to us is required for any of these, because your data was never sent to
+        us in the first place.
+      </p>
+
+      <h2>10. Security</h2>
+      <p>
+        Your library is protected by your browser profile and your operating system's
+        account security. Tabcove adds no network attack surface because it makes no
+        network requests. It executes no remote code: its content security policy pins
+        scripts to the extension's own package, and it uses no <code>eval</code>. Data
+        from web pages — such as page titles — is only ever inserted into the interface as
+        text, never as markup.
+      </p>
+      <p>
+        Because everything is local, anyone with access to your computer and your browser
+        profile can read your saved tabs. If that matters to you, protect your device
+        with a password and use your operating system's disk encryption.
+      </p>
+
+      <h2>11. Future paid features</h2>
+      <p>
+        A future version may offer optional paid features, including encrypted cloud sync.
+        If and when that happens:
+      </p>
+      <ul>
+        <li>This policy will be updated <em>before</em> those features ship.</li>
+        <li>
+          Any feature that involves a network will be strictly opt-in, and any additional
+          permission it needs will be requested at the moment you enable it — never added
+          silently to the free version.
+        </li>
+        <li>
+          Everything Tabcove does today will remain free, local, and account-free.
+        </li>
+      </ul>
+
+      <h2>12. Changes to this policy</h2>
+      <p>
+        If this policy changes materially, the effective date at the top of this page will
+        change and the previous version will remain visible in the
+        <a href="https://github.com/ownCoder/tabcove/commits/main/site/privacy.html" rel="noreferrer noopener"
+          >page's public revision history</a
+        >. Continuing to use Tabcove after a change means you accept the updated policy.
+      </p>
+
+      <h2>13. Contact</h2>
+      <p>
+        Questions, corrections, or concerns:
+        <a href="https://github.com/ownCoder/tabcove/issues" rel="noreferrer noopener"
+          >github.com/ownCoder/tabcove/issues</a
+        >. Please do not include personal information in a public issue.
+      </p>
+
+      <div class="callout">
+        <strong>Chrome Web Store declaration</strong>
+        Tabcove's Web Store listing declares that it does not collect or use user data,
+        that it does not sell or transfer user data to third parties, that it does not use
+        or transfer user data for purposes unrelated to its single purpose, and that it
+        does not use or transfer user data to determine creditworthiness or for lending
+        purposes. Those declarations match the behaviour described on this page and the
+        code that implements it.
+      </div>
+    </main>
+
+    <footer class="site">
+      <div class="wrap">
+        <span>&copy; 2026 ownCoder &middot; Tabcove</span>
+        <span>
+          <a href="./">Home</a>
+          <a href="privacy.html">Privacy</a>
+          <a href="terms.html">Terms</a>
+          <a href="https://github.com/ownCoder/tabcove" rel="noreferrer noopener">Source</a>
+        </span>
+      </div>
+    </footer>
+  </body>
+</html>

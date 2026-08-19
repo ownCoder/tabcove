@@ -1,0 +1,218 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Tabcove — Tab Manager &amp; Session Saver for Chrome</title>
+    <meta
+      name="description"
+      content="Save all your Chrome tabs in one click and actually get them back. Instant search, tab groups preserved, restore points, a 30-day undo bin, and one-click backup. 100% local, no account, free."
+    />
+    <link rel="canonical" href="https://owncoder.github.io/tabcove/" />
+    <link rel="icon" href="icon-128.png" />
+    <link rel="stylesheet" href="site.css" />
+    <meta property="og:title" content="Tabcove — Tab Manager & Session Saver" />
+    <meta
+      property="og:description"
+      content="Save all your tabs in one click — and actually get them back. Restore points, undo bin, instant search. 100% local, no account."
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://owncoder.github.io/tabcove/" />
+  </head>
+  <body>
+    <header class="site">
+      <div class="wrap">
+        <a class="brand" href="./"><img src="icon-128.png" alt="" /> Tabcove</a>
+        <nav class="site">
+          <a href="#features">Features</a>
+          <a href="#privacy">Privacy</a>
+          <a href="privacy.html">Policy</a>
+          <a href="terms.html">Terms</a>
+        </nav>
+      </div>
+    </header>
+
+    <section class="hero">
+      <div class="wrap">
+        <img class="mark" src="icon-128.png" alt="Tabcove" />
+        <h1>Save every tab in one click —<br />and actually get them back.</h1>
+        <p class="tagline">
+          Tabcove is a tab manager for Chrome that treats your saved tabs as data worth
+          protecting: instant search, tab groups kept intact, automatic restore points, and
+          a 30-day undo bin. Everything stays on your device.
+        </p>
+        <a class="cta" href="https://github.com/ownCoder/tabcove" rel="noreferrer noopener"
+          >Get Tabcove</a
+        >
+        <p class="cta-note">
+          Free · No account · No sign-in · No network access<br />
+          <small>The Chrome Web Store listing is in review. Until it is live, install
+          from source — the repository has one-line instructions.</small>
+        </p>
+      </div>
+    </section>
+
+    <main class="wrap">
+      <h2 id="features">What it does</h2>
+
+      <div class="features">
+        <div class="feature">
+          <h3>Stow in one click</h3>
+          <p>
+            All tabs, this tab, the others, a selection, or every window. The button tells
+            you exactly what it will save before you press it.
+          </p>
+        </div>
+        <div class="feature">
+          <h3>Find anything, instantly</h3>
+          <p>
+            Ranked search across titles, addresses, and collection names —
+            measured at 7&nbsp;ms across 20,000 saved tabs.
+          </p>
+        </div>
+        <div class="feature">
+          <h3>Tab groups survive</h3>
+          <p>
+            Chrome tab groups come back with their names and colours. Pinned tabs come back
+            pinned, and multi-window layouts are rebuilt.
+          </p>
+        </div>
+        <div class="feature">
+          <h3>Restore points</h3>
+          <p>
+            A snapshot of your whole library is taken automatically before anything
+            destructive. Roll back from the library in one click.
+          </p>
+        </div>
+        <div class="feature">
+          <h3>A 30-day undo bin</h3>
+          <p>
+            Deleted a collection by accident? It waits in the bin for a month. Nothing in
+            Tabcove is destroyed by a single click.
+          </p>
+        </div>
+        <div class="feature">
+          <h3>Your data, portable</h3>
+          <p>
+            Export everything as JSON, HTML, Markdown, CSV, or plain text. Import from
+            OneTab, from a Tabcove backup, or from any list of addresses.
+          </p>
+        </div>
+        <div class="feature">
+          <h3>Restoring doesn't consume</h3>
+          <p>
+            Opening a collection leaves it in your library. A library you empty by reading
+            from it is not a library.
+          </p>
+        </div>
+        <div class="feature">
+          <h3>Fast at any size</h3>
+          <p>
+            One storage record per collection and a windowed list renderer, so 20,000 saved
+            tabs feels the same as 20.
+          </p>
+        </div>
+        <div class="feature">
+          <h3>Keyboard-first</h3>
+          <p>
+            <code>Ctrl/⌘ + K</code> opens a command palette. Every action is reachable
+            without a mouse, with WCAG AA contrast throughout.
+          </p>
+        </div>
+      </div>
+
+      <h2 id="privacy">Privacy, in one paragraph</h2>
+      <p>
+        Tabcove saves the web address, page title, and save time of the tabs you choose
+        to stow, and keeps them on your own device. Beyond that it has
+        <strong>no host permissions and no content scripts</strong>, so it
+        cannot read or change any web page. It has <strong>no networking code at all</strong>
+        — no <code>fetch</code>, no <code>XMLHttpRequest</code>, no analytics, no third-party
+        libraries — and the build fails if any of those ever appear. Site icons come from
+        Chrome's own local cache rather than from a remote favicon service, because a remote
+        service would mean sending your addresses to somebody else's server. There is no
+        account, no sign-in, and no server, because there is no backend at all.
+      </p>
+      <p>
+        The <a href="https://github.com/ownCoder/tabcove" rel="noreferrer noopener">source</a>
+        is public and is neither minified nor obfuscated — what you read is what runs. Full
+        detail is in the <a href="privacy.html">privacy policy</a>.
+      </p>
+
+      <h2>Permissions</h2>
+      <table>
+        <thead>
+          <tr>
+            <th scope="col">Permission</th>
+            <th scope="col">Why it is needed</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row"><code>tabs</code></th>
+            <td>Read the title and address of your open tabs, and close them when you ask.</td>
+          </tr>
+          <tr>
+            <th scope="row"><code>tabGroups</code></th>
+            <td>Save and rebuild Chrome tab groups with their names and colours.</td>
+          </tr>
+          <tr>
+            <th scope="row"><code>storage</code></th>
+            <td>Keep your library on your device.</td>
+          </tr>
+          <tr>
+            <th scope="row"><code>unlimitedStorage</code></th>
+            <td>Lift Chrome's 10&nbsp;MB cap so a large library keeps working.</td>
+          </tr>
+          <tr>
+            <th scope="row"><code>contextMenus</code></th>
+            <td>Add the right-click "Stow" actions.</td>
+          </tr>
+          <tr>
+            <th scope="row"><code>favicon</code></th>
+            <td>Show site icons from Chrome's local cache — never from a remote service.</td>
+          </tr>
+          <tr>
+            <th scope="row"><code>alarms</code></th>
+            <td>Sweep the undo bin and check whether a backup is due.</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h2>Free, and staying free</h2>
+      <p>
+        Everything described on this page is free, with no limits on how many collections or
+        tabs you save. Paid features are planned for a future version — encrypted cloud
+        sync, automation rules, and AI grouping — but
+        <strong>nothing you can use today will ever move behind a paywall.</strong>
+      </p>
+
+      <h2>Coming from OneTab?</h2>
+      <p>
+        Export your list from OneTab, paste it into Tabcove's import box, and you get a
+        structured, searchable library back. A restore point is saved before anything is
+        written, so an import is never a one-way door. Tabcove is an independent product and
+        is not affiliated with, endorsed by, or derived from OneTab.
+      </p>
+
+      <h2>Support</h2>
+      <p>
+        Bugs, questions, and feature requests:
+        <a href="https://github.com/ownCoder/tabcove/issues" rel="noreferrer noopener"
+          >github.com/ownCoder/tabcove/issues</a
+        >.
+      </p>
+    </main>
+
+    <footer class="site">
+      <div class="wrap">
+        <span>&copy; 2026 ownCoder &middot; Tabcove &middot; A safe harbour for every tab.</span>
+        <span>
+          <a href="privacy.html">Privacy</a>
+          <a href="terms.html">Terms</a>
+          <a href="https://github.com/ownCoder/tabcove" rel="noreferrer noopener">Source</a>
+        </span>
+      </div>
+    </footer>
+  </body>
+</html>
