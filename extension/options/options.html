@@ -1,0 +1,504 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Tabcove settings</title>
+    <link rel="icon" href="../icons/icon32.png" />
+    <link rel="stylesheet" href="../styles/tokens.css" />
+    <link rel="stylesheet" href="../styles/base.css" />
+    <link rel="stylesheet" href="../styles/components.css" />
+    <link rel="stylesheet" href="options.css" />
+  </head>
+  <body class="options">
+    <a class="skip-link" href="#main">Skip to settings</a>
+
+    <header class="options__header">
+      <div class="brand">
+        <img class="brand__mark" src="../icons/icon32.png" alt="" width="22" height="22" />
+        <span class="brand__name">Tabcove</span>
+        <span class="badge" id="version-badge">v1.0.0</span>
+      </div>
+      <button id="open-library" class="btn btn--sm" type="button">Open library</button>
+    </header>
+
+    <div class="options__body">
+      <nav class="options__nav" aria-label="Settings sections">
+        <a href="#stowing">Stowing</a>
+        <a href="#restoring">Restoring</a>
+        <a href="#appearance">Appearance</a>
+        <a href="#backup">Backup</a>
+        <a href="#import">Import</a>
+        <a href="#maintenance">Maintenance</a>
+        <a href="#privacy">Privacy &amp; permissions</a>
+        <a href="#about">About</a>
+        <a href="#danger" class="options__nav-danger">Danger zone</a>
+      </nav>
+
+      <main class="options__main" id="main">
+        <!-- ---------------------------------------------------------- Stowing -->
+        <section class="card" id="stowing">
+          <h2 class="card__title">Stowing</h2>
+          <p class="card__desc">What happens when you save your tabs.</p>
+
+          <label class="switch">
+            <input type="checkbox" data-setting="closeAfterStow" />
+            <span class="switch__track"></span>
+            <span class="switch__label">
+              <span class="switch__title">Close tabs after stowing</span>
+              <span class="switch__desc"
+                >Tabs are always saved before anything is closed, so a failed save
+                can never cost you a tab.</span
+              >
+            </span>
+          </label>
+
+          <label class="switch">
+            <input type="checkbox" data-setting="keepPinnedOpen" />
+            <span class="switch__track"></span>
+            <span class="switch__label">
+              <span class="switch__title">Leave pinned tabs open</span>
+              <span class="switch__desc"
+                >Pinned tabs are usually the ones you always want available.</span
+              >
+            </span>
+          </label>
+
+          <label class="switch">
+            <input type="checkbox" data-setting="skipExcluded" />
+            <span class="switch__track"></span>
+            <span class="switch__label">
+              <span class="switch__title">Skip browser pages</span>
+              <span class="switch__desc"
+                >Ignore <code>chrome://</code>, extension, and blank pages. Chrome
+                refuses to reopen most of them anyway.</span
+              >
+            </span>
+          </label>
+
+          <label class="switch">
+            <input type="checkbox" data-setting="allowFileUrls" />
+            <span class="switch__track"></span>
+            <span class="switch__label">
+              <span class="switch__title">Include local files</span>
+              <span class="switch__desc"
+                >Save <code>file://</code> addresses. Chrome will not reopen them from
+                an extension, but the addresses are kept for reference.</span
+              >
+            </span>
+          </label>
+
+          <div class="field">
+            <label class="field__label" for="defaultTitleStyle">Name new collections by</label>
+            <select id="defaultTitleStyle" class="select" data-setting="defaultTitleStyle">
+              <option value="date">Date and time</option>
+              <option value="count">Number of tabs and date</option>
+              <option value="hostname">Most common site and date</option>
+            </select>
+          </div>
+        </section>
+
+        <!-- -------------------------------------------------------- Restoring -->
+        <section class="card" id="restoring">
+          <h2 class="card__title">Restoring</h2>
+          <p class="card__desc">What happens when you reopen a collection.</p>
+
+          <label class="switch">
+            <input type="checkbox" data-setting="consumeOnRestore" />
+            <span class="switch__track"></span>
+            <span class="switch__label">
+              <span class="switch__title">Delete a collection after restoring it</span>
+              <span class="switch__desc"
+                >Off by default. Tabcove treats your library as a library — reading
+                from it should not empty it. Turn this on if you prefer a queue.</span
+              >
+            </span>
+          </label>
+
+          <label class="switch">
+            <input type="checkbox" data-setting="restoreInNewWindow" />
+            <span class="switch__track"></span>
+            <span class="switch__label">
+              <span class="switch__title">Always restore into a new window</span>
+              <span class="switch__desc"
+                >Otherwise Tabcove rebuilds the window layout you saved.</span
+              >
+            </span>
+          </label>
+
+          <label class="switch">
+            <input type="checkbox" data-setting="restoreGroups" />
+            <span class="switch__track"></span>
+            <span class="switch__label">
+              <span class="switch__title">Rebuild tab groups</span>
+              <span class="switch__desc">Restores each group's name and colour.</span>
+            </span>
+          </label>
+
+          <label class="switch">
+            <input type="checkbox" data-setting="restorePinned" />
+            <span class="switch__track"></span>
+            <span class="switch__label">
+              <span class="switch__title">Re-pin pinned tabs</span>
+              <span class="switch__desc">Tabs saved as pinned come back pinned.</span>
+            </span>
+          </label>
+
+          <div class="field">
+            <label class="field__label" for="batchSize">
+              Open this many tabs at a time
+              <span class="field__hint"
+                >Smaller batches keep Chrome responsive when restoring a lot of tabs.</span
+              >
+            </label>
+            <input
+              id="batchSize"
+              class="input input--narrow"
+              type="number"
+              min="1"
+              max="32"
+              step="1"
+              data-setting="batchSize"
+            />
+          </div>
+        </section>
+
+        <!-- ------------------------------------------------------- Appearance -->
+        <section class="card" id="appearance">
+          <h2 class="card__title">Appearance</h2>
+          <p class="card__desc">How the library looks.</p>
+
+          <div class="field">
+            <label class="field__label" for="theme">Theme</label>
+            <select id="theme" class="select" data-setting="theme">
+              <option value="system">Match my system</option>
+              <option value="light">Light</option>
+              <option value="dark">Dark</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label class="field__label" for="density">Row density</label>
+            <select id="density" class="select" data-setting="density">
+              <option value="comfortable">Comfortable</option>
+              <option value="compact">Compact</option>
+            </select>
+          </div>
+
+          <label class="switch">
+            <input type="checkbox" data-setting="showFavicons" />
+            <span class="switch__track"></span>
+            <span class="switch__label">
+              <span class="switch__title">Show site icons</span>
+              <span class="switch__desc"
+                >Icons come from Chrome's own local cache. Tabcove never contacts a
+                favicon service, because that would mean sending your addresses to
+                someone else's server.</span
+              >
+            </span>
+          </label>
+        </section>
+
+        <!-- ----------------------------------------------------------- Backup -->
+        <section class="card" id="backup">
+          <h2 class="card__title">Backup</h2>
+          <p class="card__desc">
+            Everything lives on this device. That keeps it private — and it means a
+            backup is worth having.
+          </p>
+
+          <div class="stat-row" id="backup-status">
+            <div>
+              <div class="stat-row__value" id="backup-when">Never</div>
+              <div class="stat-row__label">Last full backup</div>
+            </div>
+            <div>
+              <div class="stat-row__value" id="backup-since">—</div>
+              <div class="stat-row__label">Tabs added since</div>
+            </div>
+          </div>
+
+          <div class="row gap-2" style="flex-wrap: wrap; margin-top: var(--s-4)">
+            <button class="btn btn--primary" type="button" data-export="json">
+              Back up now (JSON)
+            </button>
+            <button class="btn" type="button" data-export="html">Export as HTML</button>
+            <button class="btn" type="button" data-export="markdown">Markdown</button>
+            <button class="btn" type="button" data-export="csv">CSV</button>
+            <button class="btn" type="button" data-export="text">Plain text</button>
+          </div>
+
+          <label class="switch" style="margin-top: var(--s-4)">
+            <input type="checkbox" data-setting="backupReminder" />
+            <span class="switch__track"></span>
+            <span class="switch__label">
+              <span class="switch__title">Remind me to back up</span>
+              <span class="switch__desc"
+                >One quiet dot on the toolbar icon. No pop-ups, no e-mails.</span
+              >
+            </span>
+          </label>
+
+          <div class="field">
+            <label class="field__label" for="backupReminderThreshold">
+              Remind me after this many new tabs
+            </label>
+            <input
+              id="backupReminderThreshold"
+              class="input input--narrow"
+              type="number"
+              min="10"
+              max="10000"
+              step="10"
+              data-setting="backupReminderThreshold"
+            />
+          </div>
+        </section>
+
+        <!-- ----------------------------------------------------------- Import -->
+        <section class="card" id="import">
+          <h2 class="card__title">Import</h2>
+          <p class="card__desc">
+            Tabcove reads its own JSON backups, OneTab's exported text, and any plain
+            list of web addresses. A restore point is created before anything is
+            written, so an import is never a one-way door.
+          </p>
+
+          <div class="row gap-2" style="flex-wrap: wrap; margin-bottom: var(--s-3)">
+            <button id="pick-file" class="btn" type="button">Choose a file…</button>
+            <input id="file-input" type="file" accept=".json,.txt,.md,.html,.csv" hidden />
+            <span class="meta" id="file-name"></span>
+          </div>
+
+          <label class="field__label" for="import-text">Or paste your list here</label>
+          <textarea
+            id="import-text"
+            class="textarea"
+            placeholder="https://example.com | Example page&#10;https://example.org | Another page"
+            spellcheck="false"
+          ></textarea>
+
+          <div id="import-preview" class="notice" hidden>
+            <div class="notice__body" id="import-preview-text"></div>
+          </div>
+
+          <div class="row gap-2" style="margin-top: var(--s-3); flex-wrap: wrap">
+            <button id="import-add" class="btn btn--brand" type="button" disabled>
+              Add to my library
+            </button>
+            <button id="import-replace" class="btn btn--danger" type="button" disabled>
+              Replace my library
+            </button>
+          </div>
+        </section>
+
+        <!-- ------------------------------------------------------ Maintenance -->
+        <section class="card" id="maintenance">
+          <h2 class="card__title">Maintenance</h2>
+          <p class="card__desc">Storage, duplicates, and the safety net.</p>
+
+          <div class="stat-row">
+            <div>
+              <div class="stat-row__value" id="stat-collections">0</div>
+              <div class="stat-row__label">Collections</div>
+            </div>
+            <div>
+              <div class="stat-row__value" id="stat-tabs">0</div>
+              <div class="stat-row__label">Saved tabs</div>
+            </div>
+            <div>
+              <div class="stat-row__value" id="stat-storage">0 B</div>
+              <div class="stat-row__label">Storage used</div>
+            </div>
+            <div>
+              <div class="stat-row__value" id="stat-snapshots">0</div>
+              <div class="stat-row__label">Restore points</div>
+            </div>
+          </div>
+
+          <div class="meter" style="margin-top: var(--s-3)" role="img" aria-label="Storage used">
+            <div class="meter__fill" id="storage-fill" style="width: 0%"></div>
+          </div>
+          <p class="meta" id="storage-note" style="margin-top: var(--s-2)"></p>
+
+          <div class="row gap-2" style="flex-wrap: wrap; margin-top: var(--s-4)">
+            <button id="find-duplicates" class="btn" type="button">Find duplicates</button>
+            <button id="open-snapshots" class="btn" type="button">Restore points</button>
+            <button id="open-trash" class="btn" type="button">Undo bin</button>
+          </div>
+
+          <div id="duplicate-result" class="notice" hidden style="margin-top: var(--s-3)">
+            <div class="notice__body" id="duplicate-text"></div>
+            <button id="merge-duplicates" class="btn btn--sm" type="button">Merge them</button>
+          </div>
+
+          <div class="field">
+            <label class="field__label" for="trashDays">
+              Keep deleted collections for this many days
+            </label>
+            <input
+              id="trashDays"
+              class="input input--narrow"
+              type="number"
+              min="1"
+              max="365"
+              step="1"
+              data-setting="trashDays"
+            />
+          </div>
+        </section>
+
+        <!-- -------------------------------------------- Privacy & permissions -->
+        <section class="card" id="privacy">
+          <h2 class="card__title">Privacy &amp; permissions</h2>
+          <p class="card__desc">
+            Tabcove collects nothing, sends nothing, and contains no network code at
+            all. Here is every permission it asks for and exactly why.
+          </p>
+
+          <table class="perm-table">
+            <thead>
+              <tr>
+                <th scope="col">Permission</th>
+                <th scope="col">What it is used for</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row"><code>tabs</code></th>
+                <td>
+                  Read the title and address of your open tabs so they can be saved, and
+                  close them when you ask.
+                </td>
+              </tr>
+              <tr>
+                <th scope="row"><code>tabGroups</code></th>
+                <td>
+                  Read and rebuild Chrome tab groups so a saved group keeps its name and
+                  colour.
+                </td>
+              </tr>
+              <tr>
+                <th scope="row"><code>storage</code></th>
+                <td>Keep your library on this device.</td>
+              </tr>
+              <tr>
+                <th scope="row"><code>unlimitedStorage</code></th>
+                <td>
+                  Lift Chrome's 10 MB extension cap so a large library keeps working
+                  instead of silently failing to save.
+                </td>
+              </tr>
+              <tr>
+                <th scope="row"><code>contextMenus</code></th>
+                <td>Add the right-click "Stow" actions.</td>
+              </tr>
+              <tr>
+                <th scope="row"><code>favicon</code></th>
+                <td>
+                  Show site icons from Chrome's <strong>local</strong> cache. This
+                  permission exists so Tabcove never has to ask a remote favicon service
+                  for your addresses.
+                </td>
+              </tr>
+              <tr>
+                <th scope="row"><code>alarms</code></th>
+                <td>
+                  Sweep the undo bin and check whether a backup is due. Chrome shuts
+                  extensions down when idle, so a timer is not an option.
+                </td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div class="notice notice--ok" style="margin-top: var(--s-4)">
+            <div class="notice__body">
+              <strong>No host permissions.</strong> Tabcove cannot read, change, or even
+              see the contents of any web page. It has no content scripts and no access
+              to the network.
+            </div>
+          </div>
+
+          <p class="meta" style="margin-top: var(--s-3)">
+            <a href="https://owncoder.github.io/tabcove/privacy.html" target="_blank" rel="noreferrer noopener"
+              >Privacy policy</a
+            >
+            ·
+            <a href="https://owncoder.github.io/tabcove/terms.html" target="_blank" rel="noreferrer noopener"
+              >Terms of use</a
+            >
+          </p>
+        </section>
+
+        <!-- ------------------------------------------------------------ About -->
+        <section class="card" id="about">
+          <h2 class="card__title">About Tabcove</h2>
+          <p class="card__desc">A safe harbour for every tab.</p>
+
+          <div class="notice notice--accent">
+            <div class="notice__body">
+              <strong>Tabcove is free, and everything here stays free.</strong>
+              Paid features are planned for a future version — cloud sync, automation,
+              and AI grouping — but nothing you can use today will ever move behind a
+              paywall.
+            </div>
+          </div>
+
+          <p class="meta" style="margin-top: var(--s-4)">
+            Version <span id="about-version">1.0.0</span> ·
+            <a href="https://github.com/ownCoder/tabcove" target="_blank" rel="noreferrer noopener"
+              >Source code</a
+            >
+            ·
+            <a
+              href="https://github.com/ownCoder/tabcove/issues"
+              target="_blank"
+              rel="noreferrer noopener"
+              >Report a problem</a
+            >
+          </p>
+
+          <div class="row gap-2" style="margin-top: var(--s-3); flex-wrap: wrap">
+            <button id="open-shortcuts" class="btn btn--sm" type="button">
+              Change keyboard shortcuts
+            </button>
+            <button id="reset-settings" class="btn btn--sm" type="button">
+              Reset settings to defaults
+            </button>
+          </div>
+        </section>
+
+        <!-- ------------------------------------------------------ Danger zone -->
+        <section class="card card--danger" id="danger">
+          <h2 class="card__title">Danger zone</h2>
+          <p class="card__desc">
+            Both of these ask you to type a confirmation, and both offer a backup first.
+          </p>
+
+          <div class="danger-row">
+            <div>
+              <div class="switch__title">Empty the undo bin</div>
+              <div class="switch__desc">
+                Permanently removes deleted collections. A restore point is created
+                first.
+              </div>
+            </div>
+            <button id="empty-trash" class="btn btn--danger" type="button">Empty the bin</button>
+          </div>
+
+          <div class="danger-row">
+            <div>
+              <div class="switch__title">Delete everything</div>
+              <div class="switch__desc">
+                Removes every collection, restore point, and binned item on this device.
+              </div>
+            </div>
+            <button id="wipe-all" class="btn btn--danger" type="button">Delete everything</button>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <script type="module" src="options.js"></script>
+  </body>
+</html>

@@ -1,0 +1,68 @@
+{
+  "manifest_version": 3,
+  "name": "Tabcove — Tab Manager & Session Saver",
+  "short_name": "Tabcove",
+  "version": "1.0.0",
+  "description": "Save all your tabs in one click and get them back. Search, tab groups, restore points, undo bin, backups. 100% local, no account.",
+  "author": "ownCoder",
+  "homepage_url": "https://owncoder.github.io/tabcove/",
+  "minimum_chrome_version": "114",
+  "default_locale": "en",
+
+  "icons": {
+    "16": "icons/icon16.png",
+    "32": "icons/icon32.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+
+  "permissions": [
+    "tabs",
+    "tabGroups",
+    "storage",
+    "unlimitedStorage",
+    "contextMenus",
+    "favicon",
+    "alarms"
+  ],
+
+  "background": {
+    "service_worker": "background/service-worker.js",
+    "type": "module"
+  },
+
+  "action": {
+    "default_title": "Tabcove — stow your tabs",
+    "default_popup": "popup/popup.html",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "32": "icons/icon32.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    }
+  },
+
+  "options_ui": {
+    "page": "options/options.html",
+    "open_in_tab": true
+  },
+
+  "commands": {
+    "stow-all": {
+      "suggested_key": { "default": "Alt+Shift+S" },
+      "description": "Stow all tabs in this window"
+    },
+    "open-library": {
+      "suggested_key": { "default": "Alt+Shift+L" },
+      "description": "Open the Tabcove library"
+    },
+    "stow-current": {
+      "suggested_key": { "default": "Alt+Shift+T" },
+      "description": "Stow just this tab"
+    }
+  },
+
+  "content_security_policy": {
+    "extension_pages": "script-src 'self'; object-src 'self'; base-uri 'none'"
+  }
+}

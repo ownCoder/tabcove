@@ -1,0 +1,167 @@
+/* ==========================================================================
+   Tabcove — welcome
+   One job: get the first collection stowed. No tour, no signup, no permission
+   ambush. Target: first stow inside 15 seconds, one click.
+   ========================================================================== */
+
+.welcome {
+  min-height: 100vh;
+  background:
+    radial-gradient(1200px 480px at 50% -10%, var(--brand-050), transparent 70%),
+    var(--bg);
+}
+
+.welcome__wrap {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: var(--s-12) var(--s-5) var(--s-12);
+  text-align: center;
+}
+
+.welcome__logo {
+  margin: 0 auto var(--s-5);
+  border-radius: 18px;
+  box-shadow: var(--shadow-2);
+}
+
+.welcome__title {
+  font-size: 32px;
+  line-height: 1.2;
+  letter-spacing: -0.03em;
+  font-weight: 680;
+  margin-bottom: var(--s-3);
+}
+
+.welcome__sub {
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--text-muted);
+  max-width: 52ch;
+  margin: 0 auto var(--s-6);
+}
+
+.welcome__cta {
+  min-width: 260px;
+}
+
+.welcome__cta-note {
+  margin-top: var(--s-2);
+  min-height: 18px;
+}
+
+/* ---- Promises ------------------------------------------------------------- */
+.promises {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: var(--s-3);
+  margin: var(--s-10) 0 var(--s-8);
+  text-align: left;
+}
+
+.promise {
+  padding: var(--s-4);
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  background: var(--surface);
+}
+
+.promise__title {
+  font-size: var(--fs-body);
+  font-weight: 620;
+  margin-bottom: var(--s-1);
+}
+
+.promise__body {
+  font-size: var(--fs-meta);
+  line-height: 1.6;
+  color: var(--text-muted);
+}
+
+/* ---- Panels --------------------------------------------------------------- */
+.welcome__panel {
+  padding: var(--s-5);
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  background: var(--surface);
+  text-align: left;
+  margin-bottom: var(--s-4);
+}
+
+.welcome__panel-title {
+  font-size: var(--fs-title);
+  font-weight: 620;
+  letter-spacing: -0.01em;
+  margin-bottom: var(--s-3);
+}
+
+.welcome__panel-body {
+  margin-bottom: var(--s-3);
+  line-height: 1.6;
+}
+
+.steps {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-3);
+  margin-bottom: var(--s-3);
+}
+
+.step {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--s-3);
+  font-size: var(--fs-body);
+  line-height: 1.55;
+  color: var(--text-muted);
+}
+
+.step strong {
+  color: var(--text);
+  font-weight: 600;
+}
+
+.step__n {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--brand-050);
+  color: var(--brand-600);
+  font-size: var(--fs-micro);
+  font-weight: 700;
+}
+
+/* ---- Footer --------------------------------------------------------------- */
+.welcome__footer {
+  margin-top: var(--s-8);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--s-2);
+}
+
+.welcome__shortcuts {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+@media (max-width: 560px) {
+  .welcome__wrap {
+    padding: var(--s-8) var(--s-4);
+  }
+
+  .welcome__title {
+    font-size: 26px;
+  }
+
+  .welcome__cta {
+    width: 100%;
+    min-width: 0;
+  }
+}

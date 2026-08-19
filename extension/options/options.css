@@ -1,0 +1,210 @@
+/* ==========================================================================
+   Tabcove — options
+   One sectioned page with a sticky index. No tabs, no wizard: settings are
+   easier to trust when you can see all of them at once.
+   ========================================================================== */
+
+.options {
+  min-height: 100vh;
+  background: var(--bg);
+}
+
+.options__header {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s-4);
+  height: var(--header-h);
+  padding: 0 var(--s-5);
+  border-bottom: 1px solid var(--border);
+  background: var(--surface);
+}
+
+.options__body {
+  display: grid;
+  grid-template-columns: 220px minmax(0, 760px);
+  gap: var(--s-8);
+  justify-content: center;
+  padding: var(--s-6) var(--s-5) var(--s-12);
+}
+
+/* ---- Section index -------------------------------------------------------- */
+.options__nav {
+  position: sticky;
+  top: calc(var(--header-h) + var(--s-6));
+  align-self: start;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.options__nav a {
+  padding: var(--s-2) var(--s-3);
+  border-radius: var(--r-md);
+  color: var(--text-muted);
+  font-size: var(--fs-body);
+  text-decoration: none;
+}
+
+.options__nav a:hover {
+  background: var(--surface-2);
+  color: var(--text);
+  text-decoration: none;
+}
+
+.options__nav-danger {
+  color: var(--danger) !important;
+  margin-top: var(--s-2);
+}
+
+/* ---- Main ----------------------------------------------------------------- */
+.options__main {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-5);
+  min-width: 0;
+}
+
+.card {
+  scroll-margin-top: calc(var(--header-h) + var(--s-4));
+}
+
+.card--danger {
+  border-color: color-mix(in srgb, var(--danger) 30%, var(--border));
+}
+
+/* ---- Fields --------------------------------------------------------------- */
+.field {
+  margin-top: var(--s-4);
+}
+
+.field__label {
+  display: block;
+  font-size: var(--fs-body);
+  font-weight: 500;
+  margin-bottom: var(--s-2);
+}
+
+.field__hint {
+  display: block;
+  font-size: var(--fs-meta);
+  font-weight: 400;
+  color: var(--text-muted);
+  margin-top: 2px;
+}
+
+.input--narrow {
+  max-width: 140px;
+}
+
+.select {
+  max-width: 320px;
+}
+
+/* ---- Stats ---------------------------------------------------------------- */
+.stat-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: var(--s-3);
+  padding: var(--s-4);
+  border-radius: var(--r-md);
+  background: var(--surface-2);
+}
+
+.stat-row__value {
+  font-size: 20px;
+  font-weight: 650;
+  letter-spacing: -0.02em;
+  font-variant-numeric: tabular-nums;
+}
+
+.stat-row__label {
+  font-size: var(--fs-meta);
+  color: var(--text-muted);
+}
+
+/* ---- Permission table ----------------------------------------------------- */
+.perm-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--fs-meta);
+  margin-top: var(--s-2);
+}
+
+.perm-table th,
+.perm-table td {
+  text-align: left;
+  vertical-align: top;
+  padding: var(--s-2) var(--s-3);
+  border-bottom: 1px solid var(--border);
+}
+
+.perm-table thead th {
+  font-size: var(--fs-micro);
+  font-weight: 650;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+}
+
+.perm-table tbody th {
+  white-space: nowrap;
+  font-weight: 500;
+  width: 1%;
+}
+
+.perm-table code {
+  background: var(--surface-2);
+  padding: 1px 5px;
+  border-radius: 4px;
+}
+
+.perm-table td {
+  color: var(--text-muted);
+  line-height: 1.55;
+}
+
+/* ---- Danger rows ---------------------------------------------------------- */
+.danger-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s-4);
+  padding: var(--s-3) 0;
+  border-top: 1px solid var(--border);
+  flex-wrap: wrap;
+}
+
+.danger-row:first-of-type {
+  border-top: none;
+}
+
+/* ---- Responsive ----------------------------------------------------------- */
+@media (max-width: 900px) {
+  .options__body {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--s-4);
+    padding: var(--s-4) var(--s-3) var(--s-10);
+  }
+
+  .options__nav {
+    position: static;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: var(--s-1);
+  }
+
+  .options__nav a {
+    border: 1px solid var(--border);
+    border-radius: var(--r-pill);
+    font-size: var(--fs-meta);
+    padding: 4px var(--s-3);
+  }
+
+  .options__nav-danger {
+    margin-top: 0;
+  }
+}

@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Tabcove</title>
+    <link rel="stylesheet" href="../styles/tokens.css" />
+    <link rel="stylesheet" href="../styles/base.css" />
+    <link rel="stylesheet" href="../styles/components.css" />
+    <link rel="stylesheet" href="popup.css" />
+  </head>
+  <body class="popup">
+    <header class="popup__header">
+      <div class="brand">
+        <img class="brand__mark" src="../icons/icon32.png" alt="" width="22" height="22" />
+        <span class="brand__name">Tabcove</span>
+      </div>
+      <div class="row gap-1">
+        <button
+          id="open-options"
+          class="icon-btn icon-btn--sm"
+          type="button"
+          aria-label="Settings"
+          title="Settings"
+        ></button>
+        <button
+          id="open-library"
+          class="icon-btn icon-btn--sm"
+          type="button"
+          aria-label="Open library"
+          title="Open library"
+        ></button>
+      </div>
+    </header>
+
+    <main class="popup__main">
+      <!-- Primary action. The count is filled in before paint, so the button
+           states exactly what it will do rather than merely promising. -->
+      <button id="stow-all" class="stow-primary" type="button">
+        <span class="stow-primary__label">Stow all tabs</span>
+        <span class="stow-primary__meta" id="stow-all-meta">Counting…</span>
+      </button>
+
+      <div class="stow-grid" id="stow-grid">
+        <button class="stow-option" type="button" data-scope="currentTab">
+          <span class="stow-option__label">Stow this tab</span>
+          <span class="stow-option__meta">Just the current page</span>
+        </button>
+        <button class="stow-option" type="button" data-scope="otherTabs">
+          <span class="stow-option__label">Stow other tabs</span>
+          <span class="stow-option__meta" data-meta="otherTabs">—</span>
+        </button>
+        <button class="stow-option" type="button" data-scope="selected" hidden>
+          <span class="stow-option__label">Stow selected</span>
+          <span class="stow-option__meta" data-meta="selected">—</span>
+        </button>
+        <button class="stow-option" type="button" data-scope="allWindows" hidden>
+          <span class="stow-option__label">Stow all windows</span>
+          <span class="stow-option__meta" data-meta="allWindows">—</span>
+        </button>
+      </div>
+
+      <div id="backup-notice" class="notice notice--accent popup__notice" hidden>
+        <div class="notice__body">
+          <strong id="backup-notice-text">Time for a backup.</strong>
+          <div class="muted" id="backup-notice-detail"></div>
+        </div>
+        <button id="backup-now" class="btn btn--sm" type="button">Export</button>
+      </div>
+
+      <section class="popup__recent" aria-labelledby="recent-heading">
+        <h2 id="recent-heading" class="popup__section-title">Recent</h2>
+        <ul id="recent-list" class="recent-list" role="list">
+          <li class="recent-list__loading meta">Loading…</li>
+        </ul>
+      </section>
+    </main>
+
+    <footer class="popup__footer">
+      <span id="library-stats" class="meta">—</span>
+      <button id="footer-library" class="btn btn--sm btn--ghost" type="button">
+        Open library
+      </button>
+    </footer>
+
+    <script type="module" src="popup.js"></script>
+  </body>
+</html>

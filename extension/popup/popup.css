@@ -1,0 +1,229 @@
+/* ==========================================================================
+   Tabcove — popup
+   360px wide, capped at 600px tall. Two seconds from open to done.
+   ========================================================================== */
+
+.popup {
+  width: var(--popup-w);
+  max-height: 600px;
+  display: flex;
+  flex-direction: column;
+  background: var(--bg);
+  overflow: hidden;
+}
+
+/* ---- Header --------------------------------------------------------------- */
+.popup__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 44px;
+  padding: 0 var(--s-3) 0 var(--s-4);
+  border-bottom: 1px solid var(--border);
+  background: var(--surface);
+  flex: 0 0 auto;
+}
+
+/* ---- Main ----------------------------------------------------------------- */
+.popup__main {
+  flex: 1 1 auto;
+  overflow-y: auto;
+  padding: var(--s-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-3);
+}
+
+/* ---- Primary stow --------------------------------------------------------- */
+.stow-primary {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+  width: 100%;
+  padding: var(--s-4);
+  border-radius: var(--r-lg);
+  border: 1px solid var(--accent-500);
+  background: var(--accent-500);
+  color: #20160a;
+  text-align: left;
+  transition:
+    background var(--t-fast) var(--ease),
+    transform var(--t-fast) var(--ease);
+}
+
+.stow-primary:hover:not(:disabled) {
+  background: var(--accent-600);
+  border-color: var(--accent-600);
+}
+
+.stow-primary:active:not(:disabled) {
+  transform: translateY(1px);
+}
+
+.stow-primary:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.stow-primary__label {
+  font-size: 15px;
+  font-weight: 650;
+  letter-spacing: -0.01em;
+}
+
+.stow-primary__meta {
+  font-size: var(--fs-meta);
+  font-weight: 550;
+  opacity: 0.78;
+}
+
+/* ---- Secondary options ---------------------------------------------------- */
+.stow-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--s-2);
+}
+
+.stow-option {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1px;
+  padding: var(--s-3);
+  border-radius: var(--r-md);
+  border: 1px solid var(--border);
+  background: var(--surface);
+  text-align: left;
+  min-height: 52px;
+  transition:
+    background var(--t-fast) var(--ease),
+    border-color var(--t-fast) var(--ease);
+}
+
+.stow-option:hover:not(:disabled) {
+  background: var(--surface-2);
+  border-color: var(--border-strong);
+}
+
+.stow-option:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.stow-option__label {
+  font-size: var(--fs-body);
+  font-weight: 550;
+  color: var(--text);
+}
+
+.stow-option__meta {
+  font-size: var(--fs-micro);
+  color: var(--text-muted);
+}
+
+/* ---- Backup notice -------------------------------------------------------- */
+.popup__notice {
+  align-items: center;
+}
+
+.popup__notice strong {
+  display: block;
+  font-size: var(--fs-meta);
+}
+
+/* ---- Recent --------------------------------------------------------------- */
+.popup__section-title {
+  font-size: var(--fs-micro);
+  font-weight: 650;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+  margin-bottom: var(--s-2);
+}
+
+.recent-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.recent-item {
+  display: flex;
+  align-items: center;
+  gap: var(--s-2);
+  width: 100%;
+  padding: var(--s-2) var(--s-2);
+  border-radius: var(--r-sm);
+  text-align: left;
+  transition: background var(--t-fast) var(--ease);
+}
+
+.recent-item:hover,
+.recent-item:focus-visible {
+  background: var(--surface-2);
+}
+
+.recent-item__title {
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: var(--fs-item);
+  color: var(--text);
+}
+
+.recent-item__count {
+  flex: 0 0 auto;
+  font-size: var(--fs-micro);
+  color: var(--text-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.recent-item__time {
+  flex: 0 0 auto;
+  width: 68px;
+  text-align: right;
+  font-size: var(--fs-micro);
+  color: var(--text-faint);
+}
+
+.recent-item__restore {
+  flex: 0 0 auto;
+  opacity: 0;
+  transition: opacity var(--t-fast) var(--ease);
+}
+
+.recent-item:hover .recent-item__restore,
+.recent-item:focus-within .recent-item__restore {
+  opacity: 1;
+}
+
+.recent-list__loading,
+.recent-list__empty {
+  padding: var(--s-3) var(--s-2);
+  color: var(--text-muted);
+  font-size: var(--fs-meta);
+}
+
+/* ---- Footer --------------------------------------------------------------- */
+.popup__footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s-2);
+  height: 40px;
+  padding: 0 var(--s-2) 0 var(--s-4);
+  border-top: 1px solid var(--border);
+  background: var(--surface);
+  flex: 0 0 auto;
+}
+
+/* The popup is small; keep toasts from covering the primary action. */
+.popup .toast-stack {
+  left: var(--s-2);
+  right: var(--s-2);
+  bottom: var(--s-2);
+  max-width: none;
+}

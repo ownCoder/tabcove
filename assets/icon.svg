@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" role="img" aria-label="Tabcove">
+  <title>Tabcove</title>
+  <defs>
+    <linearGradient id="tile" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#0E7C86"/>
+      <stop offset="1" stop-color="#062F35"/>
+    </linearGradient>
+  </defs>
+  <rect width="1024" height="1024" rx="225" fill="url(#tile)"/>
+  <!-- The cove: a wide U with 120 degrees of sky at the top. -->
+  <path d="M 780.4 357.1 A 309.9 309.9 0 1 1 243.6 357.0" fill="none" stroke="#FFFFFF" stroke-width="97" stroke-linecap="round"/>
+  <!-- Three tab bars at rest. The middle one carries the accent. -->
+  <rect x="348" y="369" width="328" height="67" rx="33" fill="#FFFFFF"/>
+  <rect x="348" y="479" width="223" height="67" rx="33" fill="#F2A33C"/>
+  <rect x="348" y="589" width="282" height="67" rx="33" fill="#FFFFFF"/>
+</svg>

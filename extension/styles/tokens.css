@@ -1,0 +1,219 @@
+/* ==========================================================================
+   Tabcove — design tokens
+   The single source of truth for colour, type, space, and motion.
+   Values are documented in docs/branding.md and contrast-checked by
+   tools/validate.py --contrast.
+   ========================================================================== */
+
+:root {
+  color-scheme: light dark;
+
+  /* ---- Brand: deep harbour teal ------------------------------------------
+     Chosen because the category is saturated with blue (OneTab), coral (Toby),
+     indigo (Workona) and grey-blue (Session Buddy). Teal is unclaimed here. */
+  --brand-900: #062f35;
+  --brand-700: #0a5a63;
+  --brand-600: #0e7c86;
+  --brand-500: #149aa6;
+  --brand-200: #a6e0e4;
+  --brand-050: #eaf7f8;
+
+  /* ---- Accent: beacon amber ----------------------------------------------
+     Exactly one use per screen: the single most important action. Amber
+     appearing twice means the design is wrong. */
+  --accent-500: #f2a33c;
+  --accent-600: #d98a20;
+  --accent-100: #fdf0dc;
+
+  /* ---- Semantic ---------------------------------------------------------- */
+  --ok: #1f8a4c;
+  --ok-bg: #e7f5ec;
+  --warn: #b4690e;
+  --warn-bg: #fdf2e3;
+  --danger: #c22b2b;
+  --danger-bg: #fbeaea;
+
+  /* ---- Neutrals (light) --------------------------------------------------- */
+  --bg: #f7f9fa;
+  --surface: #ffffff;
+  --surface-2: #f1f5f6;
+  --surface-3: #e8eff0;
+  --border: #dce4e6;
+  --border-strong: #c3d0d3;
+  --text: #0f1b1e;
+  --text-muted: #5a6b6f;
+  --text-faint: #84969a;
+
+  /* ---- Type -------------------------------------------------------------- */
+  /* Inter is REFERENCED but never downloaded — no @font-face, no webfont link.
+     A network request for a font would break the zero-network guarantee that is
+     one of this product's core differentiators. */
+  --font: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI Variable Text",
+    "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-mono: "SF Mono", "Cascadia Mono", "JetBrains Mono", Consolas,
+    "Liberation Mono", monospace;
+
+  --fs-display: 24px;
+  --fs-title: 17px;
+  --fs-body: 14px;
+  --fs-item: 13.5px;
+  --fs-meta: 12px;
+  --fs-micro: 11px;
+
+  --lh-display: 30px;
+  --lh-title: 24px;
+  --lh-body: 20px;
+  --lh-item: 19px;
+  --lh-meta: 16px;
+
+  /* ---- Space (4px base) --------------------------------------------------- */
+  --s-1: 4px;
+  --s-2: 8px;
+  --s-3: 12px;
+  --s-4: 16px;
+  --s-5: 20px;
+  --s-6: 24px;
+  --s-8: 32px;
+  --s-10: 40px;
+  --s-12: 48px;
+
+  /* ---- Radius ------------------------------------------------------------- */
+  --r-sm: 6px;
+  --r-md: 9px;
+  --r-lg: 12px;
+  --r-xl: 16px;
+  --r-pill: 999px;
+
+  /* ---- Elevation ---------------------------------------------------------- */
+  --shadow-1: 0 1px 2px rgb(6 47 53 / 0.06), 0 1px 3px rgb(6 47 53 / 0.05);
+  --shadow-2: 0 4px 12px rgb(6 47 53 / 0.08), 0 1px 3px rgb(6 47 53 / 0.06);
+  --shadow-3: 0 12px 32px rgb(6 47 53 / 0.14), 0 2px 8px rgb(6 47 53 / 0.08);
+
+  /* ---- Motion ------------------------------------------------------------- */
+  --t-fast: 90ms;
+  --t-mid: 160ms;
+  --t-exit: 120ms;
+  --ease: cubic-bezier(0.2, 0.8, 0.2, 1);
+
+  /* ---- Density (swapped by [data-density]) --------------------------------- */
+  --row-h: 36px;
+  --row-pad: 10px;
+
+  /* ---- Layout ------------------------------------------------------------- */
+  --rail-w: 240px;
+  --header-h: 56px;
+  --popup-w: 360px;
+
+  /* ---- Tab-group colours (mirrors Chrome's own set) ------------------------ */
+  --g-grey: #5f6368;
+  --g-blue: #1a73e8;
+  --g-red: #d93025;
+  --g-yellow: #f9ab00;
+  --g-green: #1e8e3e;
+  --g-pink: #d01884;
+  --g-purple: #9334e6;
+  --g-cyan: #007b83;
+  --g-orange: #fa903e;
+}
+
+/* ---- Dark theme ---------------------------------------------------------
+   Applied by an explicit [data-theme="dark"], and by the system preference
+   when the user has left the theme on "system". Both paths are needed: the
+   attribute wins so the in-app toggle works against the OS setting. */
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0c1416;
+    --surface: #131f22;
+    --surface-2: #1b292d;
+    --surface-3: #223338;
+    --border: #25373c;
+    --border-strong: #354c52;
+    --text: #e8f1f2;
+    --text-muted: #9bb0b4;
+    --text-faint: #74898e;
+
+    --brand-600: #3fb2bc;
+    --brand-500: #55c6cf;
+    --brand-200: #17565e;
+    --brand-050: #10333a;
+
+    --ok: #41c07a;
+    --ok-bg: #102a1c;
+    --warn: #e0a33f;
+    --warn-bg: #2d2110;
+    --danger: #f26e6e;
+    --danger-bg: #2e1414;
+
+    --accent-100: #33240f;
+
+    --shadow-1: 0 1px 2px rgb(0 0 0 / 0.3);
+    --shadow-2: 0 4px 12px rgb(0 0 0 / 0.4);
+    --shadow-3: 0 12px 32px rgb(0 0 0 / 0.5);
+  }
+}
+
+:root[data-theme="dark"] {
+  --bg: #0c1416;
+  --surface: #131f22;
+  --surface-2: #1b292d;
+  --surface-3: #223338;
+  --border: #25373c;
+  --border-strong: #354c52;
+  --text: #e8f1f2;
+  --text-muted: #9bb0b4;
+  --text-faint: #74898e;
+
+  --brand-600: #3fb2bc;
+  --brand-500: #55c6cf;
+  --brand-200: #17565e;
+  --brand-050: #10333a;
+
+  --ok: #41c07a;
+  --ok-bg: #102a1c;
+  --warn: #e0a33f;
+  --warn-bg: #2d2110;
+  --danger: #f26e6e;
+  --danger-bg: #2e1414;
+
+  --accent-100: #33240f;
+
+  --shadow-1: 0 1px 2px rgb(0 0 0 / 0.3);
+  --shadow-2: 0 4px 12px rgb(0 0 0 / 0.4);
+  --shadow-3: 0 12px 32px rgb(0 0 0 / 0.5);
+}
+
+/* ---- Density ------------------------------------------------------------- */
+:root[data-density="compact"] {
+  --row-h: 28px;
+  --row-pad: 6px;
+  --fs-item: 13px;
+}
+
+/* ---- Reduced motion -----------------------------------------------------
+   Not a courtesy: motion sensitivity is a real accessibility requirement and
+   this collapses every transition rather than merely shortening it. */
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --t-fast: 1ms;
+    --t-mid: 1ms;
+    --t-exit: 1ms;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 1ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 1ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ---- Increased contrast -------------------------------------------------- */
+@media (prefers-contrast: more) {
+  :root {
+    --border: var(--border-strong);
+    --text-muted: var(--text);
+  }
+}

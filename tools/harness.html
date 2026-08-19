@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Tabcove — QA harness</title>
+    <link rel="stylesheet" href="../extension/styles/tokens.css" />
+    <link rel="stylesheet" href="../extension/styles/base.css" />
+    <link rel="stylesheet" href="../extension/styles/components.css" />
+    <style>
+      body { padding: 24px; max-width: 900px; margin: 0 auto; }
+      h1 { margin-bottom: 4px; }
+      pre { background: var(--surface-2); padding: 12px; border-radius: 8px;
+            font-size: 12px; overflow: auto; max-height: 40vh; }
+      .ok { color: var(--ok); }
+      .fail { color: var(--danger); }
+    </style>
+  </head>
+  <body>
+    <h1>Tabcove QA harness</h1>
+    <p class="muted">
+      Exercises the pure library modules against a mock chrome.storage, in a real
+      browser, so DOM-adjacent assumptions are checked outside Node too.
+    </p>
+    <p><button id="run" class="btn btn--primary">Run checks</button></p>
+    <pre id="out">Ready.</pre>
+
+    <script type="module">
+      // Mock chrome.storage.local before the modules load.
+      let store = {};
+      globalThis.chrome = {
+        runtime: {
+          lastError: null,
+          getURL: (p) => `about:blank#${p}`,
+          id: 'harness',
+        },
+        storage: {
+          local: {
+            get: (k, cb) => {
+              let out = {};
+              if (k == null) out = { ...store };
+              else if (typeof k === 'string') { if (k in store) out[k] = store[k]; }
+              else for (const key of k) if (key in store) out[key] = store[key];
+              cb(JSON.parse(JSON.stringify(out)));
+            },
+            set: (items, cb) => {
+              for (const [k, v] of Object.entries(items)) store[k] = JSON.parse(JSON.stringify(v));
+              cb();
+            },
+            remove: (k, cb) => { for (const key of [].concat(k)) delete store[key]; cb(); },
+            clear: (cb) => { store = {}; cb(); },
+            getBytesInUse: (_k, cb) => cb(JSON.stringify(store).length),
+          },
+          onChanged: { addListener() {}, removeListener() {} },
+        },
+      };
+
+      const db = await import('../extension/lib/db.js');
+      const search = await import('../extension/lib/search.js');
+      const exporter = await import('../extension/lib/exporter.js');
+      const importer = await import('../extension/lib/importer.js');
+      const format = await import('../extension/lib/format.js');
+
+      const out = document.getElementById('out');
+      const lines = [];
+      const log = (ok, label, extra = '') => {
+        lines.push(`${ok ? 'PASS' : 'FAIL'}  ${label}${extra ? '  — ' + extra : ''}`);
+        out.textContent = lines.join('\n');
+      };
+
+      document.getElementById('run').addEventListener('click', async () => {
+        lines.length = 0;
+        store = {};
+
+        await db.init();
+        log(true, 'db.init()');
+
+        const c = await db.createCollection({
+          title: 'Harness set',
+          tabs: [
+            { url: 'https://example.com/a', title: 'Alpha' },
+            { url: 'https://example.org/b', title: 'Beta' },
+          ],
+          groups: [],
+        });
+        log(c.tabs.length === 2, 'createCollection stores both tabs');
+
+        search.invalidate();
+        const found = await search.search('alpha');
+        log(found.tabs.length === 1, 'search finds a tab by title');
+
+        const json = await exporter.exportLibrary('json');
+        const parsed = importer.parse(json.content);
+        log(parsed.stats.tabs === 2, 'export/import round trip');
+
+        const html = await exporter.exportLibrary('html');
+        log(html.content.startsWith('<!doctype html>'), 'HTML export is a real document');
+
+        log(format.plural(1, 'tab') === '1 tab', 'format.plural');
+        log(format.hostname('https://www.x.com/y') === 'x.com', 'format.hostname');
+
+        const t0 = performance.now();
+        await search.search('beta');
+        log(performance.now() - t0 < 150, 'search inside the frame budget',
+            `${(performance.now() - t0).toFixed(1)}ms`);
+
+        lines.push('', 'Done.');
+        out.textContent = lines.join('\n');
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Tabcove library</title>
+    <link rel="icon" href="../icons/icon32.png" />
+    <link rel="stylesheet" href="../styles/tokens.css" />
+    <link rel="stylesheet" href="../styles/base.css" />
+    <link rel="stylesheet" href="../styles/components.css" />
+    <link rel="stylesheet" href="library.css" />
+  </head>
+  <body class="library">
+    <a class="skip-link" href="#main">Skip to your collections</a>
+
+    <header class="app-header">
+      <div class="brand app-header__brand">
+        <img class="brand__mark" src="../icons/icon32.png" alt="" width="22" height="22" />
+        <span class="brand__name">Tabcove</span>
+      </div>
+
+      <div class="search-field app-header__search">
+        <label class="sr-only" for="search">Search your saved tabs</label>
+        <input
+          id="search"
+          class="input"
+          type="search"
+          placeholder="Search saved tabs…"
+          autocomplete="off"
+          spellcheck="false"
+        />
+        <span class="search-field__hint" aria-hidden="true">
+          <kbd>Ctrl</kbd><kbd>K</kbd>
+        </span>
+      </div>
+
+      <div class="app-header__actions">
+        <button id="stow-all" class="btn btn--primary" type="button">Stow all tabs</button>
+        <button id="open-options" class="icon-btn" type="button" aria-label="Settings" title="Settings"></button>
+      </div>
+    </header>
+
+    <div class="app-body">
+      <!-- Left rail. The two durability features get permanent navigation here
+           rather than being buried in a menu, because they are the product. -->
+      <nav class="rail" aria-label="Library filters">
+        <ul class="rail__group" role="list">
+          <li>
+            <button class="rail__item rail__item--active" type="button" data-view="all">
+              <span class="rail__label">All collections</span>
+              <span class="rail__count" data-count="all">0</span>
+            </button>
+          </li>
+          <li>
+            <button class="rail__item" type="button" data-view="pinned">
+              <span class="rail__label">Pinned</span>
+              <span class="rail__count" data-count="pinned">0</span>
+            </button>
+          </li>
+          <li>
+            <button class="rail__item" type="button" data-view="locked">
+              <span class="rail__label">Locked</span>
+              <span class="rail__count" data-count="locked">0</span>
+            </button>
+          </li>
+        </ul>
+
+        <div class="rail__section" id="tags-section" hidden>
+          <h2 class="rail__heading">Tags</h2>
+          <ul class="rail__group" id="tag-list" role="list"></ul>
+        </div>
+
+        <div class="rail__section">
+          <h2 class="rail__heading">Safety net</h2>
+          <ul class="rail__group" role="list">
+            <li>
+              <button class="rail__item" type="button" data-view="snapshots">
+                <span class="rail__label">Restore points</span>
+                <span class="rail__count" data-count="snapshots">0</span>
+              </button>
+            </li>
+            <li>
+              <button class="rail__item" type="button" data-view="trash">
+                <span class="rail__label">Undo bin</span>
+                <span class="rail__count" data-count="trash">0</span>
+              </button>
+            </li>
+          </ul>
+        </div>
+
+        <div class="rail__footer">
+          <div class="rail__storage">
+            <div class="row gap-2" style="justify-content: space-between">
+              <span class="meta">Storage</span>
+              <span class="meta" id="storage-pct">—</span>
+            </div>
+            <div class="meter" role="img" aria-label="Storage used" id="storage-meter">
+              <div class="meter__fill" id="storage-fill" style="width: 0%"></div>
+            </div>
+            <div class="meta faint" id="storage-detail">—</div>
+          </div>
+          <div class="rail__backup meta" id="rail-backup">Last backup: never</div>
+        </div>
+      </nav>
+
+      <main class="content" id="main">
+        <div class="content__bar">
+          <div class="content__summary" id="summary" aria-live="polite">Loading…</div>
+          <div class="row gap-2">
+            <label class="sr-only" for="sort">Sort collections</label>
+            <select id="sort" class="select select--inline">
+              <option value="updated">Newest first</option>
+              <option value="oldest">Oldest first</option>
+              <option value="title">Name A–Z</option>
+              <option value="size">Most tabs</option>
+            </select>
+            <button id="expand-all" class="btn btn--sm btn--ghost" type="button">Expand all</button>
+            <button id="export-menu" class="btn btn--sm" type="button">Export</button>
+          </div>
+        </div>
+
+        <div id="view" class="view" tabindex="-1"></div>
+      </main>
+    </div>
+
+    <!-- Command palette -->
+    <div id="palette-backdrop" class="dialog-backdrop palette-backdrop" hidden>
+      <div
+        id="palette"
+        class="palette"
+        role="dialog"
+        aria-modal="true"
+        aria-label="Command palette"
+      >
+        <div class="palette__input-wrap">
+          <label class="sr-only" for="palette-input">Search or run a command</label>
+          <input
+            id="palette-input"
+            class="palette__input"
+            type="text"
+            placeholder="Search tabs or run a command…"
+            autocomplete="off"
+            spellcheck="false"
+          />
+        </div>
+        <div id="palette-results" class="palette__results" role="listbox" aria-label="Results"></div>
+        <div class="palette__footer meta">
+          <span><kbd>↑</kbd><kbd>↓</kbd> move</span>
+          <span><kbd>↵</kbd> open</span>
+          <span><kbd>Shift</kbd><kbd>↵</kbd> restore all</span>
+          <span><kbd>Esc</kbd> close</span>
+        </div>
+      </div>
+    </div>
+
+    <script type="module" src="library.js"></script>
+  </body>
+</html>

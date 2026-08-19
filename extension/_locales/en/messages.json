@@ -1,0 +1,82 @@
+{
+  "extensionName": {
+    "message": "Tabcove — Tab Manager & Session Saver",
+    "description": "The extension name shown in the Chrome Web Store and the extensions page."
+  },
+  "extensionShortName": {
+    "message": "Tabcove",
+    "description": "Short name used where space is limited."
+  },
+  "extensionDescription": {
+    "message": "Save all your tabs in one click and get them back. Search, tab groups, restore points, undo bin, backups. 100% local, no account.",
+    "description": "The store listing's short description."
+  },
+  "tagline": {
+    "message": "A safe harbour for every tab.",
+    "description": "Brand tagline."
+  },
+
+  "actionStowAll": { "message": "Stow all tabs" },
+  "actionStowThis": { "message": "Stow this tab" },
+  "actionStowOthers": { "message": "Stow other tabs" },
+  "actionStowSelected": { "message": "Stow selected" },
+  "actionStowAllWindows": { "message": "Stow all windows" },
+  "actionRestoreAll": { "message": "Restore all" },
+  "actionRestoreNewWindow": { "message": "Restore in a new window" },
+  "actionOpenLibrary": { "message": "Open library" },
+  "actionSettings": { "message": "Settings" },
+  "actionExport": { "message": "Export" },
+  "actionImport": { "message": "Import" },
+  "actionUndo": { "message": "Undo" },
+  "actionDelete": { "message": "Delete" },
+  "actionCancel": { "message": "Cancel" },
+
+  "navAll": { "message": "All collections" },
+  "navPinned": { "message": "Pinned" },
+  "navLocked": { "message": "Locked" },
+  "navTags": { "message": "Tags" },
+  "navSafetyNet": { "message": "Safety net" },
+  "navRestorePoints": { "message": "Restore points" },
+  "navUndoBin": { "message": "Undo bin" },
+
+  "emptyLibraryTitle": { "message": "Nothing stowed yet" },
+  "emptyLibraryBody": {
+    "message": "Your saved tabs will live here — searchable, exportable, and recoverable. Stow a window to get started."
+  },
+  "emptyBinTitle": { "message": "The bin is empty" },
+  "emptySnapshotsTitle": { "message": "No restore points yet" },
+  "emptySearchTitle": {
+    "message": "No matches for \"$QUERY$\"",
+    "placeholders": {
+      "query": { "content": "$1", "example": "tax residence" }
+    }
+  },
+
+  "toastStowed": {
+    "message": "$COUNT$ tabs stowed",
+    "placeholders": { "count": { "content": "$1", "example": "18" } }
+  },
+  "toastRestored": {
+    "message": "$COUNT$ tabs restored",
+    "placeholders": { "count": { "content": "$1", "example": "11" } }
+  },
+  "toastDeleted": { "message": "Collection deleted" },
+  "toastNothingToStow": { "message": "Nothing to stow" },
+
+  "errorQuota": {
+    "message": "Not enough room to save. Export a backup and remove some collections to free space."
+  },
+  "errorRestoreBlocked": {
+    "message": "Chrome blocks extensions from reopening those pages."
+  },
+  "errorImportFormat": {
+    "message": "That doesn't look like a tab list. Tabcove reads its own JSON backups, OneTab text, and plain lists of web addresses."
+  },
+
+  "privacyNoNetwork": {
+    "message": "Tabcove collects nothing, sends nothing, and contains no network code at all."
+  },
+  "freeForever": {
+    "message": "Tabcove is free, and everything in it today stays free."
+  }
+}

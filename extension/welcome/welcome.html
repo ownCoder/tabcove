@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Welcome to Tabcove</title>
+    <link rel="icon" href="../icons/icon32.png" />
+    <link rel="stylesheet" href="../styles/tokens.css" />
+    <link rel="stylesheet" href="../styles/base.css" />
+    <link rel="stylesheet" href="../styles/components.css" />
+    <link rel="stylesheet" href="welcome.css" />
+  </head>
+  <body class="welcome">
+    <main class="welcome__wrap">
+      <img class="welcome__logo" src="../icons/icon128.png" alt="" width="72" height="72" />
+
+      <h1 class="welcome__title">Your tabs are safe here.</h1>
+      <p class="welcome__sub">
+        Tabcove saves your open tabs in one click, keeps them searchable, and makes
+        sure you can always get them back.
+      </p>
+
+      <button id="stow-now" class="btn btn--primary btn--lg welcome__cta" type="button">
+        <span id="stow-now-label">Stow my open tabs</span>
+      </button>
+      <p class="welcome__cta-note meta" id="cta-note">Counting your open tabs…</p>
+
+      <ul class="promises" role="list">
+        <li class="promise">
+          <h2 class="promise__title">Nothing is ever final</h2>
+          <p class="promise__body">
+            Every destructive action saves a restore point first. Deleted collections
+            wait 30 days in an undo bin. There is always a way back.
+          </p>
+        </li>
+        <li class="promise">
+          <h2 class="promise__title">Find any tab in a second</h2>
+          <p class="promise__body">
+            Search across every saved title, address, and collection name — instantly,
+            even with tens of thousands of tabs saved.
+          </p>
+        </li>
+        <li class="promise">
+          <h2 class="promise__title">Nothing leaves this device</h2>
+          <p class="promise__body">
+            No account, no sign-in, no analytics. Tabcove contains no networking code
+            at all and asks for no access to any website.
+          </p>
+        </li>
+      </ul>
+
+      <section class="welcome__panel">
+        <h2 class="welcome__panel-title">How stowing works</h2>
+        <ol class="steps" role="list">
+          <li class="step">
+            <span class="step__n" aria-hidden="true">1</span>
+            <div>
+              <strong>Your tabs are saved first.</strong>
+              Nothing closes until the save has completed, so a failure can never cost
+              you a tab.
+            </div>
+          </li>
+          <li class="step">
+            <span class="step__n" aria-hidden="true">2</span>
+            <div>
+              <strong>Then the tabs close</strong> and your browser gets its memory back.
+              Pinned tabs stay open by default.
+            </div>
+          </li>
+          <li class="step">
+            <span class="step__n" aria-hidden="true">3</span>
+            <div>
+              <strong>Your library opens</strong> on what you just saved — with tab
+              groups, names, and colours intact.
+            </div>
+          </li>
+        </ol>
+        <p class="meta">
+          Prefer to keep the tabs open? Turn off “Close tabs after stowing” in settings.
+        </p>
+      </section>
+
+      <section class="welcome__panel">
+        <h2 class="welcome__panel-title">Coming from another tab manager?</h2>
+        <p class="meta welcome__panel-body">
+          Tabcove imports OneTab's exported text, its own JSON backups, and any plain
+          list of web addresses. A restore point is saved before anything is written.
+        </p>
+        <button id="open-import" class="btn" type="button">Import my tabs</button>
+      </section>
+
+      <footer class="welcome__footer">
+        <div class="row gap-3" style="flex-wrap: wrap; justify-content: center">
+          <button id="open-library" class="btn btn--ghost btn--sm" type="button">
+            Open my library
+          </button>
+          <button id="open-options" class="btn btn--ghost btn--sm" type="button">
+            Settings
+          </button>
+        </div>
+        <p class="meta welcome__shortcuts">
+          Shortcuts: <kbd>Alt</kbd><kbd>Shift</kbd><kbd>S</kbd> to stow ·
+          <kbd>Alt</kbd><kbd>Shift</kbd><kbd>L</kbd> for your library
+        </p>
+        <p class="meta">
+          Tabcove is free, and everything in it today stays free.
+        </p>
+      </footer>
+    </main>
+
+    <script type="module" src="welcome.js"></script>
+  </body>
+</html>
